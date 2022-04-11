@@ -1,0 +1,142 @@
+
+
+@media screen and (max-width:767px){
+    .nav-on-mobile{
+        height: 100vh;
+        position: absolute;
+        background-color: var(--primary-color);
+    }
+    .nav-on-mobile-backdrop{
+        top: 0;
+        left: 0;
+        z-index: 199;
+        width: 100vw;
+        height: 100vh;
+        display: none;
+        position: absolute;
+        background-color: rgb(0, 0, 0, 0.5);
+    }
+    .nav-info-containser{
+        display: none;
+    }
+    .modal-xl-wrapper{
+        width: 95vw;
+        max-width: 95vw;
+        top: 0;
+        transform: translateX(-50%);
+    }
+    .modal-xl-wrapper h1{
+        font-size: 20px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: rgb(0, 0, 0, 0.7);
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .modal-xl-wrapper h2{
+        font-size: 18px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: rgb(0, 0, 0, 0.5);
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .modal-xl-wrapper div{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .team-card-container{
+        width: 50%;
+    }
+    .no-record{
+        display: block;
+        width: 100%;
+        margin-left: 0;
+        transform: none;
+    }
+    .no-record-content{
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    .report-billable-container{
+        width: 95%;
+        padding: 8px;
+    }
+    .report-header-container{
+        width: 100%;
+        padding: 0;
+        text-align: left;
+    }
+    .report-billable-detail{
+        width: 100%;
+        padding: 0;
+    }
+    .member-setting{
+        width: 95%;
+    }
+    .member-setting h1{
+        font-size: 25px;
+    }
+    .member-setting h2{
+        font-size: 15px;
+    }
+    .member-setting-btn-container{
+        text-align: center;
+    }
+    .member-setting-btn-container button{
+        width: 95%;
+        border-radius: 10px;
+    }
+    .report-billable-devider{
+        display: block;
+    }
+    .report-billable-centerize{
+        width: 95%;
+    }
+    .multi-select-container{
+        min-width: 280px;
+    }
+    .sign-in-card{
+        top: 20px;
+        width: 95%;
+        height: auto;
+        box-shadow: none;
+        position: relative;
+    }
+}
+
+@media screen and (max-width:430px){
+    .team-card-container{
+        width: 100%;
+    }
+}
+
+@media screen and (min-width:767px){
+    .team-card-container{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width:853px){
+    .report-billable-devider{
+        display: block;
+    }
+}
+
+@media screen and (min-width:1000px){
+    .team-card-container{
+        width: 33.33%;
+    }
+}
+
+@media screen and (min-width:1250px){
+    .team-card-container{
+        width: 25%;
+    }
+}
+
+@media screen and (min-width:1600px){
+    .team-card-container{
+        width: 20%;
+    }
+}

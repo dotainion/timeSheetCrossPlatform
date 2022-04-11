@@ -1,0 +1,1009 @@
+.relative{
+    position: relative;
+}
+.modal-container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 208;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-size: cover;
+    background-color: white;
+    background-repeat: no-repeat;
+    background-image: url(../images/bubbles.jpg);
+}
+.modal-header{
+    position: relative;
+    color: white;
+    padding: 5px;
+    font-size: 20px;
+    background-color: var(--secondary-color);
+}
+.modal-header svg{
+    position: absolute;
+    top: 50%;
+    right: 5px;
+    color: black;
+    cursor: pointer;
+    font-size: 25px;
+    transform: translateY(-50%);
+}
+.modal-header svg:hover{
+    color: white;
+    background-color: red;
+}
+.modal-backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 205;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0, 0.3);
+}
+.backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    background-color: rgb(0, 0, 0, 0.3);
+}
+.layout-container{
+    display: flex;
+    width: 100vw;
+}
+.layout-navigation{
+    position: relative;
+    width: 100%;
+}
+.layout-wrapper-nav{
+    padding: 0 0 0 10px
+}
+.layout-children{
+    overflow: auto;
+    padding: 0 10px 10px 10px;
+    background-color: rgb(241, 240, 240);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../images/bubbles.jpg);
+}
+.nav-main-container{
+    height: 100vh;
+    color: white;
+    z-index: 200;
+    position: relative;
+    background-color: var(--primary-color);
+}
+.nav-container{
+    display: flex;
+    user-select: none;
+    overflow-x: visible;
+}
+.nav-container svg{
+    font-size: 30px;
+    padding: 10px;
+}
+.nav-item{
+    position: relative;
+    min-width: 52px;
+    min-height: 52px;
+    display: flex;
+    cursor: pointer;
+}
+.nav-info-containser{
+    position: relative;
+}
+.nav-title-container{
+    width: 120px;
+}
+.nav-title{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+}
+.team-button-cards-container{
+    color: dodgerblue;
+    text-align: left;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+    background-color: rgb(0, 0, 0, 0.05);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.team-button-cards-container svg{
+    width: 30px;
+    height: 30px;
+    color: dodgerblue;
+}
+.team-cart-children{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background-color: white;
+    transform: translate3d(-50%, -50%, 0);
+}
+.team-cart-children:hover{
+    background-color: rgb(0, 0, 0, 0.02);
+}
+.team-cart-children svg:hover{
+    background-color: transparent;
+}
+.team-list-container{
+    width: 100%;
+    display: table;
+}
+.team-card-container{
+    width: 25%;
+    display: inline-table;
+}
+.team-card{
+    position: relative;
+    margin: 5px;
+    padding: 10px;
+    height: 18vh;
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.team-card svg{
+    font-size: 20px;
+    margin-right: 10px;
+}
+.team-card b{
+    font-size: 20px;
+    color: rgb(92, 91, 91);
+}
+.modal-xl-wrapper{
+    width: 50%;
+    max-width: 500px;
+    margin-left: 50%;
+    margin-top: 100px;
+    transform: translateX(-50%);
+}
+.modal-xl-wrapper h2, h1{
+    margin: 0;
+    padding-top: 40px;
+}
+.modal-xl-wrapper h1{
+    padding-bottom: 40px;
+}
+.modal-xl-close{
+    float: right;
+    cursor: pointer;
+}
+.modal-xl-close:hover{
+    color: red !important;
+}
+.modal-xl-wrapper .image-btn{
+    float: right;
+    color: dodgerblue;
+}
+.menu{
+    color: white;
+    cursor: pointer;
+}
+.menu-btn{
+    display: flex;
+    padding: 5px;
+}
+.menu-btn:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.menu-icon-ps{
+    font-size: 20px;
+}
+.menu-icon{
+    font-size: 20px;
+}
+.menu-title{
+    width: 100%;
+    padding-left: 5px;
+}
+.menu-children-container{
+    border-top: 1px solid rgb(0, 0, 0, 0.1);
+    margin-left: 10px;
+    background-color: rgb(0, 0, 0, 0.05);
+}
+.menu-children-container div{
+    padding: 3px;
+    padding-left: 5px;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+.menu-children-container div:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.menu-children-btn{
+    padding: 10px !important;
+    padding-left: 5px !important;
+    border-bottom: none !important;
+    color: navy;
+}
+.menu-children-btn:hover{
+    text-decoration: underline;
+    background-color: transparent !important;
+}
+.bread-crumbs-inner{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgb(211, 211, 211, 0.5);
+}
+.bread-crumbs-inner b{
+    /*font-size: 20px;*/
+}
+.bread-crumbs-inner div{
+    height: 23px;
+    position: relative;
+    color: white;
+    display: inline-block;
+    margin-right: 3px;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+}
+.bread-crumbs-inner div span{
+    font-size: 15px;
+    padding-left: 15px;
+    padding-right: 5px;
+}
+.bread-crumbs-inner div:after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 11.5px solid white;
+    border-top: 11.5px solid transparent;
+    border-bottom: 11.5px solid transparent;
+}
+.bread-crumbs-inner div:before{
+    content: "";
+    position: absolute;
+    right: -11.5px;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-left: 11.5px solid var(--secondary-color);
+    border-top: 11.5px solid transparent;
+    border-bottom: 11.5px solid transparent;
+}
+.bread-crumbs-inner div:hover{
+    background-color: #b87422;
+}
+.bread-crumbs-inner div:hover:before{
+    border-left: 11.5px solid #b87422;
+}
+.input-entery{
+    position: relative;
+    padding: 15px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    cursor: text;
+    height: 20px;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 1px solid transparent;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+.input-entery input, .input-entery select{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    outline: none;
+    border: none;
+    width: 95%;
+    height: 96%;
+    cursor: inherit;
+    font-size: 16px;
+    transform: translateX(-50%);
+}
+.pointer{
+    cursor: pointer !important;
+}
+.input-entery textarea{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    outline: none;
+    border: none;
+    width: 100%;
+    max-width: 100%;
+    height: 50px;
+    resize: none;
+    font-size: 16px;
+    transform: translateX(-50%);
+    background-color: rgb(0, 0, 0, 0.02);
+}
+.input-entery-title{
+    position: absolute;
+    font-size: 18px;
+    top: 50%;
+    z-index: 20;
+    transform: translateY(-50%);
+    color: rgb(0, 0, 0, 0.6);
+}
+.btn-container{
+    padding: 8px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+    background-color: rgb(0, 0, 0, 0.08);
+}
+.btn-container:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.btn-container:active{
+    background-color: rgb(0, 0, 0, 0.2);
+}
+.max-width{
+    width: 100%;
+}
+.toast{
+    top: 10px;
+    left: 50%;
+    width: 50%;
+    z-index: 500;
+    padding: 10px;
+    color: white;
+    font-size: 20px;
+    min-width: 300px;
+    max-width: 500px;
+    user-select: none;
+    position: absolute;
+    border-radius: 10px;
+    transform: translateX(-50%);
+}
+.toast div{
+    float: right;
+    color: black;
+    cursor: pointer;
+}
+.toast div:hover{
+    color: white;
+}
+.v-ellipsis-opt-container{
+    position: relative;
+    float: right;
+}
+.v-ellipsis-icon:hover{
+    color: dodgerblue;
+    cursor: pointer;
+}
+.v-ellipsis-overlay{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    text-align: left;
+    max-width: 200px;
+    background-color: white;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
+    border: 1px solid rgb(0, 0, 0, 0.1);
+}
+.v-ellipsis-overlay div{
+    padding: 2px 8px 2px 8px;
+    white-space: nowrap;
+    font-size: 14px;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+}
+.v-ellipsis-overlay div:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.alert-container{
+    max-width: 360px;
+    padding: 0 10px 0 10px;
+    background-color: white;
+}
+.alert-container h3{
+    margin: 0;
+    padding-top: 10px;
+    color: rgb(0, 0, 0, 0.7);
+}
+.float-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+.no-record{
+    display: flex;
+    width: 70%;
+    margin-top: 20px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+.no-record div{
+    width: 100%;
+}
+.no-record img{
+    width: 100%;
+    height: 300px;
+}
+.no-record-content{
+    padding: 20px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.no-record-btn button{
+    color: black;
+    border: 1px solid dodgerblue;
+}
+.image-btn{
+    position: relative;
+    display: inline-table;
+}
+.image-btn svg{
+    cursor: pointer;
+    padding: 8px;
+    margin: 5px;
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: rgb(0, 0, 0, 0.08);
+}
+.image-btn svg:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.image-btn svg:active{
+    background-color: rgb(0, 0, 0, 0.2);
+}
+.image-btn img{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    background-color: lightgray;
+    transform: translate3d(20%, 20%, 0);
+    border: 1px solid lightgray;
+}
+.image-btn img:hover{
+    width: 200px;
+    height: 200px;
+    transition: all 0.5s;
+}
+.confirm-container{
+    position: absolute;
+    top: 20vh;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.confirm-container h4{
+    position: relative;
+    margin-bottom: 60px;
+}
+.confirm-container h2{
+    color: red;
+}
+.confirm-container h4 p{
+    position: absolute;
+    top: 15px;
+    color: red;
+    font-size: 14px;
+    font-weight: normal;
+}
+.confirm-btn-container{
+    text-align: right;
+}
+.switch-container{
+    width: 30px;
+    height: 15px;
+    display: inline-block;
+    position: relative;
+}
+.switch-container input{
+    width: 100%;
+    z-index: 1;
+    position: relative;
+}
+.switch-bg{
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    border-radius: 9px;
+    border: 1px solid rgb(30, 144, 255, 0.5);
+}
+.switch-btn{
+    top: 55%;
+    width: 60%;
+    height: 130%;
+    cursor: pointer;
+    border-radius: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    background-color: rgb(110, 110, 110);
+}
+.switch-content{
+    top: 65%;
+    width: 8px;
+    height: 100%;
+    padding: 3px;
+    font-size: 7px;
+    cursor: pointer;
+    font-weight: bold;
+    position: absolute;
+    border-radius: 20px;
+    transform: translateY(-50%);
+}
+.report-billable-devider{
+    display: flex;
+    width: 100%;
+    /*min-width: 1000px;*/
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+.report-billable-options{
+    width: 50%;
+    text-align: center;
+    margin: 0 10px 0 10px;
+}
+.report-billable-centerize{
+    width: 100%;
+    padding: 20px;
+    border: 1px solid lightgray;
+}
+.report-billable-detail{
+    display: flex;
+    width: 100%;
+    padding: 20px 0 0 0;
+}
+.report-flex{
+    width: 50%;
+}
+.report-flex-head{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.report-billable-sub-info{
+    width: 100%;
+    font-size: 12px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid lightgray;
+}
+.report-header-container{
+    margin-left: 50%;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transform: translateX(-50%);
+}
+.report-header-container h3{
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+.report-tab-container{
+    width:99%;
+    max-width:99%;
+    min-width:99%;
+    max-height: 100px;
+    border-radius: 5px;
+    margin: 0 10px 0 10px;
+    overflow-Y: auto;
+    background-color: rgb(255, 255, 255, 0.8);
+}
+.report-tab-container div{
+    margin: 3px 0 3px 1px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: rgb(0, 0, 0, 0.6);
+    font-weight: bold;
+    padding: 2px 10px 2px 10px;
+    display: inline-block;
+    background-color: lightgray;
+}
+.report-tab-container div:hover{
+    background-color: rgb(0, 0, 0, 0.1);
+}
+.report-tab-active{
+    color: white !important;
+    border-radius: 5px 5px 0 0 !important;
+    background-color: dodgerblue !important;
+}
+.calendar-container{ 
+    width: 20%;  
+    font-size: 13px;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+.calendar-header{
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+}
+.calendar-exempt-btn{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    cursor: pointer;
+}
+.calendar-exempt-btn .radio-btn-container input{
+    cursor: pointer;
+}
+.calendar-select-all{
+    float: left;
+    font-size: 14px;
+    padding: 2px;
+    padding-right: 8px;
+    margin-top: 5px;
+    margin-left: 40px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    background-color: dodgerblue;
+}
+.calendar-select-all .radio-btn-container input{
+    cursor: pointer;
+}
+.calendar-week{
+    color: rgb(0, 0, 0, 0.7);
+    margin: 10px;
+    font-weight: bold;
+    border: 1px solid lightgray;
+}
+.calendar-full{
+    padding: 3px;
+    border: 1px solid lightgray;
+}
+.calendar-time{
+    display: flex;
+}
+.calendar-time div{
+    width: 100%;
+    padding: 3px;
+    border: 1px solid lightgray;
+}
+.calendar-result{
+    padding: 3px;
+    border: 1px solid lightgray;
+}
+.member-setting{
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+.member-setting-client-email{
+    position: relative;
+    padding: 15px 30px 15px 15px;
+    cursor: text;
+    user-select: text;
+    background-color: rgb(211, 211, 211, 0.2);
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+}
+.member-setting-client-email div{
+    padding: 5px;
+    background-color: white;
+    border: 1px solid rgb(0, 0, 0, 0.1);
+}
+.member-setting-client-email p{
+    margin-top: 0;
+    user-select: none;
+}
+.member-setting h2{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: gray;
+}
+.member-setting .input-entery{
+    background-color: rgb(211, 211, 211, 0.2);
+}
+.member-setting .input-entery input{
+    background-color: transparent;
+}
+.member-setting .input-entery select{
+    background-color: transparent;
+}
+.member-setting-btn-container button{
+    color: white;
+    font-size: 16px;
+    background-color: dodgerblue;
+}
+.member-setting-btn-container button:hover{
+    color: black;
+    background-color: skyblue;
+}
+.member-setting-btn-container button:active{
+    background-color: lightblue;
+}
+.member-setting-options{
+    display: flex;
+    width: 100%;
+}
+.member-setting-opt{
+    width: 100%;
+    padding: 0 5px 0 5px;
+}
+.multi-select-container{
+    display: inline-block;
+    text-align: center;
+    background-color: rgb(211, 211, 211, 0.3);
+    border-top: 1px solid lightgray;
+}
+.multi-select-optons{
+    padding: 5px;
+    min-width: 300px;
+    height: 150px;
+    overflow-y: auto;
+    border: 1px solid lightgray;
+}
+.multi-select{
+    display: flex;
+    padding: 2px;
+    cursor: pointer;
+    border-bottom: 1px solid lightgray;
+}
+.multi-select:hover{
+    background-color: rgb(211, 211, 211, 0.3);
+    border-bottom: 1px solid rgb(128, 128, 128, 0.5);
+}
+.multi-select div{
+    padding-left: 3px;
+}
+.radio-btn-container{
+    display: flex;
+    width: 100%;
+    text-align: left;
+}
+.editable-container{
+    position: absolute;
+    top: -0.5px;
+    left: 50%;
+    z-index: 20;
+    padding-top: 0;
+    width: 94% !important;
+    height: 70% !important;
+    transform: translateX(-50%);
+    border: none !important;
+}
+.editable-container input{
+    width: inherit;
+    height: inherit;
+    outline: none;
+    border: none;
+    z-index: 20;
+    text-align: center;
+}
+.breaks-container{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    z-index: 5;
+    padding: 2px;
+    cursor: pointer;
+    text-align: right;
+    border-radius: 50%;
+    transform: translate3d(-60%, -50%, 0);
+}
+.breaks-overlay{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 200 !important;
+    background-color: white;
+    box-shadow: 2px 2px 5px gray;
+}
+.break-overlay-header{
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    background-color: dodgerblue;
+}
+.break-overlay-header div{
+    width: 100%;
+    padding: 2px;
+    color: white;
+    max-width: 100%;
+    text-align: center;
+}
+.break-overlay-row{
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+.break-overlay-row:hover{
+    background-color: rgb(0, 0, 0, 0.04);
+}
+.break-overlay-row input{
+    width: 100%;
+    outline: none;
+    font-size: 11px;
+    padding: 4px;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+.break-overlay-row div{
+    width: 100%;
+    border: 1px solid lightgray;
+}
+.break-overlay-icon{
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    font-size: 15px;
+    z-index: 200 !important;
+}
+.break-overlay-icon svg{
+    color: rgb(0, 0, 0, 0.7);
+    border-radius: 50%;
+    background-color: white;
+}
+.invoice-container{
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.invoice-toolbar{
+    padding: 5px;
+    color: white;
+    text-align: center;
+    background-color: dodgerblue;
+}
+.invoice-toolbar button{
+    color: white;
+}
+.invoice{
+    width: 816px;
+    max-width: 816px;
+    /*height: 1056px;*/
+    margin-top: 20px;
+    margin-left: 50%;
+    padding: 10px;
+    margin-bottom: 100px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 5px 5px lightgray;
+}
+.clock-in{
+    display: flex;
+    padding: 10px;
+    color: lightgray;
+    position: relative;
+    border-radius: 10px;
+    background-color: rgb(32, 32, 32);
+    -webkit-app-region: drag;
+}
+.clock-in-pin{
+    font-size: 14px !important;
+    margin: 0 10px 0 10px;
+}
+.clock-in-user svg{
+    margin-top: 5px;
+    font-size: 20px;
+    cursor: pointer;
+    -webkit-app-region: no-drag;
+}
+.clock-in-btns{
+    text-align: right;
+}
+.clock-in-btns span{
+    display: inline-block;
+}
+.clock-in-btns svg{
+    position: relative;
+    font-size: 40px;
+    margin-top: 5px;
+    margin-left: 3px;
+    cursor: pointer;
+    z-index: 10000;
+    border-radius: 50%;
+    -webkit-app-region: no-drag;
+}
+.clock-in-btns .start{
+    color: rgb(110, 109, 109);
+}
+.clock-in-btns .break{
+    color: rgb(110, 109, 109);
+}
+.clock-in-btns .end{
+    color: rgb(110, 109, 109);
+}
+
+.display-info-on-hover{
+    position: relative;
+}
+.display-info-overlay{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: none;
+    color: black;
+    font-size: 13px;
+    padding: 0 5px 0 5px;
+    background-color: white;
+    transform: translate3d(-50%, -70%, 0);
+}
+.options-overlay{
+   position: absolute;
+   z-index: 2000;
+   background-color: white;
+}
+.options-overlay div{
+   padding: 0;
+   color: black;
+   cursor: pointer;
+   padding: 2px 5px 2px 5px;
+   border-bottom: 1px solid rgb(245, 243, 243);
+}
+.options-overlay div:hover{
+   background-color: rgb(211, 211, 211, 0.2);
+}
+.sign-in-container{
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url(../images/bubbles.jpg);
+}
+.sign-in-card{
+    top: 100px;
+    left: 50%;
+    width: 600px;
+    display: flex;
+    position: absolute;
+    margin-bottom: 40px;
+    transform: translateX(-50%);
+    background-color: rgb(255, 255, 255, 0.6);
+    box-shadow: 0 3px 3px 5px rgb(0, 0, 0, 0.1);
+}
+.sign-in-card h4{
+    text-align: center;
+}
+.sign-in-side-l{
+    width: 50%;
+    padding: 20px;
+    position: relative;
+    background-color: dodgerblue;
+}
+.sign-in-side-r{
+    width: 100%;
+    padding: 20px;
+    position: relative;
+}
+.sign-in-forget-pss{
+    text-align: right;
+    margin-bottom: 40px;
+    color: orangered;
+    cursor: pointer;
+}
+.sign-in-card .btn-container{
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    color: white;
+    padding: 12px;
+    margin-bottom: 30px;
+    background-color: dodgerblue;
+}
+.sign-in-logo-container{
+    position: absolute;
+    width: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+}
+.sign-in-logo-container img{
+    width: 100%;
+    height: 100%;
+}
