@@ -11,6 +11,11 @@
 # production
 /build
 
+# project planning
+/ProjectPlanning
+/.ProjectPlanning
+.ProjectPlanning
+
 # misc
 .DS_Store
 .env.local
