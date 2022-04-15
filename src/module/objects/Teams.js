@@ -1,41 +1,25 @@
 import { Validation } from "../../infrastructure/Validation";
 
 export class Teams extends Validation{
-    _id = null;
-    _name = null;
-    _image = null;
-    _description = null;
-
-    id(){
-        return this._id;
-    }
-
-    name(){
-        return this._name;
-    }
-
-    image(){
-        return this._image;
-    }
-
-    description(){
-        return this._description;
-    }
+    id = null;
+    name = null;
+    image = null;
+    description = null;
 
     setId(id){
-        this._id = id;
+        this.id = id;
     }
 
     setName(name){
-        this._name = name;
+        this.name = name;
     }
 
     setImage(image){
-        this._image = image;
+        this.image = image;
     }
 
     setDescription(description){
-        this._description = description;
+        this.description = description;
     }
 
     hasId(){

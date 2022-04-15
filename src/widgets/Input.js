@@ -20,14 +20,16 @@ export const Input = ({title, inputRef, options, defaultOption, paragraph, type,
     }
 
     const onFocus = () =>{
-        $(titleRef.current).animate({top: '8px', fontSize: '12px'}, 'fast');
+        //$(titleRef.current).animate({top: '8px', fontSize: '12px'}, 'fast');
+        $(titleRef.current).addClass('input-entery-title-focus');
         $(inputCRef.current).focus();
         inputRef && $(inputRef?.current).focus();
     }
 
     const onBlur = () =>{
         if ($(inputCRef.current).val() || inputRef && $(inputRef.current).val()) return;
-        $(titleRef.current).animate({top: '50%', fontSize: '18px'}, 'fast');
+        //$(titleRef.current).animate({top: '50%', fontSize: '18px'}, 'fast');
+        $(titleRef.current).removeClass('input-entery-title-focus');
     }
 
     useEffect(()=>{

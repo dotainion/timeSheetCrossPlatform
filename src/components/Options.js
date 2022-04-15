@@ -37,7 +37,7 @@ export const Options = ({parentRef, options, children}) =>{
     return(
         <span ref={containerRef} className="relative">
             <span ref={childrenRef}>{children}</span>
-            <div d={()=>alert('hello world')} ref={overlayRef} className="options-overlay" hidden>
+            <div onClick={()=>{}} ref={overlayRef} className="options-overlay" hidden>
                 {options?.map((option, key)=>(
                     <div onClick={option?.action} key={key}>{option?.title}</div>
                 ))}

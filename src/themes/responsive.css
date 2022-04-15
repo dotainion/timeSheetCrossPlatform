@@ -97,11 +97,19 @@
         min-width: 280px;
     }
     .sign-in-card{
-        top: 20px;
-        width: 95%;
+        top: 0px;
+        width: 100%;
         height: auto;
         box-shadow: none;
         position: relative;
+    }
+    .calendar-container{ 
+        font-size: 12px;
+    }
+    .calendar-week{
+        margin: 0;
+        font-weight: normal;
+        border: 1px solid white;
     }
 }
 

@@ -1,5 +1,5 @@
 import { auth } from "../../infrastructure/config/AuthConfig";
-import { roles } from "../../infrastructure/Roles";
+import { Roles } from "../../infrastructure/Roles";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { Validation } from "../../infrastructure/Validation";
 import { Users } from "./Users";
@@ -7,12 +7,16 @@ import { Users } from "./Users";
 export class Authenticate extends ToastHandler{
     constructor(){
         super();
+        this.role = new Roles();
         this.user = new Users();
         this.validate = new Validation();
     }
 
     async signIn(email, password){
         try{
+            if (!this.validate.isEmailValid(email)){
+                throw new Error('Invalid email.');
+            }
             return await auth.signInWithEmailAndPassword(email, password);
         }catch(error){
             this.error(error.message);
@@ -49,7 +53,7 @@ export class Authenticate extends ToastHandler{
                 firstName: fName, 
                 lastName: lName, 
                 image: null, 
-                role: roles.admin, 
+                role: this.role.admin, 
                 supervisorId: null, 
                 teamId: null, 
                 number: null, 
@@ -75,6 +79,9 @@ export class Authenticate extends ToastHandler{
 
     async resetPasswordViaEmail(email){
         try{
+            if (!this.validate.isEmailValid(email)){
+                throw new Error('Invalid email.');
+            }
             return await auth.sendPasswordResetEmail(email);
         }catch(error){
             this.error(error.message);
@@ -84,6 +91,9 @@ export class Authenticate extends ToastHandler{
 
     async changeEmail(email){
         try{
+            if (!this.validate.isEmailValid(email)){
+                throw new Error('Invalid email.');
+            }
             return await auth.currentUser.updateEmail(email);
         }catch(error){
             this.error(error.message);
@@ -97,6 +107,9 @@ export class Authenticate extends ToastHandler{
 
     async sendResetPasswordToEmail(email){
         try{
+            if (!this.validate.isEmailValid(email)){
+                throw new Error('Invalid email.');
+            }
             await auth.sendPasswordResetEmail(email);
         }catch(error){
             this.error(error.message);

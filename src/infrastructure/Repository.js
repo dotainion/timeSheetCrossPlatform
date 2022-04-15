@@ -2,78 +2,57 @@ import { db } from "./config/AuthConfig";
 
 export class Repository{
     transform(id, record){
-        console.log(id);
         if(!record) return null
         return { id, info: record }
     }
 
     async addData(collection, data, setUid=null){
-        let state = null;
-        if(setUid !== null){
-            state = await db.collection(collection).doc(setUid).set(data);
-            
-        }else{
-            const accountRef = db.collection(collection);
-            state = await accountRef.add(data);
-        }
+        let state;
+        let collector = db.collection(collection);
+        if(setUid !== null) state = await collector.doc(setUid).set(data);
+        else state = await collector.add(data);
         return this.transform(state.id, (await state.get()).data());
     }
 
-    async getDataByField(collection,queryKey,queryValue,limit=false){
-        let allData = [];
-        let accountRef = "";
-        if (limit !== false) accountRef = db.collection(collection).where(queryKey,"==",queryValue).limit(limit);
-        else accountRef = db.collection(collection).where(queryKey,"==",queryValue);
-        let data = await accountRef.get();
-        data.forEach((record) => {
-            allData.push(this.transform(record.id, record.data()));
+    async getWhere(collection, where=[], limit=false){
+        let dataCollector = [];
+        let collector = db.collection(collection);
+        where?.forEach((params)=>{
+            const key = Object.keys(params)[0];
+            collector.where(key, '==', params[key]);
         });
-        return allData;
+        if (limit !== false) collector.limit(limit);
+        let data = await collector.get();
+        data.forEach((record) =>{ 
+            dataCollector.push(this.transform(record.id, record.data()));
+        });
+        return dataCollector;
     }
 
     async getDataById(collection, uId){
-        if(uId){
-            const aUser = db.collection(collection).doc(uId);
-            return this.transform(aUser.id, (await aUser.get()).data());;
-        }
-        return null;
-    }
-
-    async getData(collection,limit=false){
-        let allData = [];
-        let accountRef = "";
-        if (!limit) accountRef = db.collection(collection);
-        else accountRef = db.collection(collection).limit(limit);
-        let data = await accountRef.get();
-        data.forEach((record) => {
-            allData.push(this.transform(record.id, record.data()));
-        });
-        return allData;
+        const aUser = db.collection(collection).doc(uId);
+        return this.transform(aUser.id, (await aUser.get()).data());;
     }
 
     async updateData(collection, data, id){
-        if(id){
-            const delRef = db.collection(collection).doc(id);
-            await delRef.update(data);
-            const data = await delRef.get();
-            return this.transform(delRef.id, data);
-        }
-        return null;
+        const delRef = db.collection(collection).doc(id);
+        await delRef.update(data);
+        data = await delRef.get();
+        return this.transform(delRef.id, data);
     }
 
     async deleteData(collection, id){
-        if(id){
-            const delRef = db.collection(collection).doc(id);
-            await delRef.delete();
-            const data = await delRef.get();
-            return this.transform(delRef.id, data);
-        }
-        return null;
+        const delRef = db.collection(collection).doc(id);
+        await delRef.delete();
+        const data = await delRef.get();
+        return this.transform(delRef.id, data);
     }
 
     async deleteDatasByField(collection, queryKey, queryValue){
+        let param = {};
+        param[queryKey] = queryValue;
         let deletedRecords = [];
-        const records = await this.getDataByField(collection, queryKey, queryValue);
+        const records = await this.where(collection, [param]);
         for(let record of records){
             const deletedRecord = this.deleteData(collection, record?.id);
             if(deletedRecord?.length){
@@ -84,7 +63,9 @@ export class Repository{
     }
 
     async updateDataByField(collection, data, queryKey, queryValue, queryKey2=null, queryValue2=null, limit=false){
-        const records = await this.getDataByField(collection, queryKey, queryValue, limit);
+        let param = {};
+        param[queryKey] = queryValue;
+        const records = await this.getWhere(collection,[param], limit);
         for (let record of records){
             if (queryKey2 && queryKey2){
                 if (record?.info[queryKey] === queryValue && record?.info[queryKey2] === queryValue2){
@@ -99,15 +80,18 @@ export class Repository{
         return true;
     }
 
-    observer = (collection, queryKey, queryValue, observe) =>{
-        db.collection(collection)
-        .where(queryKey, "==", queryValue)
-        .onSnapshot((data)=>{
-            let ranges = [];
-            data.forEach((record) => {
-                ranges.push({ id: record.id, info: record.data() });
+    observer = (collection, where=[], observe=null) =>{
+        let dataCollector = [];
+        let collector = db.collection(collection);
+        where?.forEach((param)=>{
+            const key = Object.keys(param)[0];
+            collector.where(key, '==', param[key]);
+        });
+        collector.onSnapshot((data)=>{
+            data?.forEach((record) => {
+                dataCollector.push(this.transform(record.id, record));
             });
-            observe?.(ranges);
+            observe?.(dataCollector);
         });
     }
 }

@@ -14,7 +14,7 @@ export class TeamsRepository extends Repository{
 
     async getTeams(){
         return this.factory.map(
-            await this.getData(collection.teams)
+            await this.getWhere(collection.teams)
         );
     }
 
@@ -30,9 +30,9 @@ export class TeamsRepository extends Repository{
 
     async addTeams(collector){
         return await this.addData(collection.teams, {
-            name: collector.name(),
-            image: collector.image(),
-            description: collector.description()
+            name: collector.name,
+            image: collector.image,
+            description: collector.description
         });
     }
 

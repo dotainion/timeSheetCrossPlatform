@@ -1,107 +1,78 @@
+import { Roles } from "../../infrastructure/Roles";
 import { Validation } from "../../infrastructure/Validation";
 
 export class Users extends Validation{
-    _id = null;
-    _clientId = null;
-    _email = null;
-    _firstName = null;
-    _lastName = null;
-    _image = null;
-    _role = null;
-    _supervisorId = null;
-    _teamId = null;
-    _gender = null;
-    _number = null;
-
-    id(){
-        return this._id;
-    }
-
-    gender(){
-        return this._gender;
-    }
-
-    number(){
-        return this._number;
-    }
-
-    clientId(){
-        return this._clientId;
-    }
-
-    teamId(){
-        return this._teamId;
-    }
-
-    email(){
-        return this._email;
-    }
-
-    firstName(){
-        return this._firstName;
-    }
-
-    lastName(){
-        return this._lastName;
-    }
-
-    image(){
-        return this._image;
-    }
-
-    role(){
-        return this._role;
-    }
+    id = null;
+    clientId = null;
+    email = null;
+    firstName = null;
+    lastName = null;
+    image = null;
+    role = null;
+    supervisorId = null;
+    teamId = null;
+    gender = null;
+    number = null;
 
     supervisorId(){
-        return this._supervisorId;
+        return this.supervisorId;
     }
 
     setGender(gender){
-        this._gender = gender;
+        this.gender = gender;
     }
 
     setNumber(number){
-        this._number = number;
+        this.number = number;
     }
 
     setClientId(clientId){
-        this._clientId = clientId;
+        this.clientId = clientId;
     }
 
     setEmail(email){
         if (email && !this.isEmailValid(email)){
             throw new Error('Invalid email.');
         }
-        this._email = email;
+        this.email = email;
     }
 
     setFirstName(firstName){
-        this._firstName = firstName;
+        if (!firstName){
+            throw new Error('Invalid first name.');
+        }
+        this.firstName = firstName;
     }
 
     setLastName(lastName){
-        this._lastName = lastName;
+        if (!lastName){
+            throw new Error('Invalid last name.');
+        }
+        this.lastName = lastName;
     }
     
     setImage(image){
-        this._image = image;
+        this.image = image;
     }
 
     setRole(role){
-        this._role = role;
+        console.log(role)
+        if (! (new Roles()).includes(role)){
+            throw new Error('A role was not specified.');
+        }
+        this.role = role;
     }
 
     setSupervisorId(supervisorId){
-        this._supervisorId = supervisorId;
+        this.supervisorId = supervisorId;
     }
 
     setTeamId(teamId){
-        this._teamId = teamId;
+        this.teamId = teamId;
     }
 
     setId(id){
-        this._id = id;
+        this.id = id;
     }
 
     hasId(){

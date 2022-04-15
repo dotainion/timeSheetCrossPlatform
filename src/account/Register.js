@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
 
 
+
 const auth = new Authenticate();
 
 export const Register = () =>{
@@ -43,15 +44,15 @@ export const Register = () =>{
     }, []);
 
     return(
-        <div className="sign-in-container" style={{overflow: 'hidden'}}>
-            <div className="sign-in-card" style={{top: '0', width: '100%', height: '100%', position: 'relative'}}>
+        <div className="sign-in-container">
+            <div className="sign-in-card">
                 <div className="sign-in-side-l">
                     <div className="sign-in-logo-container">
-                        <img src={logo} />
+                        <img src={logo} draggable={false} />
                     </div>
                 </div>
                 <div className="sign-in-side-r">
-                    <h4>Register</h4>
+                    <h4>Creat an account</h4>
                     <Input inputRef={firstNameRef} title="First Name" type="name" />
                     <Input inputRef={lastNameRef} title="Last Name" type="name" />
                     <Input inputRef={companyNameRef} title="Company Name" type="name" />
@@ -62,7 +63,6 @@ export const Register = () =>{
                         <span onClick={()=>navigate(routes.signIn)} style={{color: 'dodgerblue'}}>Login instead</span>
                     </div>
                     <Button onClick={onRegister} title="Login" />
-                    <button id="test-click">CLICK ME</button>
                 </div>
             </div>
             <Loading loading={loading} />

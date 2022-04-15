@@ -1,6 +1,6 @@
+const { ipcRenderer } = require('electron');
 
 
-const element = document.getElementById('test-click');
-element.addEventListener('click', ()=>{
-    console.log('button clicked.');
+document.addEventListener('DOMContentLoaded', ()=>{
+    
 });

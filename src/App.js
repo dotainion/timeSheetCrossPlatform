@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home';
 
 import logo from './logo.svg';
@@ -21,6 +21,9 @@ import { ClockIn } from './employee/ClockIn';
 import { AuthenticationWrapper } from './provider/AuthenticationWrapper';
 import { SignIn } from './account/SignIn';
 import { Register } from './account/Register';
+import { AdminAuthRouter } from './AdminAuthRouter';
+import { UsersAuthRouter } from './UsersAuthRouter';
+import { SignInDirection } from './SignInDirection';
 
 
 function App() {
@@ -29,13 +32,16 @@ function App() {
       <AuthenticationWrapper>
         <ProviderWrapper>
           <Routes>
-            <Route path={routes.home} element={<Register/>} />
-            <Route path={routes.signIn} element={<SignIn/>} />
-            <Route path={routes.home} element={<Home/>} />
-            <Route path={routes.home} element={<ClockIn/>} />
-            <Route path={routes.report} element={<Report/>} />
-            <Route path={routes.teams} element={<Teams/>} />
-            <Route path={routes.TeamMembers} element={<TeamMembers/>} />
+            {/** public **/}
+            <Route path={routes.signIn} element={<SignInDirection element={<SignIn/>} />} />
+            <Route path={routes.register} element={<Register/>} />
+            {/** administrator **/}
+            <Route path={routes.home} element={<AdminAuthRouter element={<Home/>} />} />
+            <Route path={routes.report} element={<AdminAuthRouter element={<Report/>} />} />
+            <Route path={routes.teams} element={<AdminAuthRouter element={<Teams/>} />} />
+            <Route path={routes.TeamMembers} element={<AdminAuthRouter element={<TeamMembers/>} />} />
+            {/** employees **/}
+            <Route path={routes.clockIn} element={<UsersAuthRouter element={<ClockIn/>} />} />
           </Routes>
         </ProviderWrapper>
       </AuthenticationWrapper>

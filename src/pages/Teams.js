@@ -89,13 +89,13 @@ export const Teams = () =>{
                     teams.map((obj, key)=>(
                         <MemberCard 
                             icon={<IoIosPeople/>}
-                            name={obj.name()}
-                            description={obj.description()}
+                            name={obj.name}
+                            description={obj.description}
                             supervisor="None"
                             menu={[
                                 {
                                     title: 'Manage',
-                                    action: ()=>navigate(`${routes.TeamMembers}:${obj.id()}:${obj.name()}`, {state: obj})
+                                    action: ()=>navigate(`${routes.TeamMembers}:${obj.id}:${obj.name}`, {state: obj})
                                 },/*{
                                     title: 'Report',
                                     action: (e)=>navigate(`${routes.report}:${obj.id()}`, {state: obj})
@@ -140,7 +140,7 @@ export const Teams = () =>{
                 message="deleting {'Team Name'}"
                 onSwitch={setDeleteMembersAlso}
                 onClose={()=>setOpenAlert({state: false, data: null, cardRef: null})}
-                onConfirm={()=>onDeleteTeam(openAlert.data.id(), openAlert.cardRef)}
+                onConfirm={()=>onDeleteTeam(openAlert.data.id, openAlert.cardRef)}
                 >
 
             </ConfirmXl>

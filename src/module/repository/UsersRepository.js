@@ -12,7 +12,7 @@ export class UsersRepository extends Repository{
 
     async getUsers(){
         return this.factory.map(
-            await this.getData(collection.user)
+            await this.getWhere(collection.user)
         )
     }
 
@@ -24,22 +24,22 @@ export class UsersRepository extends Repository{
 
     async getUsersByTeamId(id){
         return this.factory.map(
-            await this.getDataByField(collection.user, 'teamId', id)
+            await this.getWhere(collection.user, [{teamId: id}])
         )
     }
 
     async addUser(collector){
         return await this.addData(collection.user, {
-            clientId: collector.clientId(),
-            email: collector.email(),
-            firstName: collector.firstName(),
-            lastName: collector.lastName(),
-            image: collector.image(),
-            role: collector.role(),
-            supervisorId: collector.supervisorId(),
-            teamId: collector.teamId(),
-            number: collector.number(),
-            gender: collector.gender()
+            clientId: collector.clientId,
+            email: collector.email,
+            firstName: collector.firstName,
+            lastName: collector.lastName,
+            image: collector.image,
+            role: collector.role,
+            supervisorId: collector.supervisorId,
+            teamId: collector.teamId,
+            number: collector.number,
+            gender: collector.gender
         });
     }
 

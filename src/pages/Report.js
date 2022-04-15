@@ -1,10 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { ReportCalendar } from "../components/ReportCalendar";
+import { SpreadsheetCalendar } from "../components/SpreadsheetCalendar";
 import { Layout } from "../layout/Layout";
 import { Spreadsheet } from "../module/logic/Spreadsheet";
 import { Users } from "../module/logic/Users";
-import { Input } from "../widgets/Input";
 import { MultiSelect } from "../widgets/MultiSelect";
 import { DateHelper } from "../infrastructure/DateHelper";
 import $ from 'jquery';
@@ -101,7 +100,7 @@ export const Report = () =>{
         if(location.state) avilMember = location.state;
         else avilMember = await mbr.getById(id);
 
-        if(!avilMember._id){
+        if(!avilMember.id){
             return;
         }
 
@@ -149,7 +148,7 @@ export const Report = () =>{
                         <Button onClick={()=>setOpenInvoice(true)} title="Invoice" />
                     </div>
                 </div>
-                <ReportCalendar 
+                <SpreadsheetCalendar 
                     sheets={sheets} 
                     onCalculate={calculation} 
                 />

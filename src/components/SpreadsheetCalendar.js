@@ -17,7 +17,7 @@ import reportNone from '../images/report-none.png';
 const date = new DateHelper();
 
 let excludeTimeCardIds = [];
-export const ReportCalendar = memo(({sheets, onCalculate}) =>{
+export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -36,6 +36,7 @@ export const ReportCalendar = memo(({sheets, onCalculate}) =>{
     } 
 
     const runCalculation = async() =>{
+        if (!sheets?.length) return;
         const calc = new Calculator();
         const result = calc.calculateSheet(
             sheets, 
@@ -45,7 +46,7 @@ export const ReportCalendar = memo(({sheets, onCalculate}) =>{
     };
 
     useEffect(()=>{
-        if (sheets.length){
+        if (sheets?.length){
             navigate(`${sheets?.[sheets?.length -1]?.[0]?.sheetId}`);
         }
         runCalculation();
@@ -56,7 +57,7 @@ export const ReportCalendar = memo(({sheets, onCalculate}) =>{
     }, [sheets]);
 
     return(
-        <div>
+        <div hidden={!isOpen}>
             <Routes>
                 <Route path="" element={<div>hellow orld</div>} />
             </Routes>

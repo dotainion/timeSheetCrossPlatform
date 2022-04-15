@@ -9,17 +9,18 @@ const ipcMain = electron.ipcMain;
 let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({ 
-        width: /*340,*/800, 
-        height: /*60,*/700,
-        icon: "",
+        width: 750, 
+        height: 590,
+        icon: __dirname + '../src/images/logo.png',
         frame: true,
-        resizable: false,
+        resizable: true,
         transparent: false, 
         autoHideMenuBar: true,
         alwaysOnTop: false,
         webPreferences: {
             nodeIntegration: true,
-            preload: '../src/electron/ElectronPreload.js',
+            contextIsolation: true,
+            preload: path.resolve('./src/electron/ElectronPreload.js'),
         }
     });
 

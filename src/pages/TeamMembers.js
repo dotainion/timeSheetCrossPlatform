@@ -18,6 +18,7 @@ import { ConfirmXl } from "../widgets/ConfirmXl";
 import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
 import { MemberSettings } from "../settings/MemberSettings";
+import { Roles } from "../infrastructure/Roles";
 
 
 const uTeam = new Teams();
@@ -61,7 +62,7 @@ export const TeamMembers = () =>{
             imageRef.current || '',
             roleRef.current.value,
             'supervisorId',
-            team._id,
+            team.id,
             phoneRef.current.value,
             genderRef.current.value
         );
@@ -94,7 +95,7 @@ export const TeamMembers = () =>{
         if(location.state) avilTeam = location.state
         else avilTeam = await uTeam.getById(id);
 
-        if(!avilTeam?._id){
+        if(!avilTeam?.id){
             return;
         }
 
@@ -109,7 +110,7 @@ export const TeamMembers = () =>{
         }
     }, [location]);
     return(
-        <Layout options={navOption} title={`Members of team '${team?._name}'.`}>
+        <Layout options={navOption} title={`Members of team '${team?.name}'.`}>
             <div>
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
                     <MemberCard onClick={()=>setOpenModal(true)} asBtn={true}>
@@ -122,11 +123,11 @@ export const TeamMembers = () =>{
                     members.map((usr, key)=>(
                         <MemberCard
                             icon={<BsFillPersonFill/>}
-                            name={`${usr.firstName()} ${usr.lastName()}`}
-                            gender={usr.gender()}
-                            number={usr.number()}
+                            name={`${usr.firstName} ${usr.lastName}`}
+                            gender={usr.gender}
+                            number={usr.number}
                             supervisor="None"
-                            role={usr.role()}
+                            role={usr.role}
                             menu={[
                                 {
                                     title: 'Spreadsheet',
@@ -136,7 +137,7 @@ export const TeamMembers = () =>{
                                     action: (e)=>setOpenAlert({state: true, data: usr, cardRef: e.ref})
                                 },{
                                     title: 'Report',
-                                    action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id()}`)}`, {state: usr})
+                                    action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
                                 }
                             ]}
                             key={key}
@@ -168,13 +169,10 @@ export const TeamMembers = () =>{
                 <Input title="Email" inputRef={emailRef} type="email" />
                 <Input title="Phone Number" inputRef={phoneRef} />
                 <Input title="Gender" inputRef={genderRef} options={[
-                    {
-                        title: 'Male'
-                    },{
-                        title: 'Female'
-                    }
+                    { title: 'Male' },
+                    { title: 'Female' }
                 ]} />
-                <Input title="Role" inputRef={roleRef} />
+                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
             </ModalXl>
 
             <ConfirmXl
@@ -184,7 +182,7 @@ export const TeamMembers = () =>{
                 switchMsg=""
                 switchOnMsg=""
                 onClose={()=>setOpenAlert({state: false, data: null, cardRef: null})}
-                onConfirm={()=>onDeleteMember(openAlert.data.id(), openAlert.cardRef)}
+                onConfirm={()=>onDeleteMember(openAlert.data.id, openAlert.cardRef)}
             />
 
             <Loading loading={loading} />

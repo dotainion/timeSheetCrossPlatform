@@ -9,24 +9,32 @@ export const useAuth = () => useContext(Context);
 
 export const AuthenticationWrapper = ({children}) =>{
     const [user, setUser] = useState();
+    const [loading, setLoading] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(()=>{
         auth.onAuthStateChanged(async(uUser)=>{
             if (uUser){
                 let userObj = await lUser.getById(uUser?.uid);
-                userObj['id'] = uUser?.uid;
                 setUser(userObj);
+                setIsAuthenticated(userObj);
             }
+            setLoading(false);
         });
     }, []);
+
+    useEffect(()=>{
+        console.log(isAuthenticated);
+    }, [isAuthenticated]);
     
     const value = {
         user,
+        isAuthenticated,
     }
 
     return(
         <Context.Provider value={value}>
-            {children}
+            {!loading && children}
         </Context.Provider>
     )
 }
