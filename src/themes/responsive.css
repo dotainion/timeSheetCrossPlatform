@@ -111,6 +111,16 @@
         font-weight: normal;
         border: 1px solid white;
     }
+    .dash-employee-count{
+        background-color: transparent;
+        box-shadow: none;
+    }
+    .percentage-container{
+        width: 80%;
+        max-width: 320px;
+        margin-bottom: 10px;
+        border: 1px solid white;
+    }
 }
 
 @media screen and (max-width:430px){

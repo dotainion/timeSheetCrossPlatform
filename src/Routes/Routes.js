@@ -5,5 +5,6 @@ export const routes = {
     report: '/report:memberId:sheetId/*',
     clockIn: '/clock/in',
     signIn: '/sign/in',
-    register: '/register'
+    register: '/register',
+    administrator: '/administrator'
 }

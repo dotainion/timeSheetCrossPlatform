@@ -119,7 +119,7 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
-.team-button-cards-container svg{
+.team-cart-children svg{
     width: 30px;
     height: 30px;
     color: dodgerblue;
@@ -131,6 +131,7 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    color: dodgerblue;
     background-color: white;
     transform: translate3d(-50%, -50%, 0);
 }
@@ -167,8 +168,8 @@
     color: rgb(92, 91, 91);
 }
 .modal-xl-wrapper{
-    width: 50%;
-    max-width: 500px;
+    width: 60%;
+    max-width: 600px;
     margin-left: 50%;
     margin-top: 100px;
     transform: translateX(-50%);
@@ -1032,4 +1033,46 @@
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
+}
+.percentage-container{
+    display: inline-block;
+    word-wrap: break-word;
+    width: 25%;
+    max-width: 25%;
+    padding: 20px;
+}
+.percentage-card{
+    position: relative;
+    height: 50px;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+.percentage-card div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transform: translate3d(-50%, -50%, 0);
+}
+.percentage-card div label{
+    display: block;
+}
+.dashboard-container{
+    text-align: center;
+}
+.dash-employee-count{
+    display: inline-block;
+    border-radius: 10px;
+    margin-top: 20px;
+    background-color: rgb(255, 255, 255, 0.6);
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
+}
+.administrator-card-icon{
+    width: 50px !important;
+    height: 50px !important;
 }

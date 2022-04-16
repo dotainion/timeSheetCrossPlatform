@@ -24,6 +24,7 @@ import { Register } from './account/Register';
 import { AdminAuthRouter } from './AdminAuthRouter';
 import { UsersAuthRouter } from './UsersAuthRouter';
 import { SignInDirection } from './SignInDirection';
+import { Administrator } from './pages/Administrator';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path={routes.register} element={<Register/>} />
             {/** administrator **/}
             <Route path={routes.home} element={<AdminAuthRouter element={<Home/>} />} />
+            <Route path={routes.administrator} element={<AdminAuthRouter element={<Administrator/>} />} />
             <Route path={routes.report} element={<AdminAuthRouter element={<Report/>} />} />
             <Route path={routes.teams} element={<AdminAuthRouter element={<Teams/>} />} />
             <Route path={routes.TeamMembers} element={<AdminAuthRouter element={<TeamMembers/>} />} />

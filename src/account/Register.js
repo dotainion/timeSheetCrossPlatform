@@ -16,7 +16,7 @@ const auth = new Authenticate();
 export const Register = () =>{
     const [loading, setLoading] = useState(false);
 
-    const navigate = new useNavigate();
+    const navigate = useNavigate();
 
     const emailRef = useRef();
     const firstNameRef = useRef();
@@ -34,7 +34,8 @@ export const Register = () =>{
             companyNameRef.current.value, 
             emailRef.current.value, 
             passwordRef.current.value, 
-            confirmPasswordRef.current.value
+            confirmPasswordRef.current.value,
+            ()=> navigate(routes.home)
         );
         setLoading(false);
     }

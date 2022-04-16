@@ -19,16 +19,15 @@ import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
 import { MemberSettings } from "../settings/MemberSettings";
 import { Roles } from "../infrastructure/Roles";
+import { NewMember } from "../components/NewMember";
 
 
 const uTeam = new Teams();
 const users = new Users();
 
-let teamId;
 export const TeamMembers = () =>{
-    const { members, addToMember, InitializeMembers } = useProvider();
+    const { members, InitializeMembers } = useProvider();
 
-    const [loading, setLoading] = useState(false);
     const [team, setTeam] = useState();
     const [openModal, setOpenModal] = useState(false);
     const [openSetting, setOpenSetting] = useState({state: false, data: null});
@@ -37,13 +36,6 @@ export const TeamMembers = () =>{
     const location = useLocation();
     const navigate = useNavigate();
 
-    const fNameRef = useRef();
-    const lNameRef = useRef();
-    const emailRef = useRef();
-    const roleRef = useRef();
-    const phoneRef = useRef();
-    const genderRef = useRef();
-    const imageRef = useRef();
 
     const navOption = [
         {
@@ -51,37 +43,6 @@ export const TeamMembers = () =>{
             action: ()=>navigate(routes.teams)
         }
     ];
-
-    const addMember = async() =>{
-        setLoading(true);
-        const rtUsr = await users.add(
-            'clientId',
-            emailRef.current.value,
-            fNameRef.current.value,
-            lNameRef.current.value,
-            imageRef.current || '',
-            roleRef.current.value,
-            'supervisorId',
-            team.id,
-            phoneRef.current.value,
-            genderRef.current.value
-        );
-
-        if (rtUsr == 'error'){
-            return setLoading(false);
-        };
-
-        emailRef.current.value = '';
-        fNameRef.current.value = '';
-        lNameRef.current.value = '';
-        imageRef.current = '';
-        roleRef.current.value = '';
-        phoneRef.current.value = '';
-        genderRef.current.value = '';
-
-        addToMember(rtUsr);
-        setLoading(false);
-    }
 
     const onDeleteMember = (userId, cardRef) =>{
         users.delete(userId);
@@ -91,19 +52,17 @@ export const TeamMembers = () =>{
     useEffect(async()=>{
         const id = location.pathname.split(':')?.[2];
 
-        let avilTeam;
-        if(location.state) avilTeam = location.state
-        else avilTeam = await uTeam.getById(id);
+        let teamObject;
+        if(location.state) teamObject = location.state
+        else teamObject = await uTeam.getById(id);
 
-        if(!avilTeam?.id){
+        if(!teamObject?.id){
             return;
         }
 
-        setTeam(avilTeam);
+        setTeam(teamObject);
 
-        if (teamId == id) return;
-        InitializeMembers(id);
-        teamId = id;
+        InitializeMembers(teamObject?.id);
 
         return () =>{
 
@@ -156,24 +115,12 @@ export const TeamMembers = () =>{
                 }
             </div>
 
-            <ModalXl 
-                isOpen={openModal} 
+            <NewMember 
+                isOpen={openModal}
                 onClose={()=>setOpenModal(false)}
-                title="Create a member"
+                teamId={team?.id}
                 message="Let's start with information on your member"
-                onImageSelect={(img)=>imageRef.current = img}
-                onConfirm={addMember}
-                >
-                <Input title="First Name" inputRef={fNameRef} />
-                <Input title="Last Name" inputRef={lNameRef} />
-                <Input title="Email" inputRef={emailRef} type="email" />
-                <Input title="Phone Number" inputRef={phoneRef} />
-                <Input title="Gender" inputRef={genderRef} options={[
-                    { title: 'Male' },
-                    { title: 'Female' }
-                ]} />
-                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
-            </ModalXl>
+            />
 
             <ConfirmXl
                 isOpen={openAlert.state}
@@ -184,8 +131,6 @@ export const TeamMembers = () =>{
                 onClose={()=>setOpenAlert({state: false, data: null, cardRef: null})}
                 onConfirm={()=>onDeleteMember(openAlert.data.id, openAlert.cardRef)}
             />
-
-            <Loading loading={loading} />
 
             <MemberSettings 
                 isOpen={openSetting.state} 

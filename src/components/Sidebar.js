@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import logo from '../logo.svg';
 import { AiOutlineTeam } from 'react-icons/ai';
 import { GoDashboard } from 'react-icons/go';
-import { useNavigate } from "react-router-dom";
+import { Routes, useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import $ from 'jquery';
@@ -22,17 +22,21 @@ import { AiFillMessage } from 'react-icons/ai';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { ImNotification } from 'react-icons/im';
 import { HiUserAdd } from 'react-icons/hi';
-import { MdHelp } from 'react-icons/md';
+import { MdHelp, MdAdminPanelSettings, MdSpaceDashboard } from 'react-icons/md';
 
 export const ADMIN_SIDE_NAV = [
-    /*{
-        title: "GRID",
-        icon: BsGrid3X3Gap,
-        route: '#',
-    },*/{
-        title: "TEAMS",
+    {
+        title: "Dashboard",
+        icon: MdSpaceDashboard,
+        route: routes.home,
+    },{
+        title: "Team",
         icon: FaUsers,
         route: routes.teams,
+    },{
+        title: "Administrator",
+        icon: MdAdminPanelSettings,
+        route: routes.administrator,
     }
 ];
 

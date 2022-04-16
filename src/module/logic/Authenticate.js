@@ -24,7 +24,7 @@ export class Authenticate extends ToastHandler{
         }
     }
 
-    async register(fName, lName, companyName, email, password, confirmPassword){
+    async register(fName, lName, companyName, email, password, confirmPassword, background){
         if (!this.validate.isEmailValid(email)){
             return this.error('Invalid email.');
         }
@@ -47,7 +47,7 @@ export class Authenticate extends ToastHandler{
         try{
             const response = await auth.createUserWithEmailAndPassword(email, password);
 
-            await this.user.addWithId({
+            const res = await this.user.addWithId({
                 clientId: null, 
                 email: email, 
                 firstName: fName, 
@@ -60,6 +60,8 @@ export class Authenticate extends ToastHandler{
                 gender: null, 
                 companyName: companyName,
             }, response?.user?.uid);
+
+            background?.(res);
 
             this.success('Successful.');
         }catch(error){
