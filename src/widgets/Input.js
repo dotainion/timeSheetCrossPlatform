@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import $ from 'jquery';
 
 
-export const Input = ({title, inputRef, options, defaultOption, paragraph, type, min, max}) =>{
+export const Input = ({title, inputRef, options, onChange, defaultOption, paragraph, type, min, max}) =>{
     const titleRef = useRef();
     const inputCRef = useRef();
     const inputContainerRef = useRef();
@@ -20,15 +20,14 @@ export const Input = ({title, inputRef, options, defaultOption, paragraph, type,
     }
 
     const onFocus = () =>{
-        //$(titleRef.current).animate({top: '8px', fontSize: '12px'}, 'fast');
         $(titleRef.current).addClass('input-entery-title-focus');
-        $(inputCRef.current).focus();
-        inputRef && $(inputRef?.current).focus();
+        inputRef
+            ? $(inputRef?.current).focus()
+            : $(inputCRef.current).focus();
     }
 
     const onBlur = () =>{
         if ($(inputCRef.current).val() || inputRef && $(inputRef.current).val()) return;
-        //$(titleRef.current).animate({top: '50%', fontSize: '18px'}, 'fast');
         $(titleRef.current).removeClass('input-entery-title-focus');
     }
 
@@ -44,6 +43,12 @@ export const Input = ({title, inputRef, options, defaultOption, paragraph, type,
         vT.length && inputRef && $(inputRef?.current).attr('type', vT);
     }, [type]);
 
+    useEffect(()=>{
+        if (defaultOption){
+            onFocus();
+        }
+    }, [defaultOption]);
+
     return(
         <div ref={inputContainerRef} onClick={onFocus} className={`input-entery ${options && 'pointer'}`} type={type}>
             <div ref={titleRef} className={`input-entery-title`}>{title}</div>
@@ -54,20 +59,22 @@ export const Input = ({title, inputRef, options, defaultOption, paragraph, type,
                         ref={inputRef || inputCRef} 
                         onFocus={onFocus} 
                         onBlur={onBlur} 
+                        onChange={onChange}
                         type={type} 
                         min={min} 
                         max={max} 
                         step="1"
                         />
-                        : <textarea ref={inputRef || inputCRef} onFocus={onFocus} onBlur={onBlur} />
+                        : <textarea ref={inputRef || inputCRef} onChange={onChange} onFocus={onFocus} onBlur={onBlur} />
                     : <select 
                         ref={inputRef || inputCRef} 
                         onFocus={onFocus} 
-                        onBlur={onBlur} 
+                        onBlur={onBlur}
+                        onChange={onChange}
                         defaultValue={defaultOption} 
                         >
                         <option hidden={defaultOption}></option>
-                        {options?.map((opt, key)=>(
+                        {options?.map?.((opt, key)=>(
                             <option value={opt?.value} key={key}>{opt?.title}</option>
                         ))}
                     </select>

@@ -11,15 +11,19 @@ import { Button } from "../widgets/Button";
 import { Invoice } from "../components/Invoice";
 import { Loading } from "../components/Loading";
 import { Calculator } from "../infrastructure/Calculator";
+import { UserSetting } from "../module/logic/userSetting";
+import { useAuth } from "../provider/AuthenticationWrapper";
 
 
 const mbr = new Users();
 const api = new Spreadsheet();
 const dateHelper = new DateHelper();
-const spreadsheetId = '1oHdNqPtzJNs-gLmI6Dzz62c3qoYrpHFBnYp0w_Ov0vw';
+const setting = new UserSetting();
 
 let sheetCollector = [];
 export const Report = () =>{
+    const { user } = useAuth();
+
     const [sheets, setSheets] = useState([]);
     const [member, setMember] = useState();
     const [loading, setLoading] = useState(false);
@@ -30,6 +34,7 @@ export const Report = () =>{
         timeFrom: '', 
         timeTo: ''
     });
+    const [spreadsheetId, setSpreadsheetId] = useState();
 
     const location = useLocation();
     const containerRef = useRef();
@@ -112,7 +117,13 @@ export const Report = () =>{
     }, []);
 
     useEffect(()=>{
-        initialize();
+        if (spreadsheetId) initialize()
+    }, [spreadsheetId]);
+
+    useEffect(async()=>{
+        const collector = await setting.getSetting(user?.id);
+        const uSetting = collector.first();
+        setSpreadsheetId(uSetting.spreadsheetId);
     }, []);
 
     return(
@@ -149,6 +160,7 @@ export const Report = () =>{
                     </div>
                 </div>
                 <SpreadsheetCalendar 
+                    isOpen
                     sheets={sheets} 
                     onCalculate={calculation} 
                 />

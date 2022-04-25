@@ -12,7 +12,7 @@ export const ShowInfo = ({info, children}) =>{
             if (e.type === 'mouseenter'){
                 timeoutRef.current = setTimeout(() => {
                     $(overlay.current).show();
-                }, 2000);
+                }, 1000);
             }else{
                 $(overlay.current).hide();
                 clearTimeout(timeoutRef.current);

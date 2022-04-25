@@ -7,11 +7,9 @@ export class Repository{
     }
 
     async addData(collection, data, setUid=null){
-        let state;
-        let collector = db.collection(collection);
-        if(setUid !== null) state = await collector.doc(setUid).set(data);
-        else state = await collector.add(data);
-        return this.transform(state.id, (await state.get()).data());
+        if(setUid !== null) await db.collection(collection).doc(setUid).set(data);
+        else await db.collection(collection).add(data);
+        return this.transform(setUid, data);
     }
 
     async getWhere(collection, where=[], limit=false){
@@ -19,7 +17,7 @@ export class Repository{
         let collector = db.collection(collection);
         where?.forEach((params)=>{
             const key = Object.keys(params)[0];
-            collector.where(key, '==', params[key]);
+            collector = collector.where(key, '==', `${params[key]}`);
         });
         if (limit !== false) collector.limit(limit);
         let data = await collector.get();
@@ -62,19 +60,22 @@ export class Repository{
         return deletedRecords;
     }
 
-    async updateDataByField(collection, data, queryKey, queryValue, queryKey2=null, queryValue2=null, limit=false){
-        let param = {};
-        param[queryKey] = queryValue;
-        const records = await this.getWhere(collection,[param], limit);
+    async updateDataWhere(collection, data, where=[], limit=false){
+        let objects = {}
+        where.map((obj)=>{
+            const key = Object.keys(obj);
+            objects[key] = obj[key];
+        });
+        const records = await this.getWhere(collection, where, limit);
         for (let record of records){
-            if (queryKey2 && queryKey2){
-                if (record?.info[queryKey] === queryValue && record?.info[queryKey2] === queryValue2){
-                    await this.updateData(collection, data, record?.id);
+            let validCollector = [];
+            for (let key of Object.keys(objects)){
+                if (record['info'][key] == objects[key]){
+                    validCollector.push(true);
                 }
-            }else{
-                if (record?.info[queryKey] === queryValue){
-                    await this.updateData(collection, data, record?.id);
-                }
+            }
+            if (validCollector.length == Object.keys(objects).length){
+                await this.updateData(collection, data, record?.id);
             }
         };
         return true;
@@ -85,7 +86,7 @@ export class Repository{
         let collector = db.collection(collection);
         where?.forEach((param)=>{
             const key = Object.keys(param)[0];
-            collector.where(key, '==', param[key]);
+            collector = collector.where(key, '==', `${param[key]}`);
         });
         collector.onSnapshot((data)=>{
             data?.forEach((record) => {

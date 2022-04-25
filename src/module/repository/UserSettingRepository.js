@@ -1,5 +1,6 @@
 import { collection } from "../../infrastructure/config/databaseConfig";
 import { Repository } from "../../infrastructure/Repository";
+import { UserSettingFactory } from "../factory/UserSettingFactory";
 import { UsersFactory } from "../factory/UsersFactory";
 
 export class UserSettingRepository extends Repository{
@@ -7,10 +8,19 @@ export class UserSettingRepository extends Repository{
 
     constructor(){
         super();
-        this.factory = new UsersFactory();
+        this.factory = new UserSettingFactory();
     }
 
-    async addSetting(data, uuid){
-        await this.addData(collection.settings, data, uuid);
+    async addSetting(setting){
+        return await this.addData(collection.settings, {
+            sheetId: setting.sheetId,
+            spreadsheetId: setting.spreadsheetId
+        }, setting.id);
+    }
+
+    async getSetting(uuid){
+        return this.factory.map([
+            await this.getDataById(collection.settings, uuid)
+        ]);
     }
 }

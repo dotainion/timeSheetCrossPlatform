@@ -35,7 +35,7 @@ export const Register = () =>{
             emailRef.current.value, 
             passwordRef.current.value, 
             confirmPasswordRef.current.value,
-            ()=> navigate(routes.home)
+            ()=> navigate(routes.dashboard)
         );
         setLoading(false);
     }

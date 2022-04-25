@@ -11,35 +11,22 @@ export const Options = ({parentRef, options, children}) =>{
         $(childrenRef.current).click((e)=>{
             e.stopPropagation();
             if ($(overlayRef.current).css('display') === 'none'){
-                $(overlayRef.current).show();
-                const h = $(overlayRef.current).height();
-                $(overlayRef.current).hide();
-                if (parentRef){
-                    const cH = $(parentRef.current).height();
-                    $(parentRef.current).height(h + cH);
-                    $(overlayRef.current).show('fast');
-                }else{
-                    $(overlayRef.current).show();
-                }
+                $(overlayRef.current).show('fast');
             }else{
-                if (parentRef){
-                    const hh = $(overlayRef.current).height();
-                    const cHh = $(parentRef.current).height();
-                    $(parentRef.current).height(cHh - hh);
-                    $(overlayRef.current).hide('fast');
-                }else{
-                    $(overlayRef.current).hide();
-                }
+                $(overlayRef.current).hide('fast');
             }
+        });
+        $('html').click(()=>{
+            $(overlayRef.current).hide('fast');
         });
     }, [parentRef]);
 
     return(
-        <span ref={containerRef} className="relative">
+        <span ref={containerRef}>
             <span ref={childrenRef}>{children}</span>
-            <div onClick={()=>{}} ref={overlayRef} className="options-overlay" hidden>
+            <div onClick={()=>{}} ref={overlayRef} className="options-overlay">
                 {options?.map((option, key)=>(
-                    <div onClick={option?.action} key={key}>{option?.title}</div>
+                    <div onClick={option?.action} value={option?.value} key={key}>{option?.title}</div>
                 ))}
             </div>
         </span>

@@ -130,7 +130,7 @@ const CalendarComponent = memo(({sheets, onExclude}) =>{
                         <div className="calendar-result">
                             <EllipsisOverflow>{val.total || '-'}</EllipsisOverflow>
                         </div>
-                        <Breaks/>
+                        {/*<Breaks/>*/}
                     </div>
                 </div>
             ))}

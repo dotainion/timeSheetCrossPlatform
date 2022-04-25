@@ -48,12 +48,12 @@ export class Authenticate extends ToastHandler{
             const response = await auth.createUserWithEmailAndPassword(email, password);
 
             const res = await this.user.addWithId({
-                clientId: null, 
+                clientId: response?.user?.uid, 
                 email: email, 
                 firstName: fName, 
                 lastName: lName, 
                 image: null, 
-                role: this.role.admin, 
+                role: this.role.owner, 
                 supervisorId: null, 
                 teamId: null, 
                 number: null, 
@@ -117,5 +117,9 @@ export class Authenticate extends ToastHandler{
             this.error(error.message);
             return false;
         }
+    }
+
+    async creatUser(){
+
     }
 }

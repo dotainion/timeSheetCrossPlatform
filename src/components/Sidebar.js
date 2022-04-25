@@ -28,7 +28,7 @@ export const ADMIN_SIDE_NAV = [
     {
         title: "Dashboard",
         icon: MdSpaceDashboard,
-        route: routes.home,
+        route: routes.dashboard,
     },{
         title: "Team",
         icon: FaUsers,

@@ -12,15 +12,16 @@ function createWindow() {
         width: 750, 
         height: 590,
         icon: __dirname + '../src/images/logo.png',
-        frame: true,
-        resizable: true,
-        transparent: false, 
+        frame: false,
+        resizable: false,
+        transparent: true, 
         autoHideMenuBar: true,
         alwaysOnTop: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
-            preload: path.resolve('./src/electron/ElectronPreload.js'),
+            worldSafeExecuteJavaScript: true,
+            preload: path.resolve('./src/electron/preload.js'),
         }
     });
 
@@ -32,13 +33,13 @@ function createWindow() {
     mainWindow.on("closed", () => (mainWindow = null));
 
     //open dev tool console
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 }
 
 app.on("ready", createWindow);
 app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
-    app.quit();
+        app.quit();
     }
 });
 

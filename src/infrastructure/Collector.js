@@ -1,19 +1,27 @@
 export class Collector{
-    collect = [];
+    collected = [];
 
     add(item){
-        this.collect.push(item);
+        this.collected.push(item);
     }
     
     list(){
-        return this.collect;
+        return this.collected;
     }
     
     first(){
-        return this.collect?.[0];
+        return this.collected?.[0];
+    }
+    
+    last(){
+        return this.collected?.[this.collected.length -1];
     }
 
     clear(){
-        return this.collect = [];
+        return this.collected = [];
+    }
+
+    hasItems(){
+        return this.collected.length > 0;
     }
 }

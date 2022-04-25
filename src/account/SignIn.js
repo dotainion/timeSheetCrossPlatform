@@ -64,7 +64,7 @@ export const SignIn = () =>{
                         <div className="float-center">
                             <h4>Log in</h4>
                             <Input inputRef={emailRef} title="Email" type="email" />
-                            <Input inputRef={passwordRef} title="Password" />
+                            <Input inputRef={passwordRef} title="Password" type="password" />
                             <div className="sign-in-forget-pss">
                                 <span onClick={openRecovery}>Forget password?</span>
                                 <div style={{color: 'dodgerblue'}}>

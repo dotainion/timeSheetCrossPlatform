@@ -56,9 +56,8 @@ export class Users extends Validation{
     }
 
     setRole(role){
-        console.log(role)
         if (! (new Roles()).includes(role)){
-            throw new Error('A role was not specified.');
+            //throw new Error('A role was not specified.');
         }
         this.role = role;
     }

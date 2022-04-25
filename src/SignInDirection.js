@@ -12,11 +12,12 @@ export const SignInDirection = ({element}) =>{
     const location = useLocation();
 
     if (isAuthenticated){
+        console.log('hello world');
         if (role.isMember(isAuthenticated?.role)){
-            return <Navigate to={routes.clockIn} />;
+            return <Navigate to={routes.clockIn} replace />;
         }
         if (role.isSuperior(isAuthenticated?.role)){
-            return <Navigate to={routes.home} />;
+            return <Navigate to={{pathname: routes.dashboard}} replace />;
         }
     }
     return element;

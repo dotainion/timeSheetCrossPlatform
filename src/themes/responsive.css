@@ -104,7 +104,7 @@
         position: relative;
     }
     .calendar-container{ 
-        font-size: 12px;
+        font-size: 10px;
     }
     .calendar-week{
         margin: 0;
@@ -120,6 +120,49 @@
         max-width: 320px;
         margin-bottom: 10px;
         border: 1px solid white;
+    }
+    .clock-in{
+        width: calc(100% - 25px);
+        margin-left: 50%;
+        transform: translateX(-50%);
+    }
+    .clock-in-calendar-container{
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+    .breaks-container{
+        top: 18%;
+        right: -8px;
+    }
+    .clock-in-x-option-overlay-inner{
+        position: absolute;
+        top: 20px;
+        width: 98%;
+        min-width: 98%;
+    }
+    .clock-in-x-flexer{
+        display: block;
+    }
+    .clock-in-x-logs{
+        height: 45%;
+    }
+    .clock-in-x-break{
+        height: 45%;
+        width: 100%;
+        padding: 0;
+    }
+    .hide-on-mobile{
+        display: none;
+    }
+    .hide-on-desktop{
+        display: '=';
+    }
+    .max-width-on-mobile{
+        width: 100%;
+    }
+    .block-on-deskop{
+        display: block !important;
     }
 }
 

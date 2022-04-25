@@ -4,19 +4,18 @@ import { Layout } from '../layout/Layout';
 import { VscAdd } from 'react-icons/vsc';
 import { MdManageAccounts } from 'react-icons/md';
 import { NewMember } from '../components/NewMember';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../Routes/Routes';
 
 
 export const Administrator = () =>{
-    const [openNewMember, setOpenNewMember] = useState(false);
+
+    const navigate = useNavigate();
 
     const options = [
         {
-            title: 'Add Members',
-            action: ()=>setOpenNewMember(true),
-            icon: VscAdd
-        },{
             title: 'Manage Members',
-            action: ()=>null,
+            action: ()=> navigate(routes.manageMembers),
             icon: MdManageAccounts
         },
     ];
@@ -30,12 +29,6 @@ export const Administrator = () =>{
                         <div className="float-center" style={{top: '80%'}}>{opt?.title}</div>
                     </MemberCard>
                 ))}
-                
-                <NewMember 
-                    isOpen={openNewMember} 
-                    onClose={()=>setOpenNewMember(false)} 
-                    message="Add a new member"
-                />
             </div>
         </Layout>
     )

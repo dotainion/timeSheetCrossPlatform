@@ -10,6 +10,12 @@ class Clock{
     timeIntervalRef = null;
     timerIntervalRef = null;
 
+    setTimeAt(hr, min, sec){
+        this.hr = hr || 0;
+        this.min = min || 0;
+        this.sec = sec || 0;
+    }
+
     setReference(reference){
         this.reference = reference;
     }
@@ -95,7 +101,7 @@ class Clock{
 
 const timer = new Clock();
 
-export const StopClock = ({startTime, startTimer, style}) =>{
+export const StopClock = ({startTime, startTimer, startAt, displayOverride, style}) =>{
     const clockRef = useRef();
 
     useEffect(()=>timer.setReference(clockRef.current), []);
@@ -103,11 +109,9 @@ export const StopClock = ({startTime, startTimer, style}) =>{
     useEffect(()=>{
         if (startTime?.toLowerCase?.() == 'pause'){
             timer.pauseTime();
-        }
-        else if (startTime){
+        } else if (startTime){
             timer.startTime((t)=>{});
-        }
-        else{
+        } else{
             timer.stopTime();
         }
     }, [startTime]);
@@ -115,16 +119,24 @@ export const StopClock = ({startTime, startTimer, style}) =>{
     useEffect(()=>{
         if (startTimer?.toLowerCase?.() == 'pause'){
             timer.pauseTimer();
-        }
-        else if (startTimer){
+        } else if (startTimer){
             timer.startTimer((t)=>{});
-        }
-        else{
+        } else{
             timer.stopTimer();
         }
     }, [startTimer]);
 
+    useEffect(()=>{
+        if (typeof startAt == 'string'){
+            const [har, min, sec] = startAt?.split(':');
+            timer.setTimeAt(har, min, sec);
+        }
+    }, [startAt]);
+
     return(
-        <span ref={clockRef} style={style}>00:00:00</span>
+        <span>
+            <span style={{...style, display: !displayOverride && 'none'}}>{displayOverride}</span>
+            <span ref={clockRef} style={{...style, display: displayOverride && 'none'}}>{ '00:00:00'}</span>
+        </span>
     )
 }

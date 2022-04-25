@@ -16,7 +16,7 @@ export const AdminAuthRouter = ({element}) =>{
     }
     if (role.isSuperior(isAuthenticated?.role)){
         if (location.pathname == routes.signIn){
-            return <Navigate to={routes.home} />;
+            return <Navigate to={routes.dashboard} />;
         }
         return element;
     }

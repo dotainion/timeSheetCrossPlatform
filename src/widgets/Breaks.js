@@ -1,19 +1,16 @@
 import React, { useEffect, useRef } from "react";
 import { GiCoffeeCup } from 'react-icons/gi';
 import { IoMdAddCircle, IoMdRemoveCircle } from 'react-icons/io';
+import { MdDeleteForever } from 'react-icons/md';
 import $ from 'jquery';
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 
-const list = [];
-let overlayElement = [];
-export const Breaks = () =>{
+export const Breaks = ({breaks}) =>{
     const rowCloneRef = useRef();
-    const hoverStartRef = useRef();
     const rowCloneContainerRef = useRef();
 
     const closeOverlays = () =>{
-        $('body').find('.breaks-overlay').each((i, overlay)=>{
+        $('body').find('.breaks-overlay').each((_, overlay)=>{
             $(overlay).hide('fast');
         });
     }
@@ -32,26 +29,14 @@ export const Breaks = () =>{
     }
 
     useEffect(()=>{
-        hoverStartRef.current = false;
-        $('.breaks-container').hover((e)=>{
-            if (e.type == 'mouseenter'){
-                $(e.target).find('svg').css({color: 'dodgerblue'});
-            }else{
-                $(e.target).find('svg').css({color: 'black'});
-            }
-        }).click((e)=>{
+        $('.breaks-container').click((e)=>{
             e.stopPropagation();
-            hoverStartRef.current = true;
             $(e.currentTarget).parent().find('.breaks-overlay').css({
                 top: $('.breaks-container').css('top')
             }).show('fast');
         });
         $('html').click((e)=>{
-            if (!hoverStartRef.current){
-                $(e.currentTarget).parent().find('.breaks-overlay').hide('fast')
-            }else{
-                hoverStartRef.current = false;
-            }
+            $(e.currentTarget).parent().find('.breaks-overlay').hide('fast')
         });
     }, []);
 
@@ -68,29 +53,36 @@ export const Breaks = () =>{
                 <div className="break-overlay-header">
                     <div className="max-width">Start</div>
                     <div className="max-width">End</div>
+                    <div><MdDeleteForever/></div>
                 </div>
-                <div ref={rowCloneContainerRef}>
-                    {list.map((time, key)=>createClone('start-'+key, 'end-'+key))}
+                <div ref={rowCloneContainerRef} className="break-overlay-scrollable">
+                    {breaks?.map((time, key)=>(
+                        <CloneRow 
+                            key={key}
+                            defaultStart={time?.startBreak} 
+                            defaultEnd={time?.endBreak}
+                        />
+                    ))}
                 </div>
-                <div onClick={()=>createClone()} className="break-overlay-row pointer">
-                    <div>Add new break</div>
+                <div onClick={()=>createClone()} className="break-overlay-row break-overlay-row-add">
+                    <div className="break-add-btn">Add new break</div>
                     <span className="relative">
                         <div className="break-overlay-icon">
                             <IoMdAddCircle /> 
                         </div>
                     </span>
                 </div>
-                <CloneRow cloneRef={rowCloneRef} />
             </div>
+            <CloneRow cloneRef={rowCloneRef} />
         </>
     )
 }
 
-const CloneRow = ({cloneRef}) =>{
+const CloneRow = ({cloneRef, defaultStart, defaultEnd}) =>{
     return(
-        <div ref={cloneRef} className="break-overlay-row" style={{display: 'none'}}>
-            <input placeholder="Start time" />
-            <input placeholder="End time" />
+        <div ref={cloneRef} className="break-overlay-row" style={{display: !defaultStart && 'none'}}>
+            <input placeholder="Start time" onChange={()=> null} value={defaultStart} />
+            <input placeholder="End time" onChange={()=> null} value={defaultEnd} />
             <span className="relative">
                 <div className="break-overlay-icon">
                     <IoMdRemoveCircle />

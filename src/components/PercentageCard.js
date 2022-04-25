@@ -19,7 +19,7 @@ export const PercentageCard = ({title, data, percentage, color}) =>{
             <CircularProgressbar 
                 minValue={0} 
                 maxValue={100} 
-                value={percentage} 
+                value={percentage || 0} 
                 text={`${percentage || 0}%`} 
                 styles={buildStyles({
                     rotation: 0.25,

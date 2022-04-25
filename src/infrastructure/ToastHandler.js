@@ -37,12 +37,17 @@ export class ToastHandler{
     }
 
     error(message){
-        this.custom(message, 'rgb(255, 0, 0, 0.3)');
+        this.custom(message, 'rgb(255, 0, 0, 0.8)');
         return 'error';
     }
     
     success(message){
-        this.custom(message, 'rgb(0, 128, 0, 0.3)');
+        this.custom(message, 'rgb(0, 128, 0, 0.8)');
         return 'success';
+    }
+    
+    warning(message){
+        this.custom(message, 'rgb(255, 165, 0, 0.8)');
+        return 'Warning';
     }
 }

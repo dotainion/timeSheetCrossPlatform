@@ -1,5 +1,6 @@
 export class Roles{
     admin = 'admin';
+    owner = 'owner';
     employee = 'employee';
     supervisor = 'supervisor';
 
@@ -22,6 +23,8 @@ export class Roles{
         return [
             {
                 title: this.admin,
+            },{
+                title: this.owner,
             },{
                 title: this.supervisor,
             }

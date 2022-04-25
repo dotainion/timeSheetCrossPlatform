@@ -1,8 +1,7 @@
 import { ToastHandler } from "../../infrastructure/ToastHandler";
-import { UsersFactory } from "../factory/UsersFactory";
-import { TeamsRepository } from "../repository/TeamsRepository";
-import { UserSettingRepository } from "../repository/UserSettingRepository copy";
-import { UsersRepository } from "../repository/UsersRepository";
+import { UserSettingFactory } from "../factory/UserSettingFactory";
+import { UserSettingRepository } from "../repository/UserSettingRepository";
+
 
 export class UserSetting extends ToastHandler{
     repo;
@@ -11,9 +10,21 @@ export class UserSetting extends ToastHandler{
     constructor(){
         super();
         this.repo = new UserSettingRepository();
+        this.factory = new UserSettingFactory();
     }
 
-    delete(data, id){
-        this.repo.addSetting(data, id);
+    async addSetting(data, uuid){
+        const collector = this.factory.mapResults({
+            id: uuid,
+            info: {
+                sheetId: data?.sheetId,
+                spreadsheetId: data?.spreadsheetId,
+            }
+        });
+        await this.repo.addSetting(collector);
+    }
+
+    async getSetting(uuid){
+        return await this.repo.getSetting(uuid);
     }
 }

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../infrastructure/config/AuthConfig";
 import { Users } from "../module/logic/Users";
+import { StartupPage } from "../other/StartupPage";
 
 const lUser = new Users();
 
@@ -24,7 +25,7 @@ export const AuthenticationWrapper = ({children}) =>{
     }, []);
 
     useEffect(()=>{
-        console.log(isAuthenticated);
+        //console.log(isAuthenticated);
     }, [isAuthenticated]);
     
     const value = {
@@ -34,7 +35,7 @@ export const AuthenticationWrapper = ({children}) =>{
 
     return(
         <Context.Provider value={value}>
-            {!loading && children}
+            {loading ? <StartupPage/> : children}
         </Context.Provider>
     )
 }

@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";  
 import { Modal } from "../container/Modal";
-import { ModalXl } from "../container/ModalXl";
+import { DateHelper } from "../infrastructure/DateHelper";
 import { Spreadsheet } from "../module/logic/Spreadsheet";
 import { Button } from "../widgets/Button";
 import { Input } from "../widgets/Input";
 import { AiOutlineClose } from 'react-icons/ai';
 import sheetAccount from '../Security/spreadsheet-service.json';
 import $ from 'jquery';
+import { UserSetting } from '../module/logic/userSetting';
+import { useAuth } from "../provider/AuthenticationWrapper";
 
 
 
@@ -19,9 +21,14 @@ let year = date.getFullYear();
 let year6 = date2.getFullYear();
 
 const api = new Spreadsheet();
+const settings = new UserSetting();
 //1611434837;
 //'1oHdNqPtzJNs-gLmI6Dzz62c3qoYrpHFBnYp0w_Ov0vw';
 export const MemberSettings = ({isOpen, onClose}) =>{
+    const { user } = useAuth();
+
+    const [fullMonths, setFullMonths] = useState();
+
     const sheetIdRef = useRef();  
     const spreadsheetIdRef = useRef();   
     const fromMonthRef = useRef();  
@@ -50,20 +57,12 @@ export const MemberSettings = ({isOpen, onClose}) =>{
         });
     }
 
-    const fullMonths = [
-        { title: 'January', value: 0 },
-        { title: 'February', value: 1 },
-        { title: 'March', value: 2 },
-        { title: 'April', value: 3 },
-        { title: 'May', value: 4 },
-        { title: 'June', value: 5 },
-        { title: 'July', value: 6 },
-        { title: 'August', value: 7 },
-        { title: 'September', value: 8 },
-        { title: 'October', value: 9 },
-        { title: 'November', value: 10 },
-        { title: 'December', value: 11 }
-    ];
+    const onSaveCreds = async() =>{
+        await settings.addSetting({
+            sheetId: sheetIdRef.current.value,
+            spreadsheetId: spreadsheetIdRef.current.value
+        }, user?.id);
+    }
 
     const getYear = (amount=6) =>{
         return [...Array(amount).keys()].map((y)=>{
@@ -78,18 +77,30 @@ export const MemberSettings = ({isOpen, onClose}) =>{
         $(spreadsheetIdRef.current).blur(()=>{
 
         });
+
+        let calendarOption = [];
+        const d = new DateHelper();
+        for (let i=0; i<d.month().length; i++){
+            calendarOption.push({
+                title: d.month(i), 
+                value: i,
+            });
+        }
+        setFullMonths(calendarOption);
     }, []);
 
-    useEffect(()=>{
-        sheetIdRef.current.value = '';
-        spreadsheetIdRef.current.value = '';
+    useEffect(async()=>{
+        const collector = await settings.getSetting(user?.id);
+        const USetting = collector.first();
+        sheetIdRef.current.value = USetting?.sheetId || '';
+        spreadsheetIdRef.current.value = USetting?.spreadsheetId || '';
         sheetIdRef.current.focus();
         spreadsheetIdRef.current.focus();  
         fromMonthRef.current.focus(); 
         toMonthRef.current.focus();  
         fromYearRef.current.focus(); 
         toYearRef.current.focus(); 
-    }, [isOpen]);
+    }, [user, isOpen]);
 
     return(
         <Modal isOpen={isOpen}>
@@ -99,10 +110,10 @@ export const MemberSettings = ({isOpen, onClose}) =>{
                     <AiOutlineClose onClick={onClose} className="modal-xl-close"/>
                 </h1>
                 <h2>Allow you to access your spreadsheet directly from this app. Providing report on daily, weekly or monthly activities.</h2>
-                <Input inputRef={sheetIdRef} title="First Sheet id" />
-                <Input inputRef={spreadsheetIdRef} title="Spreadsheet id" />
+                <Input inputRef={sheetIdRef} onChange={onSaveCreds} title="First Sheet id" />
+                <Input inputRef={spreadsheetIdRef} onChange={onSaveCreds} title="Spreadsheet id" />
                 <div className="member-setting-client-email">
-                    <p>Copy the content bellow and to your spead sheet to give this app permission.</p>
+                    <p>Copy the content bellow and add to your google speadsheet to give this app permission.</p>
                     <div>{sheetAccount.client_email}</div>
                 </div>
                 <div className="member-setting-btn-container">

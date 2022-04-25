@@ -2,7 +2,8 @@ import { Validation } from "../../infrastructure/Validation";
 
 export class Log extends Validation{
     id = null;
-    day = null;
+    userId = null;
+    date = null;
     month = null;
     year = null;
     week = null;
@@ -13,8 +14,12 @@ export class Log extends Validation{
         this.id = id;
     }
 
-    setDay(day){
-        this.day = day;
+    setUserId(userId){
+        this.userId = userId;
+    }
+
+    setDate(date){
+        this.date = date;
     }
 
     setMonth(month){
