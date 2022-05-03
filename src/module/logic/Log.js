@@ -58,11 +58,33 @@ export class Log extends ToastHandler{
         }
     }
 
-    getLogsByMonth(userId, month, year){
+    async getLogsByMonth(userId, month, year){
         try{
-            return this.repo.getLogsByMonth(userId, month, year);
+            return await this.repo.getLogsByMonth(userId, month, year);
         }catch(error){
             this.error('Unable to get log.');
+        }
+    }
+
+    async updateTime(logId, date, month, year, week, startTime, endTime, userId){
+        try{
+            const logObject = this.factory.mapResults({
+                id: logId,
+                info: {
+                    date: date,
+                    month: month,
+                    year: year,
+                    week: week,
+                    startTime: startTime,
+                    endTime: endTime,
+                    userId: userId,
+                }
+            });
+            console.log(logObject);
+            return this.repo.updateTime(logObject);
+        }catch(error){
+            console.log(error)
+            this.error('Unable to start task.');
         }
     }
 }

@@ -14,7 +14,6 @@ import { useAuth } from "../../provider/AuthenticationWrapper";
 import { time } from "../../infrastructure/tools/Time";
 import { Break } from "../../module/logic/Beak";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
-import { AiOutlineClose } from "react-icons/ai";
 import { DayCard } from "../../components/DayCard";
 import { TimeXBreakOption } from "../../components/TimeXBreakOption";
 import { DateHelper } from "../../infrastructure/DateHelper";
@@ -147,7 +146,7 @@ export const ClockIn = () =>{
     }, [start]);
     return(
         <UserLayout onSearch={()=>setOpenLogPicker(true)} onMinimize={()=>setMinimize(true)} minimize={minimize} >
-            <div ref={parentRef} className="click-in-container">
+            <div ref={parentRef} className="click-in-container" style={{paddingTop: !minimize && '40px'}}>
                 <div className="clock-in" style={{width: minimize && '360px'}}>
                     <div className="max-width clock-in-user">
                         <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >User Name</div>
@@ -161,6 +160,12 @@ export const ClockIn = () =>{
                                     onClick={()=>setPin(!pin)} 
                                     className="clock-in-pin" 
                                     style={{color: pin && 'gray'}}
+                                />
+                            </ShowInfo>
+                            <ShowInfo>
+                                <FiMaximize
+                                    style={{display: !minimize && 'none', marginRight: '10px',fontSize: '14px'}}
+                                    onClick={()=>setMinimize(false)}
                                 />
                             </ShowInfo>
                             <StopClock 
@@ -200,6 +205,9 @@ export const ClockIn = () =>{
                     </div>
                 </div>
                 <div hidden={minimize}>
+                    <div className="clock-in-calendar-header">
+                        <h2>Timesheet Application</h2>
+                    </div>
                     <div className="clock-in-calendar-container" style={{backgroundColor: minimize && 'white'}}>
                         <TimesheetCalendar 
                             isOpen={true} 

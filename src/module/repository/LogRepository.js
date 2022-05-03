@@ -50,6 +50,20 @@ export class LogRepository extends Repository{
                 { month }, 
                 { year }
             ])
-        )
+        );
+    }
+
+    async updateTime(log){
+        return this.factory.map([
+            await this.updateData(collection.logs, {
+                date: log.date,
+                month: log.month,
+                year: log.year,
+                week: log.week,
+                userId: log.userId,
+                startTime: log.startTime,
+                endTime: log.endTime,
+            }, log.id)
+        ]);
     }
 }

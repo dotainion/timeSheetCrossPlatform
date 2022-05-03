@@ -20,6 +20,20 @@ export const LogPicker = ({month:Month, year:Year, isOpen, onClose, onChange}) =
         onClose?.();
     }
 
+    const isActiveDate = (d) =>{
+        if (d == date.monthMini((new Date()).getMonth())){
+            return 'log-picker-btn-active';
+        }
+        return '';
+    }
+
+    const isActiveYear = (y) =>{
+        if (y == (new Date()).getFullYear()){
+            return 'log-picker-btn-active-bold';
+        }
+        return '';
+    }
+
     useEffect(()=>{
         if (isOpen){
             revertDate = {month: Month, year: Year};
@@ -40,13 +54,16 @@ export const LogPicker = ({month:Month, year:Year, isOpen, onClose, onChange}) =
                         <div>SELECT A MONTH RANGE:</div>
                         <div className="log-picker-year">
                             <IoIosArrowDropleftCircle onClick={()=>setYear(year -1)} />
-                            <div>{year}</div>
+                            <div className={isActiveYear(year)}>{year}</div>
                             <IoIosArrowDroprightCircle onClick={()=>setYear(year +1)} />
                         </div>
                         {
                             date.monthMini().map((title, key)=>(
-                                <div data-month="true" key={key}>
-                                    <div onClick={()=>onSelectDate(title)}>{title}</div>
+                                <div data-month key={key}>
+                                    <div 
+                                        onClick={()=>onSelectDate(title)} 
+                                        className={isActiveDate(title)}
+                                    >{title}</div>
                                 </div>
                             ))
                         }

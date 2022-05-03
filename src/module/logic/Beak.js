@@ -16,7 +16,7 @@ export class Break extends ToastHandler{
         this.factory = new BreakFactory();
     }
 
-    async startBreak(logId, userId){
+    async startBreak(logId, userId, endTime='pending'){
         try{
             const collector = await this.repo.getPendingBreak(logId);
             if (collector.hasItems()) {
@@ -32,7 +32,7 @@ export class Break extends ToastHandler{
                     month: this.date.monthMini(date.getMonth()),
                     year: date.getFullYear(),
                     startBreak: date.toLocaleTimeString(),
-                    endBreak: 'pending',
+                    endBreak: endTime,
                 }
             });
             return this.repo.startBreak(logObject);
@@ -64,6 +64,30 @@ export class Break extends ToastHandler{
             return this.repo.getBreakByMonth(userId, month, year);
         }catch(error){
             this.error('Unable to get time started.');
+        }
+    }
+
+    updateBreak(startBreak, endBreak, breakId){
+        try{
+            if (!breakId){
+                throw new Error('Invalid id');
+            }
+            startBreak =  startBreak?.toUpperCase?.();
+            endBreak =  endBreak?.toUpperCase?.();
+            return this.repo.updateBreak(startBreak, endBreak, breakId);
+        }catch(error){
+            this.error('Unable to update break.');
+        }
+    }
+
+    deleteBreak(breakId){
+        try{
+            if (!breakId){
+                throw new Error('Invalid id');
+            }
+            return this.repo.deleteBreak(breakId);
+        }catch(error){
+            this.error('Unable to update break.');
         }
     }
 }

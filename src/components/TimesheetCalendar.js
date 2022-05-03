@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Log } from "../module/logic/Log";
 import { useAuth } from "../provider/AuthenticationWrapper";
-import { Breaks } from "../widgets/Breaks";
-import { Editable } from "../widgets/Editable";
-import { EllipsisOverflow } from "../widgets/EllipsisOverflow";
 import $ from 'jquery';
 import { DayCard } from "./DayCard";
 import { Break } from "../module/logic/Beak";
-import { DateHelper } from "../infrastructure/DateHelper";
 import { Loading } from "./Loading";
+import { FcGlobe } from 'react-icons/fc';
 
 
 class manageLog{
@@ -100,12 +97,14 @@ export const TimesheetCalendar = ({isOpen, fullMonth, searchBy, onShowMore}) =>{
 
     const [logsList, setLogsList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [hasData, setHasData] = useState(false);
 
     const initializeCalendar = async(month="", year="") =>{     
         setLoading(true);   
         const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);
         const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);
         manage.init(logCollector.list(), breakCollector.list(), setLogsList);
+        setHasData(logCollector.hasItems());
         setLoading(false);
     }
 
@@ -129,21 +128,23 @@ export const TimesheetCalendar = ({isOpen, fullMonth, searchBy, onShowMore}) =>{
     
     return(
         <div hidden={!isOpen} className="relative">
-            {
-                logsList?.length ?
-                logsList?.map((date, key)=>(
-                    <DayCard
-                        key={key}
-                        log={date?.log}
-                        breaks={date?.breaks}
-                        fullMonth={fullMonth}
-                        onShowMoreTimes={()=>onShowMore(date)}
-                    />
-                )):
+            {logsList?.map((date, key)=>(
+                <DayCard
+                    key={key}
+                    log={date?.log}
+                    breaks={date?.breaks}
+                    fullMonth={fullMonth}
+                    onShowMoreTimes={()=>onShowMore(date)}
+                />
+            ))}
+            <div hidden={hasData} className="calendar-no-record">
+                <FcGlobe/>
                 <div>
-                    <div>No Records</div>
+                    <span>No logs for </span>
+                    <span>{searchBy?.month} </span>
+                    <span>{searchBy?.year}</span>
                 </div>
-            }
+            </div>
             <Loading loading={loading} relative/>
         </div>
     )

@@ -52,4 +52,19 @@ export class BreakRepository extends Repository{
             ])
         )
     }
+
+    async updateBreak(startBreak, endBreak, beakId){
+        return this.factory.map([
+            await this.updateData(collection.break, {
+                startBreak: startBreak, 
+                endBreak: endBreak
+            }, beakId)
+        ]);
+    }
+
+    async deleteBreak(beakId){
+        return this.factory.map([
+            await this.deleteData(collection.break, beakId)
+        ]);
+    }
 }

@@ -14,10 +14,11 @@ export const Editable = ({onChange, value}) =>{
         $(inputRef.current).blur(()=>{
             $(containerRef.current).hide('fast');
         });
+        $(inputRef.current).change(onChange);
     }, []);
     return(
         <div ref={containerRef} className="editable-container" hidden>
-            <input ref={inputRef} onChange={onChange} defaultValue={value} />
+            <input ref={inputRef} defaultValue={value} />
         </div>
     )
 }

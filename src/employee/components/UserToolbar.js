@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import { GrAdd } from 'react-icons/gr';
+import { HiPlusSm } from 'react-icons/hi';
+import { BsSearch } from 'react-icons/bs';
+import { FiMinimize } from 'react-icons/fi';
 import $ from 'jquery';
 
 
@@ -8,16 +10,10 @@ export const UserToolbar = ({onSearch, onMinimize}) =>{
     return(
         <div className="user-toolbar">
             <div onClick={onSearch} className="user-toolbar-card">
-                <div className="user-toolbar-card-float">
-                    <GrAdd/>
-                    <div>Search</div>
-                </div>
+                <BsSearch/>
             </div>
             <div onClick={onMinimize} className="user-toolbar-card">
-                <div className="user-toolbar-card-float">
-                    <GrAdd/>
-                    <div>Minimize</div>
-                </div>
+                <FiMinimize/>
             </div>
         </div>
     )
