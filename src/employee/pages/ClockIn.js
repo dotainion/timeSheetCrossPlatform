@@ -21,6 +21,7 @@ import { Input } from "../../widgets/Input";
 import { FiMinimize, FiMaximize } from 'react-icons/fi';
 import { UserLayout } from "../layout/UserLayout";
 import { LogPicker } from "../../components/LogPicker";
+import logo from '../../images/logo.png';
 
 
 const log = new Log();
@@ -146,7 +147,15 @@ export const ClockIn = () =>{
     }, [start]);
     return(
         <UserLayout onSearch={()=>setOpenLogPicker(true)} onMinimize={()=>setMinimize(true)} minimize={minimize} >
-            <div ref={parentRef} className="click-in-container" style={{paddingTop: !minimize && '40px'}}>
+            <div ref={parentRef} className="clock-in-container">
+                <div className="clock-in-logo">
+                    <div>
+                        <div className="clock-in-logo-flex">
+                            <div>Team name </div>
+                            <div><img src={logo} alt="" /></div>
+                        </div>
+                    </div>
+                </div>
                 <div className="clock-in" style={{width: minimize && '360px'}}>
                     <div className="max-width clock-in-user">
                         <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >User Name</div>

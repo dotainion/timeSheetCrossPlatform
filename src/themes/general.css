@@ -969,8 +969,27 @@
     background-repeat: no-repeat;
     background-image: url(../images/bubbles.jpg);
 }
-.click-in-container{
-
+.clock-in-container{
+    -webkit-app-region: drag;
+}
+.clock-in-logo{
+    text-align: right;
+    font-weight: bold;
+}
+.clock-in-logo > div{
+    display: inline-block;
+}
+.clock-in-logo-flex{
+    display: flex;
+    align-items: center;
+}
+.clock-in-logo-flex div{
+    padding-left: 10px;
+}
+.clock-in-logo img{
+    width: 30px;
+    height: 30px;
+    margin: 10px 40px 5px 0;
 }
 .clock-in{
     display: flex;
@@ -1183,6 +1202,7 @@
     margin: 20px;
     padding: 5px;
     border-radius: 10px;
+    -webkit-app-region: no-drag;
     background-color: rgb(255, 255, 255, 0.5);
     box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);
 }
@@ -1320,7 +1340,7 @@
     color: white;
 }
 .user-toolbar-card:hover{
-    background-color: rgb(32, 32, 32, 0.7);
+    background-color: rgb(24, 24, 24);
 }
 .log-picker-container-backdrop{
     top: 0;
