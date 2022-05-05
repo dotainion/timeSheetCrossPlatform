@@ -69,7 +69,7 @@ export const Teams = () =>{
     }
 
     useEffect(()=>{
-        console.log(teams)
+
         return () =>{
             
         }

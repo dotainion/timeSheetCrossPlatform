@@ -11,12 +11,11 @@ export const Dashboard = () =>{
     }, []);
     return(
         <Layout>
-            <button id="click-me">Click me</button>
             <div className="dashboard-container">
                 <div className="dash-employee-count">
-                    <PercentageCard title={'Active Users'} color="rgb(0, 128, 0, 0.7)" />
-                    <PercentageCard title={'Users On Lunch'} color="rgb(255, 165, 0, 0.7)" />
-                    <PercentageCard title={'Inactive Users'} color="rgb(0, 0, 0, 0.7)" />
+                    <PercentageCard title={'Active Users'} data={'data'} color="rgb(0, 128, 0, 0.7)" />
+                    <PercentageCard title={'Users On Lunch'} data={'data'} color="rgb(255, 165, 0, 0.7)" />
+                    <PercentageCard title={'Inactive Users'} data={'data'} color="rgb(0, 0, 0, 0.7)" />
                 </div>
             </div>
         </Layout>

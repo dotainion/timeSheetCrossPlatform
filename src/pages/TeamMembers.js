@@ -26,7 +26,7 @@ const uTeam = new Teams();
 const users = new Users();
 
 export const TeamMembers = () =>{
-    const { members, InitializeMembers } = useProvider();
+    const { members, initializeMembers } = useProvider();
 
     const [team, setTeam] = useState();
     const [openModal, setOpenModal] = useState(false);
@@ -62,7 +62,7 @@ export const TeamMembers = () =>{
 
         setTeam(teamObject);
 
-        InitializeMembers(teamObject?.id);
+        initializeMembers(teamObject?.id);
 
         return () =>{
 

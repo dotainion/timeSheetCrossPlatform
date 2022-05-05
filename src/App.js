@@ -21,11 +21,9 @@ import { ClockIn } from './employee/pages/ClockIn';
 import { AuthenticationWrapper } from './provider/AuthenticationWrapper';
 import { SignIn } from './account/SignIn';
 import { Register } from './account/Register';
-import { AdminAuthRouter } from './AdminAuthRouter';
-import { UsersAuthRouter } from './UsersAuthRouter';
-import { SignInDirection } from './IsAuthenticatedDirection';
 import { Administrator } from './pages/Administrator';
 import { ManageMembers } from './pages/ManageMembers';
+import { AuthRouter } from './AuthRouter';
 
 
 function App() {
@@ -36,17 +34,17 @@ function App() {
           <Routes>
             <Route path={routes.default} element={<Navigate to={routes.signIn} />} />
             {/** public **/}
-            <Route path={routes.signIn} element={<SignInDirection element={<SignIn/>} />} />
+            <Route path={routes.signIn} element={<AuthRouter element={<SignIn/>} />} />
             <Route path={routes.register} element={<Register/>} />
             {/** administrator **/}
-            <Route path={routes.manageMembers} element={<AdminAuthRouter element={<ManageMembers/>} />} />
-            <Route path={routes.dashboard} element={<AdminAuthRouter element={<Dashboard/>} />} />
-            <Route path={routes.administrator} element={<AdminAuthRouter element={<Administrator/>} />} />
-            <Route path={routes.report} element={<AdminAuthRouter element={<Report/>} />} />
-            <Route path={routes.teams} element={<AdminAuthRouter element={<Teams/>} />} />
-            <Route path={routes.TeamMembers} element={<AdminAuthRouter element={<TeamMembers/>} />} />
+            <Route path={routes.manageMembers} element={<AuthRouter element={<ManageMembers/>} />} />
+            <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} />} />
+            <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} />} />
+            <Route path={routes.report} element={<AuthRouter element={<Report/>} />} />
+            <Route path={routes.teams} element={<AuthRouter element={<Teams/>} />} />
+            <Route path={routes.TeamMembers} element={<AuthRouter element={<TeamMembers/>} />} />
             {/** employees **/}
-            <Route path={routes.clockIn} element={<UsersAuthRouter element={<ClockIn/>} />} />
+            <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
           </Routes>
         </ProviderWrapper>
       </AuthenticationWrapper>

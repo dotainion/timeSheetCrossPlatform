@@ -3,9 +3,11 @@ import { auth } from "../infrastructure/config/AuthConfig";
 import { Users } from "../module/logic/Users";
 import { Teams } from '../module/logic/Teams';
 import { StartupPage } from "../other/StartupPage";
+import { Roles } from "../infrastructure/Roles";
 
 const lUser = new Users();
 const lTeam = new Teams();
+const role = new Roles();
 
 const Context = createContext();
 export const useAuth = () => useContext(Context);
@@ -20,10 +22,12 @@ export const AuthenticationWrapper = ({children}) =>{
         auth.onAuthStateChanged(async(uUser)=>{
             if (uUser){
                 let userObj = await lUser.getById(uUser?.uid);
-                let teamObj = await lTeam.getById(userObj?.teamId);
-                setUser(userObj);
-                setTeam(teamObj);
-                setIsAuthenticated(userObj);
+                if (role.includes(userObj?.role)){
+                    let teamObj = await lTeam.getById(userObj?.teamId);
+                    setUser(userObj);
+                    setTeam(teamObj);
+                    setIsAuthenticated(userObj);
+                }
             }
             setLoading(false);
         });

@@ -39,20 +39,18 @@ export class Teams extends ToastHandler{
             };
 
             const collector = this.factory.mapResults({
+                id: null,
                 info: {
                     name: name,
                     image: image,
                     description: description
-                },
-                id: null
+                }
             });
 
             const object = await this.repo.addTeams(collector);
 
-            collector.setId(object.id);
-
             this.success(`Team "${name}" added successfuly.`);
-            return collector;
+            return object.first();
         }catch(error){
             return this.error(error.message);
         }

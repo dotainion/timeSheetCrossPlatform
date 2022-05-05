@@ -6,10 +6,21 @@ export class Repository{
         return { id, info: record }
     }
 
+    objToWhere(obj){
+        let where = [];
+        for(let key of Object.keys(obj || {})){
+            let keyObj = {};
+            keyObj[key] = obj[key];
+            where.push(keyObj);
+        }
+        return where;
+    }
+
     async addData(collection, data, setUid=null){
-        if(setUid !== null) await db.collection(collection).doc(setUid).set(data);
-        else await db.collection(collection).add(data);
-        return this.transform(setUid, data);
+        let collector = db.collection(collection);
+        if(setUid !== null) await collector.doc(setUid).set(data);
+        else await collector.add(data);
+        return await this.getWhere(collection, this.objToWhere(data));
     }
 
     async getWhere(collection, where=[], limit=false){

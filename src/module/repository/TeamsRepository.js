@@ -29,11 +29,13 @@ export class TeamsRepository extends Repository{
     }
 
     async addTeams(collector){
-        return await this.addData(collection.teams, {
-            name: collector.name,
-            image: collector.image,
-            description: collector.description
-        });
+        return  this.factory.map(
+            await this.addData(collection.teams, {
+                name: collector.name,
+                image: collector.image,
+                description: collector.description
+            })
+        );
     }
 
     async deleteTeam(uuid, deleteTeam=false){

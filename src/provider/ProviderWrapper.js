@@ -25,9 +25,10 @@ export const ProviderWrapper = ({children}) =>{
         setTimeout(()=> setMebers([newMbr, ...mbrTmp]), 1);
     }
 
-    const InitializeMembers = async(id=null) =>{
+    const initializeMembers = async(id=null) =>{
         if(!id) return;
         setMebers(await _members_.getByTeamId(id));
+        console.log(await _members_.getByTeamId(id))
     }
 
     useEffect(async()=>{
@@ -43,7 +44,7 @@ export const ProviderWrapper = ({children}) =>{
         addToTeam,
         members,
         addToMember,
-        InitializeMembers
+        initializeMembers
     }
 
     return(

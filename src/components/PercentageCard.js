@@ -12,8 +12,8 @@ export const PercentageCard = ({title, data, percentage, color}) =>{
         <div className="percentage-container">
             <div className="percentage-card" style={{backgroundColor: color}}>
                 <div>
-                    <label>{data}</label>
-                    <label>{title}</label>
+                    <label style={{fontSize: '15px'}}>{data}</label>
+                    <label style={{fontSize: '12px'}}>{title}</label>
                 </div>
             </div>
             <CircularProgressbar 

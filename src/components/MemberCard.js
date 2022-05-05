@@ -4,12 +4,12 @@ import { CgProfile } from 'react-icons/cg';
 import $ from 'jquery';
 
 
-export const MemberCard = ({onClick, icon, name, gender, description, address, number, role, supervisor, menu, asBtn, children}) =>{
+export const MemberCard = ({onClick, icon, name, gender, description, address, number, role, supervisor, menu, asBtn, useHover, children}) =>{
     const parentRef = useRef();
 
     return(
         <div ref={parentRef} className="team-card-container">
-            <div className="team-card">
+            <div onClick={onClick} className={`team-card ${(asBtn || useHover) && 'team-card-hover'}`}>
                 <div hidden={asBtn}>
                     {icon}
                     <VEllipsisOption
@@ -24,7 +24,7 @@ export const MemberCard = ({onClick, icon, name, gender, description, address, n
                 {gender && <div>Gender: {gender}</div>}
                 {address && <div>{address}</div>}
                 {description &&<div>{description}</div>}
-                <div onClick={onClick} hidden={!asBtn} className="team-cart-children">{children}</div>
+                <div hidden={!asBtn} className="team-cart-children">{children}</div>
             </div>
         </div>
     )
