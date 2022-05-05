@@ -13,13 +13,23 @@ export class Teams extends ToastHandler{
     }
     
     async get(){
-        const team = await this.repo.getTeams()
-        return team.list();
+        try{
+            const team = await this.repo.getTeams()
+            return team.list();
+        }catch(error){
+            return this.error(error.message);
+        }
+        
     }
     
     async getById(id){
-        const team = await this.repo.getTeamById(id)
-        return team.first();
+        try{
+            const team = await this.repo.getTeamById(id)
+            return team.first();
+        }catch(error){
+            return this.error(error.message);
+        }
+        
     }
 
     async add(name, description, image){

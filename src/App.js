@@ -23,7 +23,7 @@ import { SignIn } from './account/SignIn';
 import { Register } from './account/Register';
 import { AdminAuthRouter } from './AdminAuthRouter';
 import { UsersAuthRouter } from './UsersAuthRouter';
-import { SignInDirection } from './SignInDirection';
+import { SignInDirection } from './IsAuthenticatedDirection';
 import { Administrator } from './pages/Administrator';
 import { ManageMembers } from './pages/ManageMembers';
 

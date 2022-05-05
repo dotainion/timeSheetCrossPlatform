@@ -9,11 +9,11 @@ const ipcMain = electron.ipcMain;
 let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({ 
-        width: 750, 
-        height: 590,
+        width: 900, 
+        height: 720,
         icon: __dirname + '../src/images/logo.png',
         frame: false,
-        resizable: false,
+        resizable: true,
         transparent: true, 
         autoHideMenuBar: true,
         alwaysOnTop: false,

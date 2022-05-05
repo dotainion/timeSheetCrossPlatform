@@ -14,18 +14,30 @@ export class Users extends ToastHandler{
     }
 
     async get(){
-        const user = await this.repo.getUsers()
-        return user.list();
+        try{
+            const user = await this.repo.getUsers()
+            return user.list();
+        }catch(error){
+            return this.error(error.message);
+        }
     }
 
     async getById(id){
-        const user = await this.repo.getUserById(id);
-        return user.first();
+        try{
+            const user = await this.repo.getUserById(id);
+            return user.first();
+        }catch(error){
+            return this.error(error.message);
+        }
     }
 
     async getByTeamId(id){
-        const user = await this.repo.getUsersByTeamId(id);
-        return user.list();
+        try{
+            const user = await this.repo.getUsersByTeamId(id);
+            return user.list();
+        }catch(error){
+            return this.error(error.message);
+        }
     }
 
     async add(clientId, email, firstName, lastName, image, role, supervisorId, teamId, number, gender){
@@ -76,10 +88,18 @@ export class Users extends ToastHandler{
     }
 
     delete(id){
-        this.repo.deleteUser(id);
+        try{
+            this.repo.deleteUser(id);
+        }catch(error){
+            return this.error(error.message);
+        }
     }
 
     deleteByTeam(teamId){
-        this.repo.deleteUserByTeam(teamId);
+        try{
+            this.repo.deleteUserByTeam(teamId);
+        }catch(error){
+            return this.error(error.message);
+        }
     }
 }

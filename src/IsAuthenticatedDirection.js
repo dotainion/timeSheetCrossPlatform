@@ -12,7 +12,6 @@ export const SignInDirection = ({element}) =>{
     const location = useLocation();
 
     if (isAuthenticated){
-        console.log('hello world');
         if (role.isMember(isAuthenticated?.role)){
             return <Navigate to={routes.clockIn} replace />;
         }
