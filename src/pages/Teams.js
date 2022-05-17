@@ -92,6 +92,8 @@ export const Teams = () =>{
                             name={obj.name}
                             description={obj.description}
                             supervisor="None"
+                            useHover={true}
+                            onClick={()=>navigate(`${routes.TeamMembers}:${obj.id}:${obj.name}`, {state: obj})}
                             menu={[
                                 {
                                     title: 'Manage',

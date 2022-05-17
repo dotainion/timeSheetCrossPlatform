@@ -87,9 +87,11 @@ export const TeamMembers = () =>{
                             number={usr.number}
                             supervisor="None"
                             role={usr.role}
+                            useHover={true}
+                            onClick={(e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
                             menu={[
                                 {
-                                    title: 'Spreadsheet',
+                                    title: 'Settings',
                                     action: (e)=>setOpenSetting({state: true, data: usr})
                                 },{
                                     title: 'Delete',
@@ -133,6 +135,7 @@ export const TeamMembers = () =>{
             />
 
             <MemberSettings 
+                user={openSetting.data}
                 isOpen={openSetting.state} 
                 onClose={()=>setOpenSetting({state: false, data: null})} 
             />

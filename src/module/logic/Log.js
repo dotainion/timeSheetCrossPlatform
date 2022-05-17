@@ -34,7 +34,7 @@ export class Log extends ToastHandler{
                     userId: userId,
                 }
             });
-            return this.repo.startTime(logObject);
+            return await this.repo.startTime(logObject);
         }catch(error){
             console.log(error)
             this.error('Unable to start task.');

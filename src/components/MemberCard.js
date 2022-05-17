@@ -7,14 +7,20 @@ import $ from 'jquery';
 export const MemberCard = ({onClick, icon, name, gender, description, address, number, role, supervisor, menu, asBtn, useHover, children}) =>{
     const parentRef = useRef();
 
+    const onTriger = (e) =>{
+        e.stopPropagation();
+        onClick?.(e);
+    }
+
     return(
         <div ref={parentRef} className="team-card-container">
-            <div onClick={onClick} className={`team-card ${(asBtn || useHover) && 'team-card-hover'}`}>
+            <div onClick={onTriger} className={`team-card ${(asBtn || useHover) && 'team-card-hover'}`}>
                 <div hidden={asBtn}>
                     {icon}
                     <VEllipsisOption
                         option={menu} 
                         parentRef={parentRef}
+                        isOpen={(isActive)=>{}}
                     />
                 </div>
                 <b>{name}</b>

@@ -13,7 +13,7 @@ export class BreakRepository extends Repository{
     }
 
     async startBreak(breaks){
-        return this.factory.map([
+        return this.factory.map(
             await this.addData(collection.break, {
                 logId: breaks.logId,
                 userId: breaks.userId,
@@ -22,7 +22,7 @@ export class BreakRepository extends Repository{
                 startBreak: breaks.startBreak,
                 endBreak: breaks.endBreak,
             })
-        ]);
+        );
     }
 
     async endBreak(logId, endBreak){

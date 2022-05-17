@@ -127,10 +127,28 @@ class Spreadsheet{
     }
 }
 
-export class Calculator{
+class TimeSheet{
+    hours = null;
 
+    initialize(logs=[]){
+        logs?.forEach((log)=>{
+            if (!this.hours){
+                return this.hours = time.sub(log?.endTime, log?.startTime);
+            }
+            const tTime = time.sub(log?.endTime, log?.startTime);
+            this.hours = time.add(this.hours, tTime);
+        });
+    }
+
+    get(){
+        return this.hours;
+    }
+}
+
+export class Calculator{
     constructor(){
         this.sheet = new Spreadsheet();
+        this.time = new TimeSheet();
     }
     
     fromSpreadsheet(sheet=[]){
@@ -140,5 +158,10 @@ export class Calculator{
     
     calculateSheet(sheet=[], exludedIds=[]){
         return this.sheet.calculate(sheet, exludedIds);
+    }
+
+    calculateTime(logs=[]){
+        this.time.initialize(logs);
+        return this.time.get();
     }
 }

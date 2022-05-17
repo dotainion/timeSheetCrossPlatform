@@ -12,7 +12,7 @@ export class LogRepository extends Repository{
     }
 
     async startTime(log){
-        return this.factory.map([
+        return this.factory.map(
             await this.addData(collection.logs, {
                 date: log.date,
                 month: log.month,
@@ -22,7 +22,7 @@ export class LogRepository extends Repository{
                 startTime: log.startTime,
                 endTime: log.endTime,
             })
-        ])
+        );
     }
 
     async endTime(userId, endTime){

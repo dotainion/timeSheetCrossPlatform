@@ -24,8 +24,8 @@ const api = new Spreadsheet();
 const settings = new UserSetting();
 //1611434837;
 //'1oHdNqPtzJNs-gLmI6Dzz62c3qoYrpHFBnYp0w_Ov0vw';
-export const MemberSettings = ({isOpen, onClose}) =>{
-    const { user } = useAuth();
+export const MemberSettings = ({isOpen, onClose, user}) =>{
+    const {  } = useAuth();
 
     const [fullMonths, setFullMonths] = useState();
 
@@ -58,10 +58,11 @@ export const MemberSettings = ({isOpen, onClose}) =>{
     }
 
     const onSaveCreds = async() =>{
+        if (!user?.id) return console.log('invalid user id.');
         await settings.addSetting({
             sheetId: sheetIdRef.current.value,
             spreadsheetId: spreadsheetIdRef.current.value
-        }, user?.id);
+        }, user.id);
     }
 
     const getYear = (amount=6) =>{
@@ -90,6 +91,8 @@ export const MemberSettings = ({isOpen, onClose}) =>{
     }, []);
 
     useEffect(async()=>{
+        console.log(user)
+        if(!user) return;
         const collector = await settings.getSetting(user?.id);
         const USetting = collector.first();
         sheetIdRef.current.value = USetting?.sheetId || '';
@@ -100,7 +103,7 @@ export const MemberSettings = ({isOpen, onClose}) =>{
         toMonthRef.current.focus();  
         fromYearRef.current.focus(); 
         toYearRef.current.focus(); 
-    }, [user, isOpen]);
+    }, [user]);
 
     return(
         <Modal isOpen={isOpen}>

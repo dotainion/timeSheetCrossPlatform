@@ -5,8 +5,7 @@ import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons
 
 const date = new DateHelper();
 
-let revertDate = {month: '', year: ''};
-export const LogPicker = ({month:Month, year:Year, isOpen, onClose, onChange}) =>{
+export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     const [year, setYear] = useState((new Date()).getFullYear());
 
     const datePickerRef = useRef();
@@ -16,7 +15,10 @@ export const LogPicker = ({month:Month, year:Year, isOpen, onClose, onChange}) =
     }
 
     const onRevertDate = () =>{
-        onChange?.(revertDate);
+        onChange?.(revertTo || {
+            month: '',
+            year: ''
+        });
         onClose?.();
     }
 
@@ -36,7 +38,6 @@ export const LogPicker = ({month:Month, year:Year, isOpen, onClose, onChange}) =
 
     useEffect(()=>{
         if (isOpen){
-            revertDate = {month: Month, year: Year};
             $(datePickerRef.current).show('fast');
         }else{
             $(datePickerRef.current).hide('fast');

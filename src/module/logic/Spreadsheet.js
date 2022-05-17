@@ -92,6 +92,7 @@ export class Spreadsheet extends ToastHandler{
             });
         }catch(error){
             this.error('Unable to get sheets.');
+            return {error: error.message};
         }
     }
 }

@@ -41,7 +41,6 @@ export const ClockIn = () =>{
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [start, setStart] = useState({state: false, at: null});
     const [searchBy, setSearchBy] = useState({month: dHelper.monthMini(d.getMonth()), year: `${d.getFullYear()}`});
-    const [searchOption, setSearchOption] = useState({month: null, year: null});
     const [timeXBreakLog, setTimeXBreakLog] = useState({state: false, log: null, breaks: null});
 
     const parentRef = useRef();
@@ -90,7 +89,7 @@ export const ClockIn = () =>{
             return setLoading(false);;
         }
         if (start.state === true){
-            breaks.startBreak(timeLog?.id, user?.id);
+            await breaks.startBreak(timeLog?.id, user?.id);
             setOnPause('Pause');
         }else{
             toast.warning('Only allow during the start of a task.');
@@ -105,38 +104,27 @@ export const ClockIn = () =>{
             const startTime = time.sub(newTime, timeCollector.first().startTime);
             setStart({state: true, at: startTime});
             setTimeLog(timeCollector.first());
+            setLoading(false);
+            return timeCollector.first();
         }
+        return null;
     }
 
-    const initBreak = async() =>{
-        const breakCollector = await breaks.getPendingBreak(timeLog?.id);
+    const initBreak = async(logId) =>{
+        const breakCollector = await breaks.getPendingBreak(logId);
         if (breakCollector.hasItems()){
             setOnPause('Pause');
         }
     }
-    useEffect(()=>{
-        const date = new Date();
-        date.setFullYear(date.getFullYear() - 6);
-        const getYear = [...Array(7).keys()].map((y)=>{
-           return { title: date.getFullYear() +y }
-        });
-        let calendarOption = [];
-        for (let i=0; i<dHelper.month().length; i++){
-            calendarOption.push({
-                title: dHelper.month(i), 
-                value: dHelper.monthMini(i)
-            });
-        }
-        setSearchOption({month: calendarOption, year: getYear});
-    }, []);
 
+    const initialize = async() =>{
+        const log = await initTime();
+        await initBreak(log?.id);
+    }
 
     useEffect(()=>{
-        if (!loading){
-            initTime();
-            initBreak();
-        }
-    }, [timeLog]);
+        initialize();
+    }, [user]);
 
     useEffect(()=>{
         
@@ -152,7 +140,7 @@ export const ClockIn = () =>{
                     <div>
                         <div className="clock-in-logo-flex">
                             <div>Team name </div>
-                            <div><img src={logo} alt="" /></div>
+                            <div><img src={logo} draggable={false} alt="" /></div>
                         </div>
                     </div>
                 </div>
@@ -219,6 +207,7 @@ export const ClockIn = () =>{
                     </div>
                     <div className="clock-in-calendar-container" style={{backgroundColor: minimize && 'white'}}>
                         <TimesheetCalendar 
+                            user={user}
                             isOpen={true} 
                             fullMonth={false}
                             searchBy={searchBy}
@@ -234,8 +223,7 @@ export const ClockIn = () =>{
                 </div>
             </div>
             <LogPicker
-                month={searchBy.month}
-                year={searchBy.year}
+                revertTo={searchBy}
                 isOpen={openLogPicker} 
                 onClose={()=>setOpenLogPicker(false)}
                 onChange={(d)=>setSearchBy({month: d.month, year: d.year})}

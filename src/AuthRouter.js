@@ -6,7 +6,7 @@ import { routes } from "./Routes/Routes";
 
 const role = new Roles();
 
-export const AuthRouter = ({element}) =>{
+export const AuthRouter = ({element, isAdmin}) =>{
     const { isAuthenticated } = useAuth();
 
     const location = useLocation();
@@ -15,13 +15,13 @@ export const AuthRouter = ({element}) =>{
         if (!role.includes(isAuthenticated?.role)){
             return <Navigate to={routes.signIn} />;
         }
-        if (role.isSuperior(isAuthenticated?.role)){
+        if (role.isSuperior(isAuthenticated?.role) && isAdmin){
             if (location.pathname == routes.signIn){
                 return <Navigate to={routes.dashboard} />;
             }
             return element;
         }
-        if (role.isMember(isAuthenticated?.role)){
+        if (role.isMember(isAuthenticated?.role) && !isAdmin){
             if (location.pathname == routes.signIn){
                 return <Navigate to={routes.clockIn} />;
             }

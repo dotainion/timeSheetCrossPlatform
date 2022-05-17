@@ -4,6 +4,7 @@ import { jsPDF } from 'jspdf';
 import $ from 'jquery';
 import { time } from "../infrastructure/tools/Time";
 import { Button } from "../widgets/Button";
+import { Calculator } from "../infrastructure/Calculator";
 
 
 const pdf = new jsPDF({
@@ -12,7 +13,9 @@ const pdf = new jsPDF({
     format: 'a4'
 });
 
-export const Invoice = ({isOpen, onClose, values}) =>{
+const calc = new Calculator();
+
+export const Invoice = ({isOpen, onClose, values, logs}) =>{
     const [totals, setTotals] = useState({totalHours: 0, total: 0});
     const [invoices, setInvoices] = useState([]);
 
@@ -68,6 +71,19 @@ export const Invoice = ({isOpen, onClose, values}) =>{
             height: window.innerHeight - ($(toolbarRef.current).height() -20) + 'px',
         });
     }, [values]);
+
+    useEffect(()=>{
+        if (!logs?.length) return;
+        let tempSheets = [];
+        logs?.forEach((log)=>{
+            tempSheets.push({
+                start: log?.startTime,
+                end: log?.endTime
+            });
+        });
+        setInvoices(tempSheets);
+        setTotals({totalHours: calc.calculateTime(), total: 0});
+    }, [logs]);
 
     return(
         <Modal isOpen={isOpen}>

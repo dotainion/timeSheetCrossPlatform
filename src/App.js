@@ -37,14 +37,16 @@ function App() {
             <Route path={routes.signIn} element={<AuthRouter element={<SignIn/>} />} />
             <Route path={routes.register} element={<Register/>} />
             {/** administrator **/}
-            <Route path={routes.manageMembers} element={<AuthRouter element={<ManageMembers/>} />} />
-            <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} />} />
-            <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} />} />
-            <Route path={routes.report} element={<AuthRouter element={<Report/>} />} />
-            <Route path={routes.teams} element={<AuthRouter element={<Teams/>} />} />
-            <Route path={routes.TeamMembers} element={<AuthRouter element={<TeamMembers/>} />} />
+            <Route path={routes.manageMembers} element={<AuthRouter element={<ManageMembers/>} isAdmin />} />
+            <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} isAdmin />} />
+            <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} isAdmin />} />
+            <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
+            <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
+            <Route path={routes.TeamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
+            {/** not found **/}
+            <Route path="*" element={<div>Page Not Found.</div>} />
           </Routes>
         </ProviderWrapper>
       </AuthenticationWrapper>

@@ -92,14 +92,15 @@ const logs = new Log();
 const breaks = new Break();
 const manage = new manageLog();
 
-export const TimesheetCalendar = ({isOpen, fullMonth, searchBy, onShowMore}) =>{
-    const { user } = useAuth();
+export const TimesheetCalendar = ({isOpen, user, fullMonth, searchBy, onShowMore}) =>{
+    const { } = useAuth();
 
     const [logsList, setLogsList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [hasData, setHasData] = useState(false);
 
-    const initializeCalendar = async(month="", year="") =>{     
+    const initializeCalendar = async(month="", year="") =>{   
+        if (!user) return;  
         setLoading(true);   
         const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);
         const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);

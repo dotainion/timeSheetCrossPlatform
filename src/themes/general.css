@@ -186,6 +186,7 @@
 .modal-xl-close{
     float: right;
     cursor: pointer;
+    font-size: 25px;
 }
 .modal-xl-close:hover{
     color: red !important;
@@ -389,6 +390,7 @@
 .v-ellipsis-opt-container{
     position: relative;
     float: right;
+    z-index: 200;
 }
 .v-ellipsis-icon:hover{
     color: dodgerblue;
@@ -412,7 +414,17 @@
     border-bottom: 1px solid rgb(0, 0, 0, 0.1);
 }
 .v-ellipsis-overlay div:hover{
-    background-color: rgb(0, 0, 0, 0.1);
+    background-color: rgb(0, 0, 0, 0.05);
+}
+.v-ellipsis-backdrop{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    transform: translate3d(-50%, -50%, 0);
+    background-color: rgb(0, 0, 0, 0.05);
 }
 .alert-container{
     max-width: 360px;
@@ -551,6 +563,15 @@
     position: absolute;
     border-radius: 20px;
     transform: translateY(-50%);
+}
+.report-toggle{
+    position: fixed;
+    right: 20px;
+    padding-top: 10px;
+    font-size: 25px;
+}
+.report-toggle svg{
+    cursor: pointer;
 }
 .report-billable-devider{
     display: flex;
@@ -1083,6 +1104,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     background-size: cover;
+    -webkit-app-region: drag;
     background-repeat: no-repeat;
     background-image: url(../images/bubbles.jpg);
 }
@@ -1096,8 +1118,9 @@
     height: 560px;
     display: flex;
     min-height: 560px;
-    position: absolute;
+    position: absolute;   
     transform: translateX(-50%);
+    -webkit-app-region: no-drag;
     background-color: rgb(255, 255, 255, 0.6);
     box-shadow: 0 3px 3px 5px rgb(0, 0, 0, 0.1);
 }
