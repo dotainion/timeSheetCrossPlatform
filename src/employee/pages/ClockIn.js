@@ -22,6 +22,8 @@ import { FiMinimize, FiMaximize } from 'react-icons/fi';
 import { UserLayout } from "../layout/UserLayout";
 import { LogPicker } from "../../components/LogPicker";
 import logo from '../../images/logo.png';
+import { Loading } from "../../components/Loading";
+import { useProvider } from "../../provider/ProviderWrapper";
 
 
 const log = new Log();
@@ -32,7 +34,9 @@ const d = new Date();
 
 export const ClockIn = () =>{
     const { user } = useAuth();
+    const { userTeam } = useProvider();
 
+    const [total, setTotal] = useState();
     const [minimize, setMinimize] = useState(false);
     const [pin, setPin] = useState(false);
     const [timeLog, setTimeLog] = useState();
@@ -133,20 +137,23 @@ export const ClockIn = () =>{
     useEffect(()=>{
         
     }, [start]);
+    
     return(
         <UserLayout onSearch={()=>setOpenLogPicker(true)} onMinimize={()=>setMinimize(true)} minimize={minimize} >
             <div ref={parentRef} className="clock-in-container">
                 <div className="clock-in-logo">
                     <div>
                         <div className="clock-in-logo-flex">
-                            <div>Team name </div>
+                            <div>{userTeam?.name}</div>
                             <div><img src={logo} draggable={false} alt="" /></div>
                         </div>
                     </div>
                 </div>
-                <div className="clock-in" style={{width: minimize && '360px'}}>
+                <div className="clock-in" style={{width: minimize && '360px', overflow: loading && 'hidden'}}>
                     <div className="max-width clock-in-user">
-                        <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >User Name</div>
+                        <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >
+                            <label>{user?.firstName} </label>
+                            <label>{user?.lastName}</label></div>
                         <div>
                             <Options parentRef={parentRef} options={options}>
                                 <IoIosMore />
@@ -200,17 +207,20 @@ export const ClockIn = () =>{
                             </ShowInfo>
                         </div>
                     </div>
+                    <Loading loading={loading} relative />
                 </div>
                 <div hidden={minimize}>
                     <div className="clock-in-calendar-header">
+                        <div>Total: <b>{total}</b></div>
                         <h2>Timesheet Application</h2>
                     </div>
                     <div className="clock-in-calendar-container" style={{backgroundColor: minimize && 'white'}}>
                         <TimesheetCalendar 
                             user={user}
                             isOpen={true} 
-                            fullMonth={false}
+                            fullMonth={true}
                             searchBy={searchBy}
+                            onCalc={setTotal}
                             onShowMore={(data)=>{setTimeXBreakLog({state: true, log: data?.log, breaks: data?.breaks})}} 
                         />
                     </div>

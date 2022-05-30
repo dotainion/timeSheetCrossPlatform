@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import $ from 'jquery';
 import { Teams } from "../module/logic/Teams";
 import { Users } from "../module/logic/Users";
+import { useAuth } from "./AuthenticationWrapper";
 
 const _teams_ = new Teams();
 const _members_ = new Users();
@@ -10,7 +11,10 @@ const Context = createContext();
 export const useProvider = () => useContext(Context);
 
 export const ProviderWrapper = ({children}) =>{
+    const { user } = useAuth();
+
     const [teams, setTeams] = useState([]);
+    const [userTeam, setUserTeam] = useState();
     const [members, setMebers] = useState([]);
 
     const addToTeam = (newTeam) =>{
@@ -28,8 +32,12 @@ export const ProviderWrapper = ({children}) =>{
     const initializeMembers = async(id=null) =>{
         if(!id) return;
         setMebers(await _members_.getByTeamId(id));
-        console.log(await _members_.getByTeamId(id))
     }
+
+    useEffect(async()=>{
+        if (!user?.teamId) return;
+        setUserTeam(await _teams_.getById(user.teamId));
+    }, [user]);
 
     useEffect(async()=>{
         setTeams(await _teams_.get());
@@ -43,6 +51,7 @@ export const ProviderWrapper = ({children}) =>{
         teams,
         addToTeam,
         members,
+        userTeam,
         addToMember,
         initializeMembers
     }

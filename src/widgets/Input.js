@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import $ from 'jquery';
 
 
-export const Input = ({title, inputRef, options, onChange, defaultOption, paragraph, type, min, max}) =>{
+export const Input = ({title, inputRef, options, onChange, defaultOption, paragraph, disabled, fixedLabel, type, min, max}) =>{
     const titleRef = useRef();
     const inputCRef = useRef();
     const inputContainerRef = useRef();
@@ -27,6 +27,7 @@ export const Input = ({title, inputRef, options, onChange, defaultOption, paragr
     }
 
     const onBlur = () =>{
+        if(fixedLabel) return;
         if ($(inputCRef.current).val() || inputRef && $(inputRef.current).val()) return;
         $(titleRef.current).removeClass('input-entery-title-focus');
     }
@@ -49,9 +50,15 @@ export const Input = ({title, inputRef, options, onChange, defaultOption, paragr
         }
     }, [defaultOption]);
 
+    useEffect(()=>{
+        if(fixedLabel){
+            $(titleRef.current).addClass('input-entery-title-focus');
+        }
+    }, [fixedLabel]);
+
     return(
-        <div ref={inputContainerRef} onClick={onFocus} className={`input-entery ${options && 'pointer'}`} type={type}>
-            <div ref={titleRef} className={`input-entery-title`}>{title}</div>
+        <div ref={inputContainerRef} className={`input-entery ${options && 'pointer'}`} type={type}>
+            <div ref={titleRef} onClick={onFocus} className={`input-entery-title`}>{title}</div>
             {
                 !options
                     ? !paragraph 
@@ -60,16 +67,24 @@ export const Input = ({title, inputRef, options, onChange, defaultOption, paragr
                         onFocus={onFocus} 
                         onBlur={onBlur} 
                         onChange={onChange}
+                        disabled={disabled}
                         type={type} 
                         min={min} 
                         max={max} 
                         step="1"
                         />
-                        : <textarea ref={inputRef || inputCRef} onChange={onChange} onFocus={onFocus} onBlur={onBlur} />
+                        : <textarea 
+                            ref={inputRef || inputCRef} 
+                            disabled={disabled}
+                            onChange={onChange} 
+                            onFocus={onFocus} 
+                            onBlur={onBlur} 
+                        />
                     : <select 
                         ref={inputRef || inputCRef} 
                         onFocus={onFocus} 
                         onBlur={onBlur}
+                        disabled={disabled}
                         onChange={onChange}
                         defaultValue={defaultOption} 
                         >

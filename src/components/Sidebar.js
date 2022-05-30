@@ -22,7 +22,12 @@ import { AiFillMessage } from 'react-icons/ai';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { ImNotification } from 'react-icons/im';
 import { HiUserAdd } from 'react-icons/hi';
+import { BiLogOutCircle } from 'react-icons/bi';
 import { MdHelp, MdAdminPanelSettings, MdSpaceDashboard } from 'react-icons/md';
+import { Authenticate } from '../module/logic/Authenticate';
+import { useAuth } from '../provider/AuthenticationWrapper';
+
+const auth = new Authenticate();
 
 export const ADMIN_SIDE_NAV = [
     {
@@ -37,13 +42,28 @@ export const ADMIN_SIDE_NAV = [
         title: "Administrator",
         icon: MdAdminPanelSettings,
         route: routes.administrator,
+    },{
+        title: "Sign out",
+        icon: BiLogOutCircle,
+        route: ()=>auth.signOut(),
     }
 ];
 
 export const Sidebar = () =>{
+const { setIsAuthenticated } = useAuth();
     const navigate = useNavigate();
 
     const navCollapsRef = useRef();
+
+    const onNavigate = (nav) =>{
+        if (nav?.title?.includes('Sign out')){
+            nav?.route?.();
+            setIsAuthenticated(null);
+        }else if(typeof nav?.route == 'function'){
+            return nav?.route?.();
+        }
+        return navigate(nav?.route);
+    }
 
     const onNavHover = (id, isOver) =>{
         if (isOver){
@@ -73,7 +93,7 @@ export const Sidebar = () =>{
                             id={`${key}navs`} 
                             onMouseEnter={()=>{onNavHover(`${key}navs`, true)}} 
                             onMouseLeave={()=>onNavHover(`${key}navs`, false)} 
-                            onClick={()=>navigate(nav.route)} 
+                            onClick={()=>onNavigate(nav)} 
                             className="nav-item" 
                             key={key}
                         >
@@ -93,7 +113,7 @@ export const Sidebar = () =>{
                                 id={`${key}navs-right`} 
                                 onMouseEnter={()=>onNavHover(`${key}navs`, true)} 
                                 onMouseLeave={()=>onNavHover(`${key}navs`, false)} 
-                                onClick={()=>navigate(nav.route)} 
+                                onClick={()=>onNavigate(nav)} 
                                 className="nav-item" 
                                 key={key}
                             >

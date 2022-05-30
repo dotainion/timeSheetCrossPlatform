@@ -5,7 +5,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 500;
+    z-index: 15000;
     background-color: rgb(0, 0, 0, 0.3);
 }
 .loading-container div{
@@ -17,6 +17,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
+    z-index: 5000;
     transform: translate3d(-50%, -50%, 0);
 }
 .loading-container div span::before {

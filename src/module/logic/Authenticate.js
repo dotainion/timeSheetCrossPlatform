@@ -1,3 +1,4 @@
+import { BrowserLoginCredentials } from "../../infrastructure/BrowserLoginCredentials";
 import { auth } from "../../infrastructure/config/AuthConfig";
 import { Roles } from "../../infrastructure/Roles";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
@@ -10,6 +11,7 @@ export class Authenticate extends ToastHandler{
         this.role = new Roles();
         this.user = new Users();
         this.validate = new Validation();
+        this.saveCreds = new BrowserLoginCredentials();
     }
 
     async signIn(email, password){
@@ -17,14 +19,16 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            return await auth.signInWithEmailAndPassword(email, password);
+            const response = await auth.signInWithEmailAndPassword(email, password);
+            this.saveCreds.saveLogin(email, password);
+            return response;
         }catch(error){
             this.error(error.message);
             return false;
         }
     }
 
-    async register(fName, lName, companyName, email, password, confirmPassword, background){
+    async register(fName, lName, companyName, email, password, confirmPassword, callBack){
         if (!this.validate.isEmailValid(email)){
             return this.error('Invalid email.');
         }
@@ -61,7 +65,9 @@ export class Authenticate extends ToastHandler{
                 companyName: companyName,
             }, response?.user?.uid);
 
-            background?.(res);
+            this.saveCreds.saveLogin(email, password);
+
+            callBack?.(res);
 
             this.success('Successful.');
         }catch(error){
@@ -107,19 +113,46 @@ export class Authenticate extends ToastHandler{
         await auth.signOut();
     }
 
-    async sendResetPasswordToEmail(email){
+    async creatUser(clientId, email, fName, lName, image, role, supervisorId, teamId, phone, gender, password){
         try{
-            if (!this.validate.isEmailValid(email)){
+            if(!this.validate.isNameValid(fName)){
+                throw new Error('Invalid first Name.');
+            }
+            if(!this.validate.isNameValid(lName)){
+                throw new Error('Invalid last Name.');
+            }
+            if(!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            await auth.sendPasswordResetEmail(email);
+            if(!this.validate.isPasswordValid(password)){
+                throw new Error('Invalid password.');
+            }
+
+            await this.saveCreds.pauseStateChange(true);
+            await auth.createUserWithEmailAndPassword(email, password);
+            await this.resetPasswordViaEmail(email);
+
+            const rtUsr = await this.user.add(
+                clientId,
+                email,
+                fName,
+                lName,
+                image || '',
+                role,
+                supervisorId,
+                teamId || '',
+                phone,
+                gender
+            );
+            this.saveCreds.saveCreateUserLogin(email, password);
+            return rtUsr;
         }catch(error){
             this.error(error.message);
             return false;
+        }finally{
+            const creds = this.saveCreds.getLogin();
+            await this.signIn(creds?.email, creds?.password);
+            this.saveCreds.pauseStateChange(false);
         }
-    }
-
-    async creatUser(){
-
     }
 }

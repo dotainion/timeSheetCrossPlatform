@@ -11,6 +11,7 @@ export const AuthRouter = ({element, isAdmin}) =>{
 
     const location = useLocation();
 
+        console.log(isAuthenticated)
     if (isAuthenticated){
         if (!role.includes(isAuthenticated?.role)){
             return <Navigate to={routes.signIn} />;
@@ -26,6 +27,12 @@ export const AuthRouter = ({element, isAdmin}) =>{
                 return <Navigate to={routes.clockIn} />;
             }
             return element;
+        }
+        if (role.isSuperior(isAuthenticated?.role) && location.pathname == routes.signIn){
+            return <Navigate to={routes.dashboard} />;
+        }
+        if (role.isMember(isAuthenticated?.role) && location.pathname == routes.signIn){
+            return <Navigate to={routes.dashboard} />;
         }
     }
     if (location.pathname == routes.signIn || location.pathname == routes.register){

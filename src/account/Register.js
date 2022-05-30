@@ -63,7 +63,7 @@ export const Register = () =>{
                     <div className="sign-in-forget-pss">
                         <span onClick={()=>navigate(routes.signIn)} style={{color: 'dodgerblue'}}>Login instead</span>
                     </div>
-                    <Button onClick={onRegister} title="Create" />
+                    <Button onClick={onRegister} title="Create" loading={loading} />
                 </div>
             </div>
             <Loading loading={loading} />

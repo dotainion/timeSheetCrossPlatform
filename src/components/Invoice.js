@@ -74,15 +74,15 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
 
     useEffect(()=>{
         if (!logs?.length) return;
-        let tempSheets = [];
-        logs?.forEach((log)=>{
-            tempSheets.push({
-                start: log?.startTime,
-                end: log?.endTime
-            });
+        let tempSheets = logs?.map((log)=>{
+            return { start: log?.startTime, end: log?.endTime };
         });
         setInvoices(tempSheets);
-        setTotals({totalHours: calc.calculateTime(), total: 0});
+        //need testing cause log may be an array of x per day
+        //eg a user can start end multiple times per day.
+        //need refactoring
+        //may need to use calc.calculateTimeLoop instead.
+        setTotals({totalHours: calc.calculateTime(logs), total: 0});
     }, [logs]);
 
     return(

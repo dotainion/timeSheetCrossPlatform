@@ -6,6 +6,7 @@ import { DayCard } from "./DayCard";
 import { Break } from "../module/logic/Beak";
 import { Loading } from "./Loading";
 import { FcGlobe } from 'react-icons/fc';
+import { Calculator } from "../infrastructure/Calculator";
 
 
 class manageLog{
@@ -92,21 +93,20 @@ const logs = new Log();
 const breaks = new Break();
 const manage = new manageLog();
 
-export const TimesheetCalendar = ({isOpen, user, fullMonth, searchBy, onShowMore}) =>{
+export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy, onShowMore}) =>{
     const { } = useAuth();
 
     const [logsList, setLogsList] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [hasData, setHasData] = useState(false);
 
-    const initializeCalendar = async(month="", year="") =>{   
+    const initializeCalendar = async() =>{   
         if (!user) return;  
         setLoading(true);   
-        const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);
-        const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month || month, searchBy?.year || year);
+        const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month, searchBy?.year);
+        const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month, searchBy?.year);
         manage.init(logCollector.list(), breakCollector.list(), setLogsList);
-        setHasData(logCollector.hasItems());
         setLoading(false);
+        onCalc?.(new Calculator().calculateTime(logCollector.list()));
     }
 
     useEffect(()=>{
@@ -138,7 +138,7 @@ export const TimesheetCalendar = ({isOpen, user, fullMonth, searchBy, onShowMore
                     onShowMoreTimes={()=>onShowMore(date)}
                 />
             ))}
-            <div hidden={hasData} className="calendar-no-record">
+            <div hidden={logsList.length} className="calendar-no-record">
                 <FcGlobe/>
                 <div>
                     <span>No logs for </span>

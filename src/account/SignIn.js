@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "../widgets/Button";
 import { Input } from "../widgets/Input";
 import logo from '../images/logo.png';
@@ -18,6 +18,8 @@ const validate = new Validation();
 export const SignIn = () =>{
     const { isAuthenticated } = useAuth();
 
+    const [loading, setLoading] = useState(false);
+
     const emailRef = useRef();
     const passwordRef = useRef();
     const recoveryEmailRef = useRef();
@@ -28,11 +30,15 @@ export const SignIn = () =>{
     const navigate = useNavigate();
 
     const onSignIn = async() =>{
-        await auth.signIn(emailRef.current.value, passwordRef.current.value);
+        setLoading(true);
+        const response = await auth.signIn(emailRef.current.value, passwordRef.current.value);
+        setLoading(false);
     }
 
-    const onRegister = async() =>{
+    const onResetPassword = async() =>{
+        setLoading(true);
         await auth.sendResetPasswordToEmail(recoveryEmailRef.current.value);
+        setLoading(false);
     }
 
     const openRecovery = () =>{
@@ -71,7 +77,7 @@ export const SignIn = () =>{
                                     <span onClick={()=>navigate(routes.register)}>Create accoount</span>
                                 </div>
                             </div>
-                            <Button onClick={onSignIn} title="Login" />
+                            <Button onClick={onSignIn} title="Login" loading={loading} />
                         </div>
                     </div>
                     <div ref={recoverRef} className="relative" hidden>
@@ -81,7 +87,7 @@ export const SignIn = () =>{
                             <div className="sign-in-forget-pss">
                                 <span onClick={openSignIn} style={{color: 'dodgerblue'}}>Login instead</span>
                             </div>
-                            <Button onClick={onRegister} title="Send" />
+                            <Button onClick={onResetPassword} title="Send" loading={loading} />
                         </div>
                     </div>
                 </div>

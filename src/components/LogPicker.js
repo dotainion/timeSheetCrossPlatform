@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
 import { DateHelper } from "../infrastructure/DateHelper";
 import { IoIosArrowDropleftCircle, IoIosArrowDroprightCircle } from 'react-icons/io';
+import { Button } from "../widgets/Button";
+import logo from '../images/logo.png';
 
 const date = new DateHelper();
 
@@ -48,8 +50,9 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
             <div onClick={(e)=>e.stopPropagation()} className="log-picker-container">
                 <div className="log-picker">
                     <div className="log-picker-info">
-                        <div>PRESETS</div>
-                        <p>this month pass months...</p>
+                        <div>TIME PICKER</div>
+                        <h6>Select by month</h6>
+                        <img src={logo} alt="" />
                     </div>
                     <div className="log-picker-range">
                         <div>SELECT A MONTH RANGE:</div>
@@ -71,8 +74,8 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
                     </div>
                 </div>
                 <div className="log-picker-btn-container">
-                    <button onClick={onRevertDate}>cancel</button>
-                    <button onClick={onClose}>ok</button>
+                    <Button onClick={onRevertDate} title={'cancel'} />
+                    <Button onClick={onClose} title={'ok'} />
                 </div>
             </div>
         </div>

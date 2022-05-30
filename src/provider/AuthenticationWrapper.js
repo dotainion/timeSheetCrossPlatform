@@ -17,10 +17,12 @@ export const AuthenticationWrapper = ({children}) =>{
     const [team, setTeam] = useState();
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [pauseStateChange, setPauseStateChange] = useState(false);
 
     useEffect(()=>{
         auth.onAuthStateChanged(async(uUser)=>{
-            if (uUser){
+            console.log(uUser);
+            if (uUser && !pauseStateChange){
                 let userObj = await lUser.getById(uUser?.uid);
                 if (role.includes(userObj?.role)){
                     let teamObj = await lTeam.getById(userObj?.teamId);
@@ -31,19 +33,19 @@ export const AuthenticationWrapper = ({children}) =>{
             }
             setLoading(false);
         });
+        setPauseStateChange(false);
     }, []);
-
-    useEffect(()=>{
-        //console.log(isAuthenticated);
-    }, [isAuthenticated]);
     
     const value = {
         user,
         isAuthenticated,
+        setIsAuthenticated
     }
 
     return(
         <Context.Provider value={value}>
+            <div data-state-change-pause onClick={()=>setPauseStateChange(true)} />
+            <div data-state-change-unpause onClick={()=>setPauseStateChange(false)} />
             {loading ? <StartupPage/> : children}
         </Context.Provider>
     )

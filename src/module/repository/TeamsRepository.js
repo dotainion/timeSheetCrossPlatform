@@ -19,12 +19,8 @@ export class TeamsRepository extends Repository{
     }
 
     async getTeamById(id){
-        const user = await this.getDataById(collection.teams, id);
         return this.factory.map([
-            {
-                id: id,
-                info: user
-            }
+            await this.getDataById(collection.teams, id)
         ]);
     }
 

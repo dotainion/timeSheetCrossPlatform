@@ -6,11 +6,16 @@ import { Users } from "../module/logic/Users";
 import { useProvider } from "../provider/ProviderWrapper";
 import { Input } from "../widgets/Input";
 import { Loading } from "./Loading";
+import { Authenticate } from '../module/logic/Authenticate';
+import { useAuth } from "../provider/AuthenticationWrapper";
+import { Validation } from "../infrastructure/Validation";
+import $ from 'jquery';
 
 
-const users = new Users();
+const auth = new Authenticate();
 
 export const NewMember = ({isOpen, teamId, onClose, message}) =>{
+    const { user } = useAuth();
     const { addToMember } = useProvider();
 
     const [loading, setLoading] = useState(false);
@@ -22,25 +27,27 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
     const phoneRef = useRef();
     const genderRef = useRef();
     const imageRef = useRef();
+    const usernameRef = useRef();
+    const passwordRef = useRef();
 
     const addMember = async() =>{
         setLoading(true);
-        const rtUsr = await users.add(
-            'clientId',
+
+        const rtUsr = await auth.creatUser(
+            user?.clientId,
             emailRef.current.value,
             fNameRef.current.value,
             lNameRef.current.value,
             imageRef.current || '',
             roleRef.current.value,
-            'supervisorId',
+            user?.id,
             teamId || '',
             phoneRef.current.value,
-            genderRef.current.value
+            genderRef.current.value,
+            passwordRef.current.value
         );
 
-        if (rtUsr == 'error'){
-            return setLoading(false);
-        };
+        if (!rtUsr) return setLoading(false);
 
         emailRef.current.value = '';
         fNameRef.current.value = '';
@@ -49,10 +56,22 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
         roleRef.current.value = '';
         phoneRef.current.value = '';
         genderRef.current.value = '';
+        usernameRef.current.value = '';
+        passwordRef.current.value = '';
 
         addToMember(rtUsr);
         setLoading(false);
     }
+
+    useEffect(()=>{
+        $(emailRef.current).change((e)=>{
+            $(usernameRef.current).val(e.target.value);
+            const label = $(usernameRef.current).parent().find('.input-entery-title')[0];
+            e.target.value 
+                ? $(label).addClass('input-entery-title-focus') 
+                : $(label).removeClass('input-entery-title-focus');
+        });
+    }, []);
 
     return(
         <>
@@ -73,6 +92,8 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
                 { title: 'Female' }
             ]} />
             <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
+            <Input title="Username" inputRef={usernameRef} disabled />
+            <Input title="Password" inputRef={passwordRef} type="password" />
         </ModalXl>
         <Loading loading={loading} />
         </>

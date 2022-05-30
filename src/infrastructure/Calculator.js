@@ -130,13 +130,19 @@ class Spreadsheet{
 class TimeSheet{
     hours = null;
 
-    initialize(logs=[]){
+    toTotalTime(logs=[]){
         logs?.forEach((log)=>{
             if (!this.hours){
                 return this.hours = time.sub(log?.endTime, log?.startTime);
             }
             const tTime = time.sub(log?.endTime, log?.startTime);
             this.hours = time.add(this.hours, tTime);
+        });
+    }
+
+    toTotalTimeLoop(logs=[]){
+        logs?.forEach((log)=>{
+            this.toTotalTime(log);
         });
     }
 
@@ -161,7 +167,12 @@ export class Calculator{
     }
 
     calculateTime(logs=[]){
-        this.time.initialize(logs);
+        this.time.toTotalTime(logs);
+        return this.time.get();
+    }
+
+    calculateTimeLoop(logs=[]){
+        this.time.toTotalTimeLoop(logs);
         return this.time.get();
     }
 }
