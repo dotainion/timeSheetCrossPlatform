@@ -10,6 +10,7 @@ import { Authenticate } from '../module/logic/Authenticate';
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { Validation } from "../infrastructure/Validation";
 import $ from 'jquery';
+import { BrowserLoginCredentials } from "../infrastructure/BrowserLoginCredentials";
 
 
 const auth = new Authenticate();
@@ -46,7 +47,6 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
             genderRef.current.value,
             passwordRef.current.value
         );
-
         if (!rtUsr) return setLoading(false);
 
         emailRef.current.value = '';
@@ -59,7 +59,7 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
         usernameRef.current.value = '';
         passwordRef.current.value = '';
 
-        addToMember(rtUsr);
+        addToMember(rtUsr.first());
         setLoading(false);
     }
 

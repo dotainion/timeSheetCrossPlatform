@@ -24,6 +24,7 @@ import { Register } from './account/Register';
 import { Administrator } from './pages/Administrator';
 import { ManageMembers } from './pages/ManageMembers';
 import { AuthRouter } from './AuthRouter';
+import { AsignMembers } from './pages/AsignMembers';
 
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
             <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} isAdmin />} />
             <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
             <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
-            <Route path={routes.TeamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
+            <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
+            <Route path={routes.asignMembers} element={<AuthRouter element={<AsignMembers/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
             {/** not found **/}

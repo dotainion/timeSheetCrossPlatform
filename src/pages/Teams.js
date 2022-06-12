@@ -20,10 +20,13 @@ import { ModalXl } from "../container/ModalXl";
 import { ConfirmXl } from "../widgets/ConfirmXl";
 import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
+import { ButtonCard } from "../widgets/ButtonCard";
+import { useAuth } from "../provider/AuthenticationWrapper";
 
 
 const team = new _Teams_();
 export const Teams = () =>{
+    const { user } = useAuth();
     const { teams, addToTeam } = useProvider();
 
     const [loading, setLoading] = useState(false);
@@ -47,7 +50,8 @@ export const Teams = () =>{
         const teamObj = await team.add(
             nameRef.current.value,
             descriptionRef.current.value,
-            imageRef.current
+            imageRef.current,
+            user?.clientId
         );
 
         if (teamObj == 'error'){
@@ -79,10 +83,7 @@ export const Teams = () =>{
         <Layout options={breadCrumbs} title="Teams">
             <div className="team-list-container">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <MemberCard onClick={()=>setOpenModal(true)} asBtn={true}>
-                        <VscAdd className="float-center" />
-                        <div className="float-center" style={{top: '80%'}}>Add team</div>
-                    </MemberCard>
+                    <ButtonCard onClick={()=>setOpenModal(true)} title={'Add Team'} add />
                 </div>
                 {
                     teams.length?
@@ -93,11 +94,11 @@ export const Teams = () =>{
                             description={obj.description}
                             supervisor="None"
                             useHover={true}
-                            onClick={()=>navigate(`${routes.TeamMembers}:${obj.id}:${obj.name}`, {state: obj})}
+                            onClick={()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})}
                             menu={[
                                 {
                                     title: 'Manage',
-                                    action: ()=>navigate(`${routes.TeamMembers}:${obj.id}:${obj.name}`, {state: obj})
+                                    action: ()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})
                                 },/*{
                                     title: 'Report',
                                     action: (e)=>navigate(`${routes.report}:${obj.id()}`, {state: obj})

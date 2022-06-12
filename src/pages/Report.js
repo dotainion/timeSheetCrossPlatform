@@ -188,6 +188,7 @@ export const Report = () =>{
                     user={member}
                     isOpen={toggleCalendar}
                     searchBy={searchBy}
+                    onCalc ={(data)=>console.log(data.total)}
                 />
             </div>
 

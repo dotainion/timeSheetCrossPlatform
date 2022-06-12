@@ -48,6 +48,9 @@
     .team-card-container{
         width: 50%;
     }
+    .btn-card-container{
+        width: 50%;
+    }
     .no-record{
         display: block;
         width: 100%;
@@ -168,16 +171,29 @@
     .block-on-deskop{
         display: block !important;
     }
+    .all-member-container{
+        width: 100%;
+    }
+    .all-member-container [data-search]{
+        width: 100%;
+        margin: 20px 0;
+    }
 }
 
 @media screen and (max-width:430px){
     .team-card-container{
         width: 100%;
     }
+    .btn-card-container{
+        width: 100%;
+    }
 }
 
 @media screen and (min-width:767px){
     .team-card-container{
+        width: 50%;
+    }
+    .btn-card-container{
         width: 50%;
     }
 }
@@ -201,16 +217,25 @@
     .team-card-container{
         width: 33.33%;
     }
+    .btn-card-container{
+        width: 33.33%;
+    }
 }
 
 @media screen and (min-width:1250px){
     .team-card-container{
         width: 25%;
     }
+    .btn-card-container{
+        width: 25%;
+    }
 }
 
 @media screen and (min-width:1600px){
     .team-card-container{
+        width: 20%;
+    }
+    .btn-card-container{
         width: 20%;
     }
 }

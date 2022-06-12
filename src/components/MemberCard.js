@@ -4,7 +4,7 @@ import { CgProfile } from 'react-icons/cg';
 import $ from 'jquery';
 
 
-export const MemberCard = ({onClick, icon, name, gender, description, address, number, role, supervisor, menu, asBtn, useHover, children}) =>{
+export const MemberCard = ({onClick, icon, name, gender, description, address, number, role, supervisor, menu, useHover}) =>{
     const parentRef = useRef();
 
     const onTriger = (e) =>{
@@ -14,15 +14,13 @@ export const MemberCard = ({onClick, icon, name, gender, description, address, n
 
     return(
         <div ref={parentRef} className="team-card-container">
-            <div onClick={onTriger} className={`team-card ${(asBtn || useHover) && 'team-card-hover'}`}>
-                <div hidden={asBtn}>
-                    {icon}
-                    <VEllipsisOption
-                        option={menu} 
-                        parentRef={parentRef}
-                        isOpen={(isActive)=>{}}
-                    />
-                </div>
+            <div onClick={onTriger} className={`team-card ${ useHover && 'team-card-hover'}`}>
+                {icon}
+                <VEllipsisOption
+                    option={menu} 
+                    parentRef={parentRef}
+                    isOpen={(isActive)=>{}}
+                />
                 <b>{name}</b>
                 {role && <div>Role: {role}</div>}
                 {supervisor && <div>Supervisor: {supervisor}</div>}
@@ -30,7 +28,6 @@ export const MemberCard = ({onClick, icon, name, gender, description, address, n
                 {gender && <div>Gender: {gender}</div>}
                 {address && <div>{address}</div>}
                 {description &&<div>{description}</div>}
-                <div hidden={!asBtn} className="team-cart-children">{children}</div>
             </div>
         </div>
     )

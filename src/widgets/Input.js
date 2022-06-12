@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import $ from 'jquery';
 
 
-export const Input = ({title, inputRef, options, onChange, defaultOption, paragraph, disabled, fixedLabel, type, min, max}) =>{
+export const Input = ({title, cssClass, inputRef, options, onChange, defaultOption, paragraph, disabled, fixedLabel, type, min, max}) =>{
     const titleRef = useRef();
     const inputCRef = useRef();
     const inputContainerRef = useRef();
@@ -57,8 +57,8 @@ export const Input = ({title, inputRef, options, onChange, defaultOption, paragr
     }, [fixedLabel]);
 
     return(
-        <div ref={inputContainerRef} className={`input-entery ${options && 'pointer'}`} type={type}>
-            <div ref={titleRef} onClick={onFocus} className={`input-entery-title`}>{title}</div>
+        <div ref={inputContainerRef} className={`input-entery ${cssClass} ${options && 'pointer'}`} type={type}>
+            <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className={`input-entery-title`}>{title}</div>
             {
                 !options
                     ? !paragraph 

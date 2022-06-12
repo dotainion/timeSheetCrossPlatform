@@ -37,7 +37,7 @@ export const SignIn = () =>{
 
     const onResetPassword = async() =>{
         setLoading(true);
-        await auth.sendResetPasswordToEmail(recoveryEmailRef.current.value);
+        await auth.resetPasswordViaEmail(recoveryEmailRef.current.value);
         setLoading(false);
     }
 
@@ -77,7 +77,7 @@ export const SignIn = () =>{
                                     <span onClick={()=>navigate(routes.register)}>Create accoount</span>
                                 </div>
                             </div>
-                            <Button onClick={onSignIn} title="Login" loading={loading} />
+                            <Button onClick={onSignIn} title="Login" loading={loading} useEnterKey />
                         </div>
                     </div>
                     <div ref={recoverRef} className="relative" hidden>

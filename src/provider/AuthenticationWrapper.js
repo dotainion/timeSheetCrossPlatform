@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { auth } from "../infrastructure/config/AuthConfig";
 import { Users } from "../module/logic/Users";
 import { Teams } from '../module/logic/Teams';
 import { StartupPage } from "../other/StartupPage";
 import { Roles } from "../infrastructure/Roles";
+import $ from 'jquery';
 
 const lUser = new Users();
 const lTeam = new Teams();
@@ -17,12 +18,12 @@ export const AuthenticationWrapper = ({children}) =>{
     const [team, setTeam] = useState();
     const [loading, setLoading] = useState(true);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [pauseStateChange, setPauseStateChange] = useState(false);
+
+    const pauseObsoverRef = useRef();
 
     useEffect(()=>{
         auth.onAuthStateChanged(async(uUser)=>{
-            console.log(uUser);
-            if (uUser && !pauseStateChange){
+            if (uUser && $(pauseObsoverRef.current).attr('data-state') != 'pause'){
                 let userObj = await lUser.getById(uUser?.uid);
                 if (role.includes(userObj?.role)){
                     let teamObj = await lTeam.getById(userObj?.teamId);
@@ -33,19 +34,17 @@ export const AuthenticationWrapper = ({children}) =>{
             }
             setLoading(false);
         });
-        setPauseStateChange(false);
     }, []);
     
     const value = {
         user,
         isAuthenticated,
-        setIsAuthenticated
+        setIsAuthenticated,
     }
 
     return(
         <Context.Provider value={value}>
-            <div data-state-change-pause onClick={()=>setPauseStateChange(true)} />
-            <div data-state-change-unpause onClick={()=>setPauseStateChange(false)} />
+            <div ref={pauseObsoverRef} data-state-change-pause />
             {loading ? <StartupPage/> : children}
         </Context.Provider>
     )

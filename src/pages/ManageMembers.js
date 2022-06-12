@@ -6,6 +6,7 @@ import { VscAdd } from 'react-icons/vsc';
 import { NewMember } from "../components/NewMember";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
+import { ButtonCard } from "../widgets/ButtonCard";
 
 
 
@@ -19,16 +20,14 @@ export const ManageMembers = () =>{
     }, []);
     return(
         <Layout options={[{title: 'Administration', action: ()=> navigate(routes.administrator)}]}>
-            <MemberCard onClick={()=>setOpenNewMember(true)} asBtn={true}>
-                <VscAdd className="float-center administrator-card-icon" />
-                <div className="float-center" style={{top: '80%'}}>Add Members</div>
-            </MemberCard>
+            <ButtonCard onClick={()=>setOpenNewMember(true)} title={'Add Members'} add />
+            <ButtonCard onClick={()=>navigate(routes.asignMembers)} title={'Assign Members'} asign />
                 
-                <NewMember
-                    isOpen={openNewMember} 
-                    onClose={()=>setOpenNewMember(false)} 
-                    message="Add a new member"
-                />
+            <NewMember
+                isOpen={openNewMember} 
+                onClose={()=>setOpenNewMember(false)} 
+                message="Add a new member"
+            />
         </Layout>
     )
 }

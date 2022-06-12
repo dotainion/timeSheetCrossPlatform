@@ -7,6 +7,7 @@ export class TeamsFactory extends Factory{
         teams.setId(`${record?.['id']}` || '');
         teams.setName(`${record?.['info']?.['name']}` || '');
         teams.setImage(`${record?.['info']?.['image']}` || '');
+        teams.setClientId(`${record?.['info']?.['clientId']}` || '');
         teams.setDescription(`${record?.['info']?.['description']}` || '');
         return teams;
     }

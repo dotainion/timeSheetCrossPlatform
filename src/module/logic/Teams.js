@@ -12,9 +12,9 @@ export class Teams extends ToastHandler{
         this.factory = new TeamsFactory();
     }
     
-    async get(){
+    async getByClientId(clientId){
         try{
-            const team = await this.repo.getTeams()
+            const team = await this.repo.getTeamsByClientId(clientId);
             return team.list();
         }catch(error){
             return this.error(error.message);
@@ -24,7 +24,7 @@ export class Teams extends ToastHandler{
     
     async getById(id){
         try{
-            const team = await this.repo.getTeamById(id)
+            const team = await this.repo.getTeamById(id);
             return team.first();
         }catch(error){
             return this.error(error.message);
@@ -32,7 +32,7 @@ export class Teams extends ToastHandler{
         
     }
 
-    async add(name, description, image){
+    async add(name, description, image, clientId){
         try{
             if(!name){
                 throw new Error('Name field is required.');
@@ -43,7 +43,8 @@ export class Teams extends ToastHandler{
                 info: {
                     name: name,
                     image: image,
-                    description: description
+                    description: description,
+                    clientId: clientId
                 }
             });
 

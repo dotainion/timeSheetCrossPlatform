@@ -13,9 +13,9 @@ export class Users extends ToastHandler{
         this.factory = new UsersFactory();
     }
 
-    async get(){
+    async getByClientId(clientId){
         try{
-            const user = await this.repo.getUsers()
+            const user = await this.repo.getUsersByClientId(clientId);
             return user.list();
         }catch(error){
             return this.error(error.message);
@@ -40,9 +40,9 @@ export class Users extends ToastHandler{
         }
     }
 
-    async add(clientId, email, firstName, lastName, image, role, supervisorId, teamId, number, gender){
+    async add(userId, clientId, email, firstName, lastName, image, role, supervisorId, teamId, number, gender){
         try{
-            const collector = this.factory.mapResults({
+            const userObject = this.factory.mapResults({
                 info: {
                     clientId: clientId,
                     email: email,
@@ -55,11 +55,10 @@ export class Users extends ToastHandler{
                     number: number,
                     gender: gender
                 },
-                id: null
+                id: userId
             });
 
-            const record = await this.repo.addUser(collector);
-            collector.setId(record.id);
+            const collector = await this.repo.addUser(userObject);
             this.success(`${firstName} was added successfully`);
             return collector;
         }catch(error){

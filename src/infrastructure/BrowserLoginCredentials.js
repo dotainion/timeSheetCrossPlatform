@@ -60,10 +60,8 @@ export class BrowserLoginCredentials extends Validation{
         }
     }
 
-    async pauseStateChange(state=true, time=3000){
-        state 
-            ? $('html').find('div[data-state-change-pause]').trigger('click')
-            : $('html').find('div[data-state-change-unpause]').trigger('click');
-        return new Promise(resolve => setTimeout(resolve, time));
+    async pauseStateChange(state=true){
+        const element = $('html').find('div[data-state-change-pause]');
+        $(element).attr('data-state', state ? 'pause' : 'unpause');
     }
 }

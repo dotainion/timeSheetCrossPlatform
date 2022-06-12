@@ -7,6 +7,7 @@ import { Break } from "../module/logic/Beak";
 import { Loading } from "./Loading";
 import { FcGlobe } from 'react-icons/fc';
 import { Calculator } from "../infrastructure/Calculator";
+import { TimeXBreakOption } from "./TimeXBreakOption";
 
 
 class manageLog{
@@ -93,20 +94,25 @@ const logs = new Log();
 const breaks = new Break();
 const manage = new manageLog();
 
-export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy, onShowMore}) =>{
+export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =>{
     const { } = useAuth();
 
     const [logsList, setLogsList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [onShowMore, setOnShowMore] = useState({state: false, log: null, breaks: null});
 
-    const initializeCalendar = async() =>{   
+    const initializeCalendar = async() =>{  
         if (!user) return;  
         setLoading(true);   
         const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month, searchBy?.year);
         const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month, searchBy?.year);
         manage.init(logCollector.list(), breakCollector.list(), setLogsList);
         setLoading(false);
-        onCalc?.(new Calculator().calculateTime(logCollector.list()));
+        onCalc?.({
+            total: new Calculator().calculateTime(logCollector.list()),
+            logs: logCollector.list(),
+            breaks: breakCollector.list(),
+        });
     }
 
     useEffect(()=>{
@@ -123,11 +129,12 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy, on
         }catch(error){
             console.log(error?.message);
         }
-    }, [searchBy]);
+    }, [searchBy, user]);
 
     useEffect(()=> manage.init([], [], setLogsList), []);
     
     return(
+        <>
         <div hidden={!isOpen} className="relative">
             {logsList?.map((date, key)=>(
                 <DayCard
@@ -135,7 +142,7 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy, on
                     log={date?.log}
                     breaks={date?.breaks}
                     fullMonth={fullMonth}
-                    onShowMoreTimes={()=>onShowMore(date)}
+                    onShowMoreTimes={()=>setOnShowMore({state: true, log: date.log, breaks: date.breaks})}
                 />
             ))}
             <div hidden={logsList.length} className="calendar-no-record">
@@ -148,5 +155,12 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy, on
             </div>
             <Loading loading={loading} relative/>
         </div>
+        <TimeXBreakOption
+            isOpen={onShowMore.state} 
+            log={onShowMore.log} 
+            breaks={onShowMore.breaks} 
+            onClose={()=>setOnShowMore({state: false, log: null, breaks: null})}
+        />
+        </>
     )
 }

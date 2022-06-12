@@ -4,10 +4,15 @@ export class Teams extends Validation{
     id = null;
     name = null;
     image = null;
+    clientId = null;
     description = null;
 
     setId(id){
         this.id = id;
+    }
+
+    setClientId(clientId){
+        this.clientId = clientId;
     }
 
     setName(name){

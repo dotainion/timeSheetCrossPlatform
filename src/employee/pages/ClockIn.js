@@ -45,7 +45,6 @@ export const ClockIn = () =>{
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [start, setStart] = useState({state: false, at: null});
     const [searchBy, setSearchBy] = useState({month: dHelper.monthMini(d.getMonth()), year: `${d.getFullYear()}`});
-    const [timeXBreakLog, setTimeXBreakLog] = useState({state: false, log: null, breaks: null});
 
     const parentRef = useRef();
 
@@ -220,16 +219,9 @@ export const ClockIn = () =>{
                             isOpen={true} 
                             fullMonth={true}
                             searchBy={searchBy}
-                            onCalc={setTotal}
-                            onShowMore={(data)=>{setTimeXBreakLog({state: true, log: data?.log, breaks: data?.breaks})}} 
+                            onCalc={(data)=>setTotal(data.total)}
                         />
                     </div>
-                    <TimeXBreakOption 
-                        isOpen={timeXBreakLog.state} 
-                        log={timeXBreakLog.log} 
-                        breaks={timeXBreakLog.breaks} 
-                        onClose={()=>setTimeXBreakLog({state: false, log: null, breaks: null})}
-                    />
                 </div>
             </div>
             <LogPicker

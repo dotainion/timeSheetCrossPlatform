@@ -40,12 +40,13 @@ export const ProviderWrapper = ({children}) =>{
     }, [user]);
 
     useEffect(async()=>{
-        setTeams(await _teams_.get());
+        if (!user?.teamId) return;
+        setTeams(await _teams_.getByClientId(user?.clientId));
 
         return () =>{
             
         }
-    }, []);
+    }, [user]);
 
     const value = {
         teams,

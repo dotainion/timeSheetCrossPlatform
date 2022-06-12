@@ -10,9 +10,11 @@ export class UsersRepository extends Repository{
         this.factory = new UsersFactory();
     }
 
-    async getUsers(){
+    async getUsersByClientId(clientId){
         return this.factory.map(
-            await this.getWhere(collection.user)
+            await this.getWhere(collection.user, [
+                {clientId: clientId}
+            ])
         )
     }
 
@@ -29,18 +31,20 @@ export class UsersRepository extends Repository{
     }
 
     async addUser(collector){
-        return await this.addData(collection.user, {
-            clientId: collector.clientId,
-            email: collector.email,
-            firstName: collector.firstName,
-            lastName: collector.lastName,
-            image: collector.image,
-            role: collector.role,
-            supervisorId: collector.supervisorId,
-            teamId: collector.teamId,
-            number: collector.number,
-            gender: collector.gender
-        });
+        return this.factory.map(
+            await this.addData(collection.user, {
+                clientId: collector.clientId,
+                email: collector.email,
+                firstName: collector.firstName,
+                lastName: collector.lastName,
+                image: collector.image,
+                role: collector.role,
+                supervisorId: collector.supervisorId,
+                teamId: collector.teamId,
+                number: collector.number,
+                gender: collector.gender
+            }, collector.id)
+        );
     }
 
     async updateUserById(data, uuid){

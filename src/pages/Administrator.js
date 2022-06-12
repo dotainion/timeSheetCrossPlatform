@@ -6,6 +6,7 @@ import { MdManageAccounts } from 'react-icons/md';
 import { NewMember } from '../components/NewMember';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../Routes/Routes';
+import { ButtonCard } from '../widgets/ButtonCard';
 
 
 export const Administrator = () =>{
@@ -23,12 +24,7 @@ export const Administrator = () =>{
     return(
         <Layout>
             <div className="administrator-container">
-                {options.map((opt, key)=>(
-                    <MemberCard onClick={opt?.action} asBtn={true} key={key}>
-                        <opt.icon className="float-center administrator-card-icon" />
-                        <div className="float-center" style={{top: '80%'}}>{opt?.title}</div>
-                    </MemberCard>
-                ))}
+                <ButtonCard onClick={()=> navigate(routes.manageMembers)} title={'Manage Members'} manage />
             </div>
         </Layout>
     )

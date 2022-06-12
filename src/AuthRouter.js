@@ -11,7 +11,6 @@ export const AuthRouter = ({element, isAdmin}) =>{
 
     const location = useLocation();
 
-        console.log(isAuthenticated)
     if (isAuthenticated){
         if (!role.includes(isAuthenticated?.role)){
             return <Navigate to={routes.signIn} />;

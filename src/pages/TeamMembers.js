@@ -20,6 +20,9 @@ import { useProvider } from "../provider/ProviderWrapper";
 import { MemberSettings } from "../settings/MemberSettings";
 import { Roles } from "../infrastructure/Roles";
 import { NewMember } from "../components/NewMember";
+import { BiImport } from 'react-icons/bi';
+import { ButtonCard } from "../widgets/ButtonCard";
+import { AsignMembers } from "./AsignMembers";
 
 
 const uTeam = new Teams();
@@ -31,7 +34,6 @@ export const TeamMembers = () =>{
     const [team, setTeam] = useState();
     const [openModal, setOpenModal] = useState(false);
     const [openSetting, setOpenSetting] = useState({state: false, data: null});
-    const [openAlert, setOpenAlert] = useState({state: false, data: null, cardRef: null});
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -43,11 +45,6 @@ export const TeamMembers = () =>{
             action: ()=>navigate(routes.teams)
         }
     ];
-
-    const onDeleteMember = (userId, cardRef) =>{
-        users.delete(userId);
-        $(cardRef).remove();
-    }
 
     useEffect(async()=>{
         const id = location.pathname.split(':')?.[2];
@@ -72,10 +69,8 @@ export const TeamMembers = () =>{
         <Layout options={navOption} title={`Members of team '${team?.name}'.`}>
             <div>
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <MemberCard onClick={()=>setOpenModal(true)} asBtn={true}>
-                        <VscAdd className="float-center" />
-                        <div className="float-center" style={{top: '80%'}}>Add member</div>
-                    </MemberCard>
+                    <ButtonCard onClick={()=>setOpenModal(true)} title={'Add Member'} add />
+                    <ButtonCard onClick={()=>navigate(routes.asignMembers)} title={'Import Member'} imports />
                 </div>
                 {
                     members.length?
@@ -94,8 +89,8 @@ export const TeamMembers = () =>{
                                     title: 'Settings',
                                     action: (e)=>setOpenSetting({state: true, data: usr})
                                 },{
-                                    title: 'Delete',
-                                    action: (e)=>setOpenAlert({state: true, data: usr, cardRef: e.ref})
+                                    title: 'Re Assign',
+                                    action: (e)=>navigate(routes.asignMembers, {state: usr.id})
                                 },{
                                     title: 'Report',
                                     action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
@@ -122,16 +117,6 @@ export const TeamMembers = () =>{
                 onClose={()=>setOpenModal(false)}
                 teamId={team?.id}
                 message="Let's start with information on your member"
-            />
-
-            <ConfirmXl
-                isOpen={openAlert.state}
-                title="Warning! This will permanently delete all data conresponding to this member."
-                message="Are you sure you will like to perminatly delete this team?"
-                switchMsg=""
-                switchOnMsg=""
-                onClose={()=>setOpenAlert({state: false, data: null, cardRef: null})}
-                onConfirm={()=>onDeleteMember(openAlert.data.id, openAlert.cardRef)}
             />
 
             <MemberSettings 

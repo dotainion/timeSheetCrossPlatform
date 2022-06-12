@@ -122,23 +122,6 @@
     background-repeat: no-repeat;
     background-size: 100% 100%;
 }
-.team-cart-children svg{
-    width: 30px;
-    height: 30px;
-    color: dodgerblue;
-}
-.team-cart-children{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    color: dodgerblue;
-    transform: translate3d(-50%, -50%, 0);
-}
-.team-cart-children svg:hover{
-    background-color: transparent;
-}
 .team-list-container{
     width: 100%;
     display: table;
@@ -156,9 +139,11 @@
     border-radius: 5px;
     overflow: hidden;
     background-color: white;
+    transition: 0.5s all;
 }
 .team-card-hover:hover{
     cursor: pointer;
+    transform: scale(1.05);
     background-color: rgb(247, 247, 247);
 }
 .team-card svg{
@@ -348,6 +333,28 @@
     top: 0px !important;
     font-size: 12px !important;
     transition: all 0.3s;
+}
+.search-input{
+    min-width: calc(100% - 24px);
+    padding: 12px 8px;
+    display: flex;
+    align-items: center;
+    cursor: text;
+    height: 18px;
+    border-radius: 25px;
+    border: 1px solid rgb(0, 0, 0, 0.4) !important;
+}
+.search-input input{
+    width: 100%;
+    height: 30px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+.search-input svg{
+    font-size: 30px;
+    cursor: pointer;
+    color: dodgerblue;
 }
 .btn-container{
     padding: 8px;
@@ -1365,17 +1372,17 @@
     transform: translate3d(-50%, -50%, 0);
 }
 .user-toolbar{
-    width: 60px;
+    width: 50px;
     height: 100vh;
-    padding: 20px 1px;
+    padding: 20px 3px;
     -webkit-app-region: drag;
     border-bottom: 1px solid gray;
     background-color: rgb(32, 32, 32, 0.95);
 }
 .user-toolbar-card{
-    max-width: 100%;
-    padding: 10px 20px 10px 20px;
-    margin-top: 10px;
+    min-width: 95%;
+    height: 35px;
+    margin: 2px 0;
     cursor: pointer;
     user-select: none;
     position: relative;
@@ -1386,7 +1393,12 @@
     border: 1px solid rgb(0, 0, 0, 0.05);
 }
 .user-toolbar-card svg{
+    top: 50%;
+    left: 50%;
     color: white;
+    font-size: 20px;
+    position: absolute;
+    transform: translate3d(-50%, -50%, 0);
 }
 .user-toolbar-card:hover{
     background-color: rgb(24, 24, 24);
@@ -1491,4 +1503,75 @@
 }
 .log-picker-btn-container button:hover{
     background-color: white;
+}
+.btn-card-container{
+    width: 25%;
+    display: inline-table;
+}
+.btn-card{
+    position: relative;
+    margin: 5px;
+    padding: 10px;
+    height: 18vh;
+    text-align: center;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: white;
+    transition: 0.5s all;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
+}
+.btn-card:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background-color: rgb(247, 247, 247);
+}
+.btn-card div{
+    top: 80% !important;
+}
+.btn-card svg{
+    font-size: 30px;
+}
+.all-member-container{
+    width: 60%;
+    margin: auto;
+}
+.all-members-scroll{
+    overflow-y: auto;
+    height: 82vh;
+}
+.all-member-card{
+    position: relative;
+    display: flex;
+    padding: 5px;
+    text-align: center;
+    align-items: center;
+    border-bottom: 1px solid rgb(177, 175, 175);
+}
+.all-member-card:hover{
+    background-color: lightgray;
+}
+.all-member-card > div{
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.all-member-card [data-profile]{
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+.all-member-card [data-profile] [data-image]{
+    margin-right: 10px;
+    font-size: 30px;
+}
+.all-member-card select{
+    padding: 5px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+.all-member-container [data-search]{
+    width: 50%;
+    margin: 30px;
 }

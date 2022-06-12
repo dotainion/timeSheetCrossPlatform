@@ -128,11 +128,12 @@ export class Authenticate extends ToastHandler{
                 throw new Error('Invalid password.');
             }
 
-            await this.saveCreds.pauseStateChange(true);
-            await auth.createUserWithEmailAndPassword(email, password);
+            this.saveCreds.pauseStateChange(true);
+            const response = await auth.createUserWithEmailAndPassword(email, password);
             await this.resetPasswordViaEmail(email);
 
             const rtUsr = await this.user.add(
+                response?.user?.uid,
                 clientId,
                 email,
                 fName,
