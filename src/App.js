@@ -24,7 +24,9 @@ import { Register } from './account/Register';
 import { Administrator } from './pages/Administrator';
 import { ManageMembers } from './pages/ManageMembers';
 import { AuthRouter } from './AuthRouter';
-import { AsignMembers } from './pages/AsignMembers';
+import { AllMembers } from './pages/AllMembers';
+import { MemberSpreadSheetSettings } from './settings/MemberSpreadSheetSettings';
+import { MemberSettings } from './settings/MemberSettings';
 
 
 function App() {
@@ -44,7 +46,9 @@ function App() {
             <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
             <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
             <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
-            <Route path={routes.asignMembers} element={<AuthRouter element={<AsignMembers/>} isAdmin />} />
+            <Route path={routes.members} element={<AuthRouter element={<AllMembers/>} isAdmin />} />
+            <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />
+            <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
             {/** not found **/}

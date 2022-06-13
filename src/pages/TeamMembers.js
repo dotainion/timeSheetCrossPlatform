@@ -17,12 +17,11 @@ import $ from 'jquery';
 import { ConfirmXl } from "../widgets/ConfirmXl";
 import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
-import { MemberSettings } from "../settings/MemberSettings";
+import { MemberSpreadSheetSettings } from "../settings/MemberSpreadSheetSettings";
 import { Roles } from "../infrastructure/Roles";
 import { NewMember } from "../components/NewMember";
 import { BiImport } from 'react-icons/bi';
 import { ButtonCard } from "../widgets/ButtonCard";
-import { AsignMembers } from "./AsignMembers";
 
 
 const uTeam = new Teams();
@@ -70,7 +69,7 @@ export const TeamMembers = () =>{
             <div>
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
                     <ButtonCard onClick={()=>setOpenModal(true)} title={'Add Member'} add />
-                    <ButtonCard onClick={()=>navigate(routes.asignMembers)} title={'Import Member'} imports />
+                    <ButtonCard onClick={()=>navigate(routes.members)} title={'Import Member'} imports />
                 </div>
                 {
                     members.length?
@@ -86,11 +85,14 @@ export const TeamMembers = () =>{
                             onClick={(e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
                             menu={[
                                 {
-                                    title: 'Settings',
-                                    action: (e)=>setOpenSetting({state: true, data: usr})
+                                    title: 'Spreadsheet Settings',
+                                    action: (e)=>navigate(`${routes.spreadSheetSettings.replace('userId', `userId:${usr.id}`)}`)
+                                },{
+                                    title: 'User Settings',
+                                    action: (e)=>navigate(`${routes.memberSettings.replace('userId', `userId:${usr.id}`)}`)
                                 },{
                                     title: 'Re Assign',
-                                    action: (e)=>navigate(routes.asignMembers, {state: usr.id})
+                                    action: (e)=>navigate(routes.members, {state: usr.id})
                                 },{
                                     title: 'Report',
                                     action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
@@ -117,12 +119,6 @@ export const TeamMembers = () =>{
                 onClose={()=>setOpenModal(false)}
                 teamId={team?.id}
                 message="Let's start with information on your member"
-            />
-
-            <MemberSettings 
-                user={openSetting.data}
-                isOpen={openSetting.state} 
-                onClose={()=>setOpenSetting({state: false, data: null})} 
             />
         </Layout>
     )

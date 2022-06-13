@@ -21,7 +21,7 @@ export const ManageMembers = () =>{
     return(
         <Layout options={[{title: 'Administration', action: ()=> navigate(routes.administrator)}]}>
             <ButtonCard onClick={()=>setOpenNewMember(true)} title={'Add Members'} add />
-            <ButtonCard onClick={()=>navigate(routes.asignMembers)} title={'Assign Members'} asign />
+            <ButtonCard onClick={()=>navigate(routes.members)} title={'Members'} asign />
                 
             <NewMember
                 isOpen={openNewMember} 

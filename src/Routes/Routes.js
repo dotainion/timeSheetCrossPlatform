@@ -10,5 +10,7 @@ export const routes = {
     signIn: '/sign/in',
     register: '/register',
     administrator: '/administrator',
-    asignMembers: '/asign/members'
+    members: '/all/members',
+    memberSettings: '/member/settings:userId',
+    spreadSheetSettings: '/spread/sheet/settings:userId',
 }

@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Modal } from "../container/Modal";
 import { CgProfile } from 'react-icons/cg';
-import { AiOutlineCheckCircle } from 'react-icons/ai';
-import { Input } from "../widgets/Input";
+import { MdOutlineSettingsSuggest } from 'react-icons/md';
+import { BsFillForwardFill } from "react-icons/bs";
 import { Search } from "../components/Search";
 import { Roles } from "../infrastructure/Roles";
 import { Layout } from "../layout/Layout";
@@ -10,30 +9,23 @@ import { Teams } from "../module/logic/Teams";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { Users } from "../module/logic/Users";
 import { Loading } from "../components/Loading";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { routes } from "../Routes/Routes";
 
 const roles = new Roles();
 const _teams_ = new Teams();
 const _members_ = new Users();
 
-export const AsignMembers = () =>{
+export const AllMembers = () =>{
     const { user } = useAuth();
 
-    const [selection, setSelection] = useState([]);
     const [teams, setTeams] = useState([]);
     const [members, setMembers] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
     const location = useLocation();
     const membersList = useRef();
-
-    const updateRole = async(role, userId) =>{
-        _members_.updateUser({role: role}, userId);
-    }
-
-    const updateTeam = async(teamId, userId) =>{
-        _members_.updateUser({teamId: teamId}, userId);
-    }
 
     const onSearch = (search) =>{
         setLoading(true);
@@ -47,9 +39,23 @@ export const AsignMembers = () =>{
             if (fName || lName) maches.push(item);
             else unMaches.push(item);
         }
-        membersList.current = [...maches, ...unMaches];
         setMembers([...maches, ...unMaches]);
         setLoading(false);
+    }
+
+    const onFilter = (teamId) =>{
+        setLoading(true);
+        setMembers([]);
+        let maches = [];
+        if(teamId != 'ALL'){
+            for(let item of membersList.current || []){
+                if (item.teamId === teamId) maches.push(item);
+            }
+        }else maches = membersList.current || [];
+        setTimeout(()=>{
+            setMembers(maches);
+            setLoading(false);
+        }, 0);
     }
 
     const seletedMembers = (mbrs) =>{
@@ -66,11 +72,31 @@ export const AsignMembers = () =>{
         return [...maches, ...unMaches];
     }
 
+    const getTeamName = (mbrs, fTeams) =>{
+        let updateMembers = [];
+        for(let mbr of mbrs){
+            let psx = false;
+            for(let tteam of fTeams || []){
+                if (mbr?.teamId === tteam?.id){
+                    mbr['teamName'] = tteam?.name;
+                    psx = true;
+                    break;
+                }
+            }
+            if(!psx){
+                mbr['teamName'] = 'unassign';
+            }
+            updateMembers.push(mbr);
+        }
+        return updateMembers;
+    }
+
     const initialize = async() =>{
         setLoading(true);
         membersList.current = [];
-        const tTeams = await _teams_.getByClientId(user?.clientId);
+        let tTeams = await _teams_.getByClientId(user?.clientId);
         let tMembers = await _members_.getByClientId(user?.clientId);
+        tMembers = getTeamName(tMembers, tTeams);
         tMembers = seletedMembers(tMembers);
         membersList.current = tMembers;
         setTeams(tTeams);
@@ -84,11 +110,26 @@ export const AsignMembers = () =>{
         <Layout>
             <div className="all-member-container">
                 <div data-search>
-                    <Search onSearch={onSearch} />
+                    <div>
+                        <Search onSearch={onSearch} />
+                    </div>
+                    <div>
+                        <select onChange={(e)=>onFilter(e.target.value)}>
+                            <option value={'ALL'} >View All</option>
+                            {teams.map((role, key)=>(
+                                <option value={role?.id} key={key}>{role?.name}</option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 <div className="all-members-scroll">
                     {members.map((usr, key)=>(
-                        <div className="all-member-card" style={{backgroundColor: usr?.selected && 'lightblue'}} key={key}>
+                        <div 
+                            onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})}
+                            className="all-member-card" 
+                            style={{backgroundColor: usr?.selected && 'lightblue'}} 
+                            key={key}
+                            >
                             <div data-profile>
                                 <div data-image>
                                     <CgProfile/>
@@ -99,20 +140,11 @@ export const AsignMembers = () =>{
                                     <div>{usr?.email}</div>
                                 </div>
                             </div>
-                            <div>
-                                <select onChange={(e)=>updateRole(e.target.value, usr?.id)} defaultValue={usr?.role}>
-                                    {roles.roles().map((role, key)=>(
-                                        <option key={key}>{role?.title}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <select onChange={(e)=>updateTeam(e.target.value, usr?.id)} defaultValue={usr?.teamId}>
-                                    <option>unassign</option>
-                                    {teams.map((role, key)=>(
-                                        <option value={role?.id} key={key}>{role?.name}</option>
-                                    ))}
-                                </select>
+                            <div>{usr?.role}</div>
+                            <div>{usr?.teamName}</div>
+                            <div data-settings-pointer>
+                                <BsFillForwardFill/>
+                                <MdOutlineSettingsSuggest/>
                             </div>
                         </div>
                     ))}

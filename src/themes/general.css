@@ -1543,12 +1543,17 @@
     position: relative;
     display: flex;
     padding: 5px;
+    cursor: pointer;
     text-align: center;
     align-items: center;
+    transition: 0.5s all;
     border-bottom: 1px solid rgb(177, 175, 175);
 }
 .all-member-card:hover{
     background-color: lightgray;
+}
+.all-member-card:hover [data-settings-pointer]{
+    display: block;
 }
 .all-member-card > div{
     flex: 1;
@@ -1564,14 +1569,28 @@
     margin-right: 10px;
     font-size: 30px;
 }
-.all-member-card select{
-    padding: 5px;
-    cursor: pointer;
-    background-color: transparent;
-    border: none;
-    outline: none;
+.all-member-card [data-settings-pointer]{
+    position: absolute;
+    display: none;
+    right: 10px;
+    color: green;
+    font-size: 20px;
 }
 .all-member-container [data-search]{
-    width: 50%;
-    margin: 30px;
+    width: 100%;
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+}
+.all-member-container [data-search] > div{
+    flex: 1;
+}
+.all-member-container [data-search] select{
+    float: right;
+    height: 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.4);
 }

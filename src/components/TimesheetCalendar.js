@@ -122,6 +122,7 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =
 
     useEffect(()=>{
         try{
+            if(!isOpen) return;
             if (!searchBy?.month || !searchBy?.year){
                 throw new Error('searchBy must have properties "month" and "year".');
             }
@@ -129,7 +130,7 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =
         }catch(error){
             console.log(error?.message);
         }
-    }, [searchBy, user]);
+    }, [searchBy, user, isOpen]);
 
     useEffect(()=> manage.init([], [], setLogsList), []);
     

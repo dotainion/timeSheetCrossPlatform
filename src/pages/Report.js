@@ -106,6 +106,11 @@ export const Report = () =>{
         });
     }
 
+    const resetValues = () =>{
+        setLogs([]);
+        setTotals({totalTime: 0, timeFrom: '', timeTo: ''});
+    }
+
     useEffect(async()=>{
         const id = location.pathname.split(':')[2];
 
@@ -139,7 +144,10 @@ export const Report = () =>{
         <Layout title="Report">
             <div className="report-toggle">
                 <SiTeamviewer 
-                    onClick={()=>setToggleCalendar(!toggleCalendar)}
+                    onClick={()=>{
+                        resetValues();
+                        setToggleCalendar(!toggleCalendar);
+                    }}
                     fill={toggleCalendar ? 'dodgerblue' : 'black'}
                 />
             </div>
@@ -188,7 +196,15 @@ export const Report = () =>{
                     user={member}
                     isOpen={toggleCalendar}
                     searchBy={searchBy}
-                    onCalc ={(data)=>console.log(data.total)}
+                    onCalc={(data)=>{
+                        calculation({
+                            ...data,
+                            totalTime: data.total,
+                            timeFrom: searchBy.month + ' ' + searchBy.year,
+                            timeTo: searchBy.month + ' ' + searchBy.year
+                        });
+                        setLogs(data.logs);
+                    }}
                 />
             </div>
 

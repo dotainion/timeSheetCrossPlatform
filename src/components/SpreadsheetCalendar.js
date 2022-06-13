@@ -46,6 +46,7 @@ export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
     };
 
     useEffect(()=>{
+        if(!isOpen) return;
         if (sheets?.length){
             navigate(`${sheets?.[sheets?.length -1]?.[0]?.sheetId}`);
         }
@@ -54,7 +55,7 @@ export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
         return () =>{
             
         }
-    }, [sheets]);
+    }, [sheets, isOpen]);
 
     return(
         <div hidden={!isOpen}>
