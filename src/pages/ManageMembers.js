@@ -3,16 +3,13 @@ import { MemberCard } from "../components/MemberCard";
 import { PercentageCard } from "../components/PercentageCard";
 import { Layout } from "../layout/Layout";
 import { VscAdd } from 'react-icons/vsc';
-import { NewMember } from "../components/NewMember";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
 import { ButtonCard } from "../widgets/ButtonCard";
 
 
 
-export const ManageMembers = () =>{
-    const [openNewMember, setOpenNewMember] = useState(false);
-    
+export const ManageMembers = () =>{    
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -20,14 +17,8 @@ export const ManageMembers = () =>{
     }, []);
     return(
         <Layout options={[{title: 'Administration', action: ()=> navigate(routes.administrator)}]}>
-            <ButtonCard onClick={()=>setOpenNewMember(true)} title={'Add Members'} add />
+            <ButtonCard onClick={()=>navigate(routes.createMember+':unassign')} title={'Add Members'} add />
             <ButtonCard onClick={()=>navigate(routes.members)} title={'Members'} asign />
-                
-            <NewMember
-                isOpen={openNewMember} 
-                onClose={()=>setOpenNewMember(false)} 
-                message="Add a new member"
-            />
         </Layout>
     )
 }

@@ -1543,17 +1543,10 @@
     position: relative;
     display: flex;
     padding: 5px;
-    cursor: pointer;
     text-align: center;
     align-items: center;
     transition: 0.5s all;
     border-bottom: 1px solid rgb(177, 175, 175);
-}
-.all-member-card:hover{
-    background-color: lightgray;
-}
-.all-member-card:hover [data-settings-pointer]{
-    display: block;
 }
 .all-member-card > div{
     flex: 1;
@@ -1562,19 +1555,25 @@
 }
 .all-member-card [data-profile]{
     display: flex;
+    cursor: pointer;
     text-align: left;
     align-items: center;
+    transition: 0.2s all;
+}
+.all-member-card [data-profile]:hover{
+    color: dodgerblue;
+    text-decoration: underline;
 }
 .all-member-card [data-profile] [data-image]{
     margin-right: 10px;
     font-size: 30px;
 }
-.all-member-card [data-settings-pointer]{
-    position: absolute;
-    display: none;
-    right: 10px;
-    color: green;
-    font-size: 20px;
+.all-member-card select{
+    height: 30px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
 }
 .all-member-container [data-search]{
     width: 100%;
@@ -1594,3 +1593,70 @@
     background-color: transparent;
     border-bottom: 1px solid rgb(0, 0, 0, 0.4);
 }
+.member-settings-container{
+    display: flex;
+    height: 90vh;
+}
+.member-settings-container [data-nav-container]{
+    width: 200px;
+    padding: 10px;
+    margin-top: 50px;
+    border-right: 1px solid rgb(0, 0, 0, 0.4);
+}
+.member-settings-container [data-profile-container]{
+    width: 100%;
+}
+.member-settings-container [data-nav]{
+    padding: 7px;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(0, 0, 0, 0.4);
+}
+.member-settings-container [data-nav] select{
+    width: 100%;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    background-color: transparent;
+}
+.member-settings-container img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 20px;
+    margin-left: 150px;
+    margin-bottom: 20px;
+    background-color: dodgerblue;
+}
+.member-settings-container [data-header]{
+    margin: 20px;
+    margin-top: 60px;
+}
+.member-settings-container [data-inputs]{
+    width: 100%;
+    max-width: 500px;
+    margin: auto;
+}
+.member-settings-container [data-no-pointer]{
+    cursor: default !important;
+}
+.create-member-container{
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    padding-top: 20px;
+}
+.create-member-container [data-btn-container] .btn-container{
+    float: left;
+}
+.create-member-container [data-btn-container] .image-btn{
+    float: right;
+}
+.create-member-container h2{
+    margin-bottom: 0;
+}
+.create-member-container h1{
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+

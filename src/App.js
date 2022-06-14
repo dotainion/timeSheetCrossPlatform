@@ -27,6 +27,7 @@ import { AuthRouter } from './AuthRouter';
 import { AllMembers } from './pages/AllMembers';
 import { MemberSpreadSheetSettings } from './settings/MemberSpreadSheetSettings';
 import { MemberSettings } from './settings/MemberSettings';
+import { CreateMember } from './pages/CreateMember';
 
 
 function App() {
@@ -47,7 +48,8 @@ function App() {
             <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
             <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
             <Route path={routes.members} element={<AuthRouter element={<AllMembers/>} isAdmin />} />
-            <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />
+            <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />            
+            <Route path={routes.createMember} element={<AuthRouter element={<CreateMember/>} isAdmin />} />
             <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />

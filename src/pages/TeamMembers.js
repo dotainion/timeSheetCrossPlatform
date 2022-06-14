@@ -17,9 +17,7 @@ import $ from 'jquery';
 import { ConfirmXl } from "../widgets/ConfirmXl";
 import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
-import { MemberSpreadSheetSettings } from "../settings/MemberSpreadSheetSettings";
 import { Roles } from "../infrastructure/Roles";
-import { NewMember } from "../components/NewMember";
 import { BiImport } from 'react-icons/bi';
 import { ButtonCard } from "../widgets/ButtonCard";
 
@@ -31,7 +29,6 @@ export const TeamMembers = () =>{
     const { members, initializeMembers } = useProvider();
 
     const [team, setTeam] = useState();
-    const [openModal, setOpenModal] = useState(false);
     const [openSetting, setOpenSetting] = useState({state: false, data: null});
 
     const location = useLocation();
@@ -68,7 +65,7 @@ export const TeamMembers = () =>{
         <Layout options={navOption} title={`Members of team '${team?.name}'.`}>
             <div>
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>setOpenModal(true)} title={'Add Member'} add />
+                    <ButtonCard onClick={()=>navigate(routes.createMember.replace('teamId', `teamId:${team?.id}`))} title={'Add Member'} add />
                     <ButtonCard onClick={()=>navigate(routes.members)} title={'Import Member'} imports />
                 </div>
                 {
@@ -113,13 +110,6 @@ export const TeamMembers = () =>{
                     />
                 }
             </div>
-
-            <NewMember 
-                isOpen={openModal}
-                onClose={()=>setOpenModal(false)}
-                teamId={team?.id}
-                message="Let's start with information on your member"
-            />
         </Layout>
     )
 }

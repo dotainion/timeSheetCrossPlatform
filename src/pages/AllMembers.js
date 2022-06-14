@@ -27,6 +27,14 @@ export const AllMembers = () =>{
     const location = useLocation();
     const membersList = useRef();
 
+    const updateRole = async(role, userId) =>{
+        _members_.updateUser({role: role}, userId);
+    }
+
+    const updateTeam = async(teamId, userId) =>{
+        _members_.updateUser({teamId: teamId}, userId);
+    }
+
     const onSearch = (search) =>{
         setLoading(true);
         let maches = [];
@@ -116,8 +124,8 @@ export const AllMembers = () =>{
                     <div>
                         <select onChange={(e)=>onFilter(e.target.value)}>
                             <option value={'ALL'} >View All</option>
-                            {teams.map((role, key)=>(
-                                <option value={role?.id} key={key}>{role?.name}</option>
+                            {teams.map((t, key)=>(
+                                <option value={t?.id} key={key}>{t?.name}</option>
                             ))}
                         </select>
                     </div>
@@ -125,12 +133,11 @@ export const AllMembers = () =>{
                 <div className="all-members-scroll">
                     {members.map((usr, key)=>(
                         <div 
-                            onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})}
                             className="all-member-card" 
                             style={{backgroundColor: usr?.selected && 'lightblue'}} 
                             key={key}
                             >
-                            <div data-profile>
+                            <div onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})} data-profile>
                                 <div data-image>
                                     <CgProfile/>
                                 </div>
@@ -140,11 +147,21 @@ export const AllMembers = () =>{
                                     <div>{usr?.email}</div>
                                 </div>
                             </div>
-                            <div>{usr?.role}</div>
-                            <div>{usr?.teamName}</div>
-                            <div data-settings-pointer>
-                                <BsFillForwardFill/>
-                                <MdOutlineSettingsSuggest/>
+                            <div>
+                                <select onChange={(e)=>updateRole(e.target.value, usr?.id)} defaultValue={usr?.role}>
+                                    <option value={''}>unassign</option>
+                                    {(new Roles()).roles().map((role, key)=>(
+                                        <option value={role?.id} key={key}>{role?.title}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <select onChange={(e)=>updateTeam(e.target.value, usr?.id)} defaultValue={usr?.teamName}>
+                                    <option value={''}>unassign</option>
+                                    {teams.map((t, key)=>(
+                                        <option key={key}>{t?.name}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
                     ))}

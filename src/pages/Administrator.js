@@ -3,7 +3,6 @@ import { MemberCard } from '../components/MemberCard';
 import { Layout } from '../layout/Layout';
 import { VscAdd } from 'react-icons/vsc';
 import { MdManageAccounts } from 'react-icons/md';
-import { NewMember } from '../components/NewMember';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../Routes/Routes';
 import { ButtonCard } from '../widgets/ButtonCard';

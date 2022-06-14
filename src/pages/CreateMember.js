@@ -5,21 +5,28 @@ import { Teams } from "../module/logic/Teams";
 import { Users } from "../module/logic/Users";
 import { useProvider } from "../provider/ProviderWrapper";
 import { Input } from "../widgets/Input";
-import { Loading } from "./Loading";
+import { Loading } from "../components/Loading";
 import { Authenticate } from '../module/logic/Authenticate';
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { Validation } from "../infrastructure/Validation";
 import $ from 'jquery';
 import { BrowserLoginCredentials } from "../infrastructure/BrowserLoginCredentials";
+import { Gender } from "../infrastructure/Gender";
+import { Layout } from "../layout/Layout";
+import { Button } from "../widgets/Button";
+import { ImgButton } from "../widgets/ImgButton";
+import { useLocation } from "react-router-dom";
 
 
 const auth = new Authenticate();
 
-export const NewMember = ({isOpen, teamId, onClose, message}) =>{
+export const CreateMember = () =>{
     const { user } = useAuth();
     const { addToMember } = useProvider();
 
     const [loading, setLoading] = useState(false);
+
+    const location = useLocation();
 
     const fNameRef = useRef();
     const lNameRef = useRef();
@@ -34,6 +41,8 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
     const addMember = async() =>{
         setLoading(true);
 
+        const teamId = location.pathname.split(':')?.[2];
+
         const rtUsr = await auth.creatUser(
             user?.clientId,
             emailRef.current.value,
@@ -42,7 +51,7 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
             imageRef.current || '',
             roleRef.current.value,
             user?.id,
-            teamId || '',
+            teamId == 'unassign' ? '': teamId || '',
             phoneRef.current.value,
             genderRef.current.value,
             passwordRef.current.value
@@ -74,28 +83,24 @@ export const NewMember = ({isOpen, teamId, onClose, message}) =>{
     }, []);
 
     return(
-        <>
-        <ModalXl
-            isOpen={isOpen} 
-            onClose={onClose}
-            title="Create a member"
-            message={message}
-            onImageSelect={(img)=>imageRef.current = img}
-            onConfirm={addMember}
-            >
-            <Input title="First Name" inputRef={fNameRef} />
-            <Input title="Last Name" inputRef={lNameRef} />
-            <Input title="Email" inputRef={emailRef} type="email" />
-            <Input title="Phone Number" inputRef={phoneRef} />
-            <Input title="Gender" inputRef={genderRef} options={[
-                { title: 'Male' },
-                { title: 'Female' }
-            ]} />
-            <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
-            <Input title="Username" inputRef={usernameRef} disabled />
-            <Input title="Password" inputRef={passwordRef} type="password" />
-        </ModalXl>
-        <Loading loading={loading} />
-        </>
+        <Layout>
+            <div className="create-member-container">
+                <h2>Create a member</h2>
+                <h1>Let's start with information on your member</h1>
+                <Input title="First Name" inputRef={fNameRef} />
+                <Input title="Last Name" inputRef={lNameRef} />
+                <Input title="Email" inputRef={emailRef} type="email" />
+                <Input title="Phone Number" inputRef={phoneRef} />
+                <Input title="Gender" inputRef={genderRef} options={(new Gender()).genders()} />
+                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
+                <Input title="Username" inputRef={usernameRef} disabled />
+                <Input title="Password" inputRef={passwordRef} type="password" />
+                <div data-btn-container>
+                    <Button onClick={addMember} title="Save" />
+                    <ImgButton onChange={(img)=>imageRef.current = img} />
+                </div>
+            </div>
+            <Loading loading={loading} />
+        </Layout>
     )
 }

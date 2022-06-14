@@ -11,6 +11,7 @@ export const routes = {
     register: '/register',
     administrator: '/administrator',
     members: '/all/members',
+    createMember: '/create/member:teamId',
     memberSettings: '/member/settings:userId',
     spreadSheetSettings: '/spread/sheet/settings:userId',
 }

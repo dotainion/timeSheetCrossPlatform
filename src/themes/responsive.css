@@ -177,6 +177,9 @@
     .all-member-container [data-search]{
         margin: 20px 0;
     }
+    .member-settings-container{
+        display: block;
+    }
 }
 
 @media screen and (max-width:430px){
@@ -185,6 +188,21 @@
     }
     .btn-card-container{
         width: 100%;
+    }
+    .member-settings-container img{
+        width: 80px;
+        height: 80px;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+    .member-settings-container [data-header]{
+        margin: 0 20px;
+        margin-top: 10px;
+    }
+    .member-settings-container [data-nav-container]{
+        width: calc(100% - 20px);
+        margin-top: 10px;
+        border-right: none;
     }
 }
 
