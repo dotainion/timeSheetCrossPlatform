@@ -24,6 +24,7 @@ export const Administrator = () =>{
         <Layout>
             <div className="administrator-container">
                 <ButtonCard onClick={()=> navigate(routes.manageMembers)} title={'Manage Members'} manage />
+                <ButtonCard onClick={()=> navigate(routes.teams)} title={'Manage Teams'} team />
             </div>
         </Layout>
     )

@@ -14,4 +14,5 @@ export const routes = {
     createMember: '/create/member:teamId',
     memberSettings: '/member/settings:userId',
     spreadSheetSettings: '/spread/sheet/settings:userId',
+    manageTeam: '/manage/team:teamId',
 }

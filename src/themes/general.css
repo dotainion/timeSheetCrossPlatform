@@ -1433,9 +1433,46 @@
     padding: 20px 5px 20px 5px;
     border-right: 1px solid lightgray;
 }
+.log-picker-info h6{
+    margin-top: 10px;
+}
 .log-picker-info img{
     width: 50%;
     margin: auto;
+    margin-bottom: 10px;
+}
+.log-picker-from-to{
+    display: flex;
+    position: relative;
+}
+.log-picker-from-to div{
+    position: absolute;
+    width: 100%;
+}
+.log-picker-from-to button{
+    flex: 1;
+    outline: none;
+    cursor: pointer;
+    border-radius: 0;
+    border: none;
+    color: teal;
+    background-color: lightgray;
+}
+.log-picker-from-to button:hover{
+    color: white;
+    background-color: rgb(1, 146, 146);
+}
+.log-picker-from-to div div div[data-date-visible]{
+    cursor: default !important;
+    color: white !important;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: #b87422 !important;
+}
+.log-picker-from-to-selected{
+    cursor: default !important;
+    color: white !important;
+    background-color: #b87422 !important;
 }
 .log-picker-range{
     width: 100%;
@@ -1658,5 +1695,20 @@
     margin-top: 0;
     margin-bottom: 20px;
 }
-
-
+.manage-team-container{
+    width: 50%;
+    margin: auto;
+    padding-top: 100px;
+}
+.manage-team-container h1{
+    margin-bottom: 20px;
+}
+.manage-team-container [data-btn-container]{
+    width: 100%;
+}
+.manage-team-container [data-btn-container] .btn-container {
+    float: left;
+}
+.manage-team-container [data-btn-container] .image-btn {
+    float: right;
+}

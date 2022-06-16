@@ -46,7 +46,6 @@ export class Repository{
     async updateData(collection, data, id){
         const delRef = db.collection(collection).doc(id);
         await delRef.update(data);
-        data = await delRef.get();
         return this.transform(delRef.id, data);
     }
 

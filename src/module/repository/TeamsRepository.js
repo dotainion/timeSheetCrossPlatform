@@ -43,4 +43,10 @@ export class TeamsRepository extends Repository{
             await this.userRepo.deleteUsersByTeam(uuid);
         }
     }
+
+    async updateTeam(data, teamId){
+        return  this.factory.map([
+            await this.updateData(collection.teams, data, teamId)
+        ]);
+    }
 }

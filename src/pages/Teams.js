@@ -23,49 +23,19 @@ import { useProvider } from "../provider/ProviderWrapper";
 import { ButtonCard } from "../widgets/ButtonCard";
 import { useAuth } from "../provider/AuthenticationWrapper";
 
-
 const team = new _Teams_();
+
 export const Teams = () =>{
-    const { user } = useAuth();
     const { teams, addToTeam } = useProvider();
 
-    const [loading, setLoading] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
     const [deleteMembersAlso, setDeleteMembersAlso] = useState();
     const [openAlert, setOpenAlert] = useState({state: false, data: null, cardRef: null});
 
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const nameRef = useRef();
-    const imageRef = useRef();
-    const descriptionRef = useRef();
 
     const breadCrumbs = [
         
     ];
-
-    const onAddTeam = async() =>{
-        setLoading(true);
-        const teamObj = await team.add(
-            nameRef.current.value,
-            descriptionRef.current.value,
-            imageRef.current,
-            user?.clientId
-        );
-
-        if (teamObj == 'error'){
-            return setLoading(false);
-        };
-
-        nameRef.current.value = '';
-        descriptionRef.current.value = '';
-        descriptionRef.current.focus();
-        nameRef.current.focus();
-
-        addToTeam(teamObj);
-        setLoading(false);
-    }
 
     const onDeleteTeam = (teamId, cardRef) =>{
         team.delete(teamId, deleteMembersAlso);
@@ -83,7 +53,7 @@ export const Teams = () =>{
         <Layout options={breadCrumbs} title="Teams">
             <div className="team-list-container">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>setOpenModal(true)} title={'Add Team'} add />
+                    <ButtonCard onClick={()=>navigate(routes.manageTeam)} title={'Add Team'} add />
                 </div>
                 {
                     teams.length?
@@ -97,12 +67,9 @@ export const Teams = () =>{
                             onClick={()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})}
                             menu={[
                                 {
-                                    title: 'Manage',
-                                    action: ()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})
-                                },/*{
-                                    title: 'Report',
-                                    action: (e)=>navigate(`${routes.report}:${obj.id()}`, {state: obj})
-                                },*/{
+                                    title: 'Edit',
+                                    action: ()=>navigate(`${routes.manageTeam}:${obj.id}`, {state: obj})
+                                },{
                                     title: 'Delete',
                                     action: (e)=>setOpenAlert({state: true, data: obj, cardRef: e.ref})
                                 }
@@ -118,22 +85,10 @@ export const Teams = () =>{
                             'Lets get started with creating your first team',
                             'Create your first team by clicking the card  with the plus +.'
                         ]}
-                        onClick={()=>setOpenModal(true)}
+                        onClick={()=>navigate(routes.manageTeam)}
                     />
                 }
             </div>
-            
-            <ModalXl 
-                isOpen={openModal} 
-                onClose={()=>setOpenModal(false)} 
-                title="Create a team"
-                message="Let's start with a name for your team"
-                onConfirm={onAddTeam}
-                onImageSelect={(img)=>imageRef.current = img}
-                >
-                <Input title="Name" inputRef={nameRef} />
-                <Input title="Description" inputRef={descriptionRef} paragraph />
-            </ModalXl>
 
             <ConfirmXl
                 isOpen={openAlert.state}
@@ -144,11 +99,8 @@ export const Teams = () =>{
                 onSwitch={setDeleteMembersAlso}
                 onClose={()=>setOpenAlert({state: false, data: null, cardRef: null})}
                 onConfirm={()=>onDeleteTeam(openAlert.data.id, openAlert.cardRef)}
-                >
+            />
 
-            </ConfirmXl>
-
-            <Loading loading={loading} />
         </Layout>
     )
 }

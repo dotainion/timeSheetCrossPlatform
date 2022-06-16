@@ -204,6 +204,9 @@
         margin-top: 10px;
         border-right: none;
     }
+    .manage-team-container{
+        width: 100%;
+    }
 }
 
 @media screen and (min-width:767px){

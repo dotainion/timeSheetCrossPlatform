@@ -29,6 +29,7 @@ export const TeamMembers = () =>{
     const { members, initializeMembers } = useProvider();
 
     const [team, setTeam] = useState();
+    const [loading, setLoading] = useState(true);
     const [openSetting, setOpenSetting] = useState({state: false, data: null});
 
     const location = useLocation();
@@ -55,7 +56,8 @@ export const TeamMembers = () =>{
 
         setTeam(teamObject);
 
-        initializeMembers(teamObject?.id);
+        await initializeMembers(teamObject?.id);
+        setLoading(false);
 
         return () =>{
 
@@ -110,6 +112,7 @@ export const TeamMembers = () =>{
                     />
                 }
             </div>
+            <Loading loading={loading} />
         </Layout>
     )
 }

@@ -9,17 +9,42 @@ const date = new DateHelper();
 
 export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     const [year, setYear] = useState((new Date()).getFullYear());
+    const [isRange, setIsRange] = useState(false);
+    const [isFrom, setIsFrom] = useState(false);
+    const [dateRange, setDateRange] = useState({
+        fromYear: '', 
+        toYear: '', 
+        fromMonth: '', 
+        toMonth: ''
+    });
 
     const datePickerRef = useRef();
 
     const onSelectDate = (month) =>{
-        onChange?.({year: `${year}`, month: month});
+        if(isRange){
+            if(isFrom) setDateRange({
+                fromYear: `${JSON.parse(JSON.stringify(year))}`, 
+                toYear: dateRange.toYear, 
+                fromMonth: `${JSON.parse(JSON.stringify(month))}`, 
+                toMonth: dateRange.toMonth
+            });
+            else setDateRange({
+                fromYear: dateRange.fromYear, 
+                toYear: `${JSON.parse(JSON.stringify(year))}`, 
+                fromMonth: dateRange.fromMonth, 
+                toMonth: `${JSON.parse(JSON.stringify(month))}`
+            });
+            return;
+        }
+        onChange?.({fromYear: `${year}`, toYear: '', fromMonth: month, toMonth: ''});
     }
 
     const onRevertDate = () =>{
-        onChange?.(revertTo || {
-            month: '',
-            year: ''
+        onChange?.({
+            fromYear: revertTo?.fromYear || '',
+            toYear: revertTo?.toYear || '',
+            fromMonth: revertTo?.fromMonth || '',
+            toMonth: revertTo?.toMonth || ''
         });
         onClose?.();
     }
@@ -39,12 +64,22 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     }
 
     useEffect(()=>{
-        if (isOpen){
-            $(datePickerRef.current).show('fast');
-        }else{
-            $(datePickerRef.current).hide('fast');
-        }
+        if (isOpen) $(datePickerRef.current).show('fast');
+        else $(datePickerRef.current).hide('fast');
     }, [isOpen]);
+
+    useEffect(()=>{
+        if(isRange){
+            const month = isFrom ? dateRange.fromMonth : dateRange.toMonth;
+            onSelectDate(month || date.monthMini((new Date()).getMonth()));
+        }
+    }, [year]);
+
+    useEffect(()=>{
+        if(!dateRange.fromYear && !dateRange.fromMonth) return;
+        return onChange?.(dateRange);
+    }, [dateRange]);
+
     return(
         <div ref={datePickerRef} onClick={onClose} className="log-picker-container-backdrop">
             <div onClick={(e)=>e.stopPropagation()} className="log-picker-container">
@@ -53,6 +88,18 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
                         <div>TIME PICKER</div>
                         <h6>Select by month</h6>
                         <img src={logo} alt="" />
+                        <div className="log-picker-from-to">
+                            <div>
+                                <button onClick={()=>setIsRange(false)} className={`${!isRange && 'log-picker-from-to-selected'}`}>Select</button>
+                                <button onClick={()=>setIsRange(true)} className={`${isRange && 'log-picker-from-to-selected'}`}>Range</button>
+                                <div hidden={!isRange}>
+                                    <button onClick={()=>setIsFrom(false)} className={`${!isFrom && 'log-picker-from-to-selected'}`}>From</button>
+                                    <button onClick={()=>setIsFrom(true)} className={`${isFrom && 'log-picker-from-to-selected'}`}>To</button>
+                                    <div hidden={!isFrom} data-date-visible>{dateRange.fromMonth}/{dateRange.fromYear}</div>
+                                    <div hidden={isFrom} data-date-visible>{dateRange.toMonth}/{dateRange.toYear}</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div className="log-picker-range">
                         <div>SELECT A MONTH RANGE:</div>

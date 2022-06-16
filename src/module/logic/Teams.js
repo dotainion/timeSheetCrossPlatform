@@ -57,6 +57,16 @@ export class Teams extends ToastHandler{
         }
     }
 
+    async updateTeam(data, teamId){
+        try{
+            const response = await this.repo.updateTeam(data, teamId);
+            this.success('Update successfully.');
+            return response;
+        }catch(error){
+            return this.error(error.message);
+        }
+    }
+
     delete(uuid){
         this.repo.deleteTeam(uuid);
     }

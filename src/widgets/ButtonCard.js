@@ -2,10 +2,10 @@ import React from 'react';
 import { BiImport } from 'react-icons/bi';
 import { VscAdd } from 'react-icons/vsc';
 import { MdManageAccounts } from 'react-icons/md';
-import { FaSignature } from 'react-icons/fa';
+import { FaSignature, FaUsersCog } from 'react-icons/fa';
 
 
-export const ButtonCard = ({title, add, imports, manage, asign, onClick}) =>{
+export const ButtonCard = ({title, add, imports, manage, asign, team, onClick}) =>{
     return(
         <div className="btn-card-container">
             <div onClick={onClick} className="btn-card">
@@ -13,6 +13,7 @@ export const ButtonCard = ({title, add, imports, manage, asign, onClick}) =>{
                 {imports && <BiImport className="float-center" />}
                 {manage && <MdManageAccounts className="float-center" />}
                 {asign && <FaSignature className="float-center" />}
+                {team && <FaUsersCog className="float-center" />}
                 <div className="float-center">{title}</div>
             </div>
         </div>

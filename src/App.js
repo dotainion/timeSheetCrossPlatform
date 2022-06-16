@@ -28,6 +28,8 @@ import { AllMembers } from './pages/AllMembers';
 import { MemberSpreadSheetSettings } from './settings/MemberSpreadSheetSettings';
 import { MemberSettings } from './settings/MemberSettings';
 import { CreateMember } from './pages/CreateMember';
+import { ManageTeam } from './pages/MangeTeam';
+import { Test } from './Test/Test';
 
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
             <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />            
             <Route path={routes.createMember} element={<AuthRouter element={<CreateMember/>} isAdmin />} />
             <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
+            <Route path={routes.manageTeam} element={<AuthRouter element={<ManageTeam/>} isAdmin />} />
+            <Route path={'/test'} element={<AuthRouter element={<Test/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
             {/** not found **/}
