@@ -180,6 +180,12 @@
     .member-settings-container{
         display: block;
     }
+    .rdrDateRangePickerWrapper{
+        display: block !important;
+    }
+    .log-range-picker{
+        top: 20px;
+    }
 }
 
 @media screen and (max-width:430px){

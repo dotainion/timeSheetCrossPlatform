@@ -8,6 +8,7 @@ import { Loading } from "./Loading";
 import { FcGlobe } from 'react-icons/fc';
 import { Calculator } from "../infrastructure/Calculator";
 import { TimeXBreakOption } from "./TimeXBreakOption";
+import { LogAndBreakRange } from "../module/logic/LogAndBreakRange";
 
 
 class manageLog{
@@ -93,25 +94,32 @@ class manageLog{
 const logs = new Log();
 const breaks = new Break();
 const manage = new manageLog();
+const logsBreaks = new LogAndBreakRange();
 
 export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =>{
-    const { } = useAuth();
-
     const [logsList, setLogsList] = useState([]);
     const [loading, setLoading] = useState(false);
     const [onShowMore, setOnShowMore] = useState({state: false, log: null, breaks: null});
 
     const initializeCalendar = async() =>{  
         if (!user) return;  
-        setLoading(true);   
-        const logCollector = await logs.getLogsByMonth(user?.id, searchBy?.month, searchBy?.year);
-        const breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.month, searchBy?.year);
-        manage.init(logCollector.list(), breakCollector.list(), setLogsList);
+        setLoading(true);  
+        let logCollector = null; 
+        let breakCollector = null;
+        if (searchBy?.fromMonth && searchBy?.fromYear && searchBy?.toMonth && searchBy?.toYear){
+            const logsAndBreaks = await logsBreaks.fetchByRange(searchBy, user?.id);
+            logCollector = logsAndBreaks.getLogs();
+            breakCollector = logsAndBreaks.getBreaks();
+        }else{
+            logCollector = await logs.getLogsByMonth(user?.id, searchBy?.fromMonth, searchBy?.fromYear);
+            breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.fromMonth, searchBy?.fromYear);
+        }
+        manage.init(logCollector?.list() || [], breakCollector?.list() || [], setLogsList);
         setLoading(false);
         onCalc?.({
-            total: new Calculator().calculateTime(logCollector.list()),
-            logs: logCollector.list(),
-            breaks: breakCollector.list(),
+            total: new Calculator().calculateTime(logCollector?.list() || []),
+            logs: logCollector?.list() || [],
+            breaks: breakCollector?.list() || [],
         });
     }
 
@@ -123,8 +131,8 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =
     useEffect(()=>{
         try{
             if(!isOpen) return;
-            if (!searchBy?.month || !searchBy?.year){
-                throw new Error('searchBy must have properties "month" and "year".');
+            if (!searchBy?.fromMonth || !searchBy?.fromYear/* || !searchBy?.toMonth || !searchBy?.toYear*/){
+                throw new Error('searchBy must have properties "fromMonth", "fromYear", "toMonth" and "toYear".');
             }
             initializeCalendar();
         }catch(error){

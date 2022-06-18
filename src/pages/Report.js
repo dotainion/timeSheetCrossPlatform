@@ -15,22 +15,23 @@ import { UserSetting } from "../module/logic/userSetting";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { TimesheetCalendar } from "../components/TimesheetCalendar";
 import { SiTeamviewer } from 'react-icons/si';
-import { LogPicker } from '../components/LogPicker';
+import { LogRangePicker } from "../components/LogRangePicker";
+import { QueryDate } from "../module/objects/QueryDate";
 
 
 const mbr = new Users();
-const date = new Date();
 const api = new Spreadsheet();
 const dateHelper = new DateHelper();
 const setting = new UserSetting();
-const calc = new Calculator();
+const dateObject = new QueryDate();
+dateObject.initNowDate();
 
 let sheetCollector = [];
 export const Report = () =>{
     const { user } = useAuth();
 
     const [logs, setLogs] = useState([]);
-    const [searchBy, setSearchBy] = useState({month: dateHelper.monthMini(date.getMonth()), year: `${date.getFullYear()}`});
+    const [searchBy, setSearchBy] = useState(dateObject);
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [toggleCalendar, setToggleCalendar] = useState(false);
     const [sheets, setSheets] = useState([]);
@@ -215,11 +216,10 @@ export const Report = () =>{
                 logs={logs}
             />
 
-            <LogPicker
-                revertTo={searchBy}
+            <LogRangePicker
                 isOpen={openLogPicker}
                 onClose={()=>setOpenLogPicker(false)} 
-                onChange={(d)=>setSearchBy({month: d.month, year: d.year})}
+                onSelected={setSearchBy}
             />
 
             <Loading loading={loading} />

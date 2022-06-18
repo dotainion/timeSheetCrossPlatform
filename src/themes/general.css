@@ -1541,6 +1541,33 @@
 .log-picker-btn-container button:hover{
     background-color: white;
 }
+.log-picker-btn-date-container{
+    padding-bottom: 10px;
+}
+.log-picker-btn-date-container div{
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold;
+}
+.log-picker-btn-date-container [data-date]{
+    padding: 5px;
+    margin: 3px;
+    width: 15px;
+    height: 15px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    background-color: teal;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
+}
+.log-picker-btn-date-container [data-date]:active{
+    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
+}
+.log-picker-btn-date-container [data-date]:hover{
+    background-color: rgb(1, 146, 146) !important;
+}
 .btn-card-container{
     width: 25%;
     display: inline-table;
@@ -1711,4 +1738,13 @@
 }
 .manage-team-container [data-btn-container] .image-btn {
     float: right;
+}
+.log-range-picker{
+    top: 100px;
+    left: 50%;
+    position: absolute;
+    display: inline-block;
+    transform: translateX(-50%);
+    background-color: white;
+    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);
 }

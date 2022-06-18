@@ -10,7 +10,7 @@ const date = new DateHelper();
 export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     const [year, setYear] = useState((new Date()).getFullYear());
     const [isRange, setIsRange] = useState(false);
-    const [isFrom, setIsFrom] = useState(false);
+    const [isFrom, setIsFrom] = useState(true);
     const [dateRange, setDateRange] = useState({
         fromYear: '', 
         toYear: '', 
@@ -76,9 +76,19 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     }, [year]);
 
     useEffect(()=>{
-        if(!dateRange.fromYear && !dateRange.fromMonth) return;
+        if(!dateRange.toYear && !dateRange.toMonth) return;
         return onChange?.(dateRange);
     }, [dateRange]);
+
+    useEffect(()=>{
+        if(!isRange) return;
+        setDateRange({
+            fromYear: dateRange.fromYear, 
+            toYear: dateRange.toYear, 
+            fromMonth: '', 
+            toMonth: ''
+        })
+    }, [isRange]);
 
     return(
         <div ref={datePickerRef} onClick={onClose} className="log-picker-container-backdrop">
@@ -93,8 +103,8 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
                                 <button onClick={()=>setIsRange(false)} className={`${!isRange && 'log-picker-from-to-selected'}`}>Select</button>
                                 <button onClick={()=>setIsRange(true)} className={`${isRange && 'log-picker-from-to-selected'}`}>Range</button>
                                 <div hidden={!isRange}>
-                                    <button onClick={()=>setIsFrom(false)} className={`${!isFrom && 'log-picker-from-to-selected'}`}>From</button>
-                                    <button onClick={()=>setIsFrom(true)} className={`${isFrom && 'log-picker-from-to-selected'}`}>To</button>
+                                    <button onClick={()=>setIsFrom(true)} className={`${isFrom && 'log-picker-from-to-selected'}`}>From</button>
+                                    <button onClick={()=>setIsFrom(false)} className={`${!isFrom && 'log-picker-from-to-selected'}`}>To</button>
                                     <div hidden={!isFrom} data-date-visible>{dateRange.fromMonth}/{dateRange.fromYear}</div>
                                     <div hidden={isFrom} data-date-visible>{dateRange.toMonth}/{dateRange.toYear}</div>
                                 </div>
@@ -123,6 +133,13 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
                 <div className="log-picker-btn-container">
                     <Button onClick={onRevertDate} title={'cancel'} />
                     <Button onClick={onClose} title={'ok'} />
+                </div>
+                <div className="log-picker-btn-date-container">
+                    <div>Pick a Date</div>
+                    <hr/>
+                    {[...Array(31).keys()].map((d, key)=>(
+                        <div data-date key={key}>{d +1}</div>
+                    ))}
                 </div>
             </div>
         </div>

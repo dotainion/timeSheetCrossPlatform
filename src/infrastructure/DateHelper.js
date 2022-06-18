@@ -79,4 +79,72 @@ export class DateHelper{
         }
         return value || null;
     }
+
+    monthIndex(month){
+        let index = 0;
+        for(let mth of this.month()){
+            if(mth?.toLowerCase()?.includes(month?.toLowerCase())){
+                return index;
+            }
+            index ++;
+        }
+        return null;
+    }
+
+    monthMiniWithinRange(from, to){
+        let months = [];
+        let start = null;
+        for(let month of this.monthMini()){
+            if(month === from){
+                months.push(month);
+                start = true;
+                if(from === to) break;
+                continue;
+            }else if(month === to){
+                months.push(month);
+                break;
+            }
+            if(start === true){
+                months.push(month);
+            }
+        }
+        return months;
+    }
+
+    yearsWithinRange(from, to){
+        if (isNaN(from) || isNaN(to) || parseInt(to) < parseInt(from)) return [];
+        let years = [`${from}`];
+        for(let _ of [...Array((parseInt(to) - parseInt(from)) || 0).keys()]){
+            years.push(`${parseInt(from) +1}`);
+        }
+        return years;
+    }
+
+    isValidMonth(month){
+        for(let mth of this.month()){
+            if(mth === month) return true;
+        }
+        return false;
+    }
+
+    isValidMinMonth(month){
+        for(let mth of this.monthMini()){
+            if(mth === month) return true;
+        }
+        return false;
+    }
+
+    isValidMinWeek(week){
+        for(let mth of this.weekMini()){
+            if(mth === week) return true;
+        }
+        return false;
+    }
+    
+    isValidWeek(week){
+        for(let mth of this.week()){
+            if(mth === week) return true;
+        }
+        return false;
+    }
 }
