@@ -6,10 +6,14 @@ import { EllipsisOverflow } from "../widgets/EllipsisOverflow";
 import $ from 'jquery';
 import { Validation } from "../infrastructure/Validation";
 import { Log } from "../module/logic/Log";
+import { QueryDate } from "../module/objects/QueryDate";
+import { DateHelper } from "../infrastructure/DateHelper";
 
 
 const validate = new Validation();
 const lLog = new Log();
+const queryObj = new QueryDate();
+const dateHelper = new DateHelper();
 
 export const DayCard = ({log, breaks, fullMonth, onShowMoreTimes, style, cssClass}) =>{
     const dayCardRef = useRef();
@@ -20,14 +24,11 @@ export const DayCard = ({log, breaks, fullMonth, onShowMoreTimes, style, cssClas
 
     const updateLog = (uLog) =>{
         lLog.updateTime(
-            uLog.id, 
-            uLog.date, 
-            uLog.month, 
-            uLog.year, 
-            uLog.week, 
+            uLog.id,  
+            uLog.userId,
             uLog.startTime, 
-            uLog.endTime, 
-            uLog.userId
+            uLog.endTime,
+            uLog.timestamp
         );
     }
 
@@ -58,6 +59,11 @@ export const DayCard = ({log, breaks, fullMonth, onShowMoreTimes, style, cssClas
         updateLog(logRef.current);
     }
 
+    const toDateString = (timestamp) =>{
+        const date = queryObj.parseTimestamp(timestamp);
+        return `${dateHelper.monthMini(date.month) || ''} ${dateHelper.weekMini(date.day) || ''} ${date.date} ${date.year}`;
+    }
+
     useEffect(()=>{
         if (log?.length){
             logRef.current = log?.[log?.length -1];
@@ -68,7 +74,7 @@ export const DayCard = ({log, breaks, fullMonth, onShowMoreTimes, style, cssClas
             <div className="calendar-week">
                 {log?.length > 1 ? <div onClick={onShowMoreTimes} className="calendar-start-x">{log?.length} X</div> : null}
                 <div className="calendar-full">
-                    <EllipsisOverflow>{`${log?.[log?.length -1]?.month || ''} ${log?.[log?.length -1]?.date || ''} ${log?.[log?.length -1]?.year || ''}`}</EllipsisOverflow>
+                    <EllipsisOverflow>{toDateString(log?.[log?.length -1]?.timestamp)}</EllipsisOverflow>
                 </div>
                 <div className="calendar-time">
                     <div className="relative">

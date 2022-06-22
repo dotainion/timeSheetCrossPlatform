@@ -8,7 +8,7 @@ import { Loading } from "./Loading";
 import { FcGlobe } from 'react-icons/fc';
 import { Calculator } from "../infrastructure/Calculator";
 import { TimeXBreakOption } from "./TimeXBreakOption";
-import { LogAndBreakRange } from "../module/logic/LogAndBreakRange";
+import { QueryDate } from "../module/objects/QueryDate";
 
 
 class manageLog{
@@ -63,7 +63,7 @@ class manageLog{
         let logWithCalendarDate = {};
         for (let date of month){
             for (let item of logs){
-                if (date == item?.date){
+                if (date == queryObj.parseTimestamp(item?.timestamp).date){
                     if (!logWithCalendarDate[date]){
                         logWithCalendarDate[date] = [];
                     }
@@ -78,7 +78,7 @@ class manageLog{
         let tempCalendarList = [];
         for (let key of month){
             let tempBreaks = [];
-            for(let i=0; i<logs?.[key]?.length; i++){
+            for(let i=0; i < logs?.[key]?.length; i++){
                 let tBreaks = this.findBreaksByLogId(breaks, logs?.[key]?.[i]?.id);
                 tBreaks?.forEach((b)=>tempBreaks.push(b));
             }
@@ -94,7 +94,7 @@ class manageLog{
 const logs = new Log();
 const breaks = new Break();
 const manage = new manageLog();
-const logsBreaks = new LogAndBreakRange();
+const queryObj = new QueryDate();
 
 export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =>{
     const [logsList, setLogsList] = useState([]);
@@ -104,16 +104,8 @@ export const TimesheetCalendar = ({isOpen, user, onCalc, fullMonth, searchBy}) =
     const initializeCalendar = async() =>{  
         if (!user) return;  
         setLoading(true);  
-        let logCollector = null; 
-        let breakCollector = null;
-        if (searchBy?.fromMonth && searchBy?.fromYear && searchBy?.toMonth && searchBy?.toYear){
-            const logsAndBreaks = await logsBreaks.fetchByRange(searchBy, user?.id);
-            logCollector = logsAndBreaks.getLogs();
-            breakCollector = logsAndBreaks.getBreaks();
-        }else{
-            logCollector = await logs.getLogsByMonth(user?.id, searchBy?.fromMonth, searchBy?.fromYear);
-            breakCollector = await breaks.getBreakByMonth(user?.id, searchBy?.fromMonth, searchBy?.fromYear);
-        }
+        const logCollector = await logs.getLogsByTimestamp(user?.id, searchBy);
+        const breakCollector = await breaks.getBreakByTimestamp(user?.id, searchBy);
         manage.init(logCollector?.list() || [], breakCollector?.list() || [], setLogsList);
         setLoading(false);
         onCalc?.({

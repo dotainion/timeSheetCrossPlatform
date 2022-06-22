@@ -20,17 +20,18 @@ import { DateHelper } from "../../infrastructure/DateHelper";
 import { Input } from "../../widgets/Input";
 import { FiMinimize, FiMaximize } from 'react-icons/fi';
 import { UserLayout } from "../layout/UserLayout";
-import { LogPicker } from "../../components/LogPicker";
 import logo from '../../images/logo.png';
 import { Loading } from "../../components/Loading";
 import { useProvider } from "../../provider/ProviderWrapper";
+import { LogRangePicker } from "../../components/LogRangePicker";
+import { QueryDate } from "../../module/objects/QueryDate";
 
 
 const log = new Log();
 const breaks = new Break();
 const toast = new ToastHandler();
-const dHelper = new DateHelper();
-const d = new Date();
+const dateObject = new QueryDate();
+dateObject.initNowDate();
 
 export const ClockIn = () =>{
     const { user } = useAuth();
@@ -44,7 +45,7 @@ export const ClockIn = () =>{
     const [loading, setLoading] = useState(false);
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [start, setStart] = useState({state: false, at: null});
-    const [searchBy, setSearchBy] = useState({month: dHelper.monthMini(d.getMonth()), year: `${d.getFullYear()}`});
+    const [searchBy, setSearchBy] = useState(dateObject);
 
     const parentRef = useRef();
 
@@ -224,11 +225,10 @@ export const ClockIn = () =>{
                     </div>
                 </div>
             </div>
-            <LogPicker
-                revertTo={searchBy}
+            <LogRangePicker
                 isOpen={openLogPicker} 
                 onClose={()=>setOpenLogPicker(false)}
-                onChange={(d)=>setSearchBy({month: d.month, year: d.year})}
+                onChange={setSearchBy}
             />
         </UserLayout>
     )

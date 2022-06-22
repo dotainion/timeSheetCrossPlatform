@@ -25,13 +25,10 @@ export class Log extends ToastHandler{
             const logObject = this.factory.mapResults({
                 id: null,
                 info: {
-                    date: date.getDate(),
-                    month: this.date.monthMini(date.getMonth()),
-                    year: date.getFullYear(),
-                    week: this.date.weekMini(date.getDay()),
                     startTime: date.toLocaleTimeString(),
                     endTime: 'pending',
                     userId: userId,
+                    timestamp: date.getTime()
                 }
             });
             return await this.repo.startTime(logObject);
@@ -58,29 +55,26 @@ export class Log extends ToastHandler{
         }
     }
 
-    async getLogsByMonth(userId, month, year){
+    async getLogsByTimestamp(userId, queryObj){
         try{
-            return await this.repo.getLogsByMonth(userId, month, year);
+            return await this.repo.getLogsByTimestamp(userId, queryObj);
         }catch(error){
+            console.log(error)
             this.error('Unable to get log.');
         }
     }
 
-    async updateTime(logId, date, month, year, week, startTime, endTime, userId){
+    async updateTime(logId, userId, startTime, endTime, timestamp){
         try{
             const logObject = this.factory.mapResults({
                 id: logId,
                 info: {
-                    date: date,
-                    month: month,
-                    year: year,
-                    week: week,
                     startTime: startTime,
                     endTime: endTime,
                     userId: userId,
+                    timestamp: timestamp
                 }
             });
-            console.log(logObject);
             return this.repo.updateTime(logObject);
         }catch(error){
             console.log(error)

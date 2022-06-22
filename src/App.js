@@ -30,6 +30,8 @@ import { MemberSettings } from './settings/MemberSettings';
 import { CreateMember } from './pages/CreateMember';
 import { ManageTeam } from './pages/MangeTeam';
 import { Test } from './Test/Test';
+import { SpreadsheetReport } from './pages/SpreadsheetReport';
+import { Invoice } from './pages/Invoice';
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
             <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} isAdmin />} />
             <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} isAdmin />} />
             <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
+            <Route path={routes.spreadsheetReport} element={<AuthRouter element={<SpreadsheetReport/>} isAdmin />} />
             <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
             <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
             <Route path={routes.members} element={<AuthRouter element={<AllMembers/>} isAdmin />} />
@@ -54,6 +57,7 @@ function App() {
             <Route path={routes.createMember} element={<AuthRouter element={<CreateMember/>} isAdmin />} />
             <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
             <Route path={routes.manageTeam} element={<AuthRouter element={<ManageTeam/>} isAdmin />} />
+            <Route path={routes.invoice} element={<AuthRouter element={<Invoice/>} isAdmin />} />
             <Route path={'/test'} element={<AuthRouter element={<Test/>} isAdmin />} />
             {/** employees **/}
             <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />

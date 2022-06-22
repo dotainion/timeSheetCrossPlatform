@@ -26,3 +26,12 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+electron-builder.yml
+dist
+/electron-builder.yml
+/dist
+.electron-builder.yml
+.dist
+/.electron-builder.yml
+/.dist

@@ -590,26 +590,12 @@
     border-radius: 20px;
     transform: translateY(-50%);
 }
-.report-toggle{
-    position: fixed;
-    right: 20px;
-    padding-top: 10px;
-    font-size: 25px;
-}
-.report-toggle svg{
-    cursor: pointer;
-}
 .report-billable-devider{
     display: flex;
     width: 100%;
     /*min-width: 1000px;*/
     overflow: hidden;
     margin-bottom: 20px;
-}
-.report-billable-options{
-    width: 50%;
-    text-align: center;
-    margin: 0 10px 0 10px;
 }
 .report-billable-centerize{
     width: 100%;
@@ -636,15 +622,49 @@
     border-bottom: 1px solid lightgray;
 }
 .report-header-container{
-    margin-left: 50%;
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    transform: translateX(-50%);
+    margin-top: 10px;
+    padding-bottom: 40px;
+    position: relative;
 }
-.report-header-container h3{
-    margin-top: 0;
-    margin-bottom: 5px;
+.report-btn{
+    position: absolute;
+    right: 20px;
+    top: 0;
+    font-size: 25px;
+    color: rgb(0, 0, 0, 0.70);
+    cursor: pointer;
+    align-items: center;
+    transition: 0.5s all;
+    padding: 0 10px;
+    border-radius: 20px;
+    border: 1px solid gray;
+}
+.report-btn div{
+    display: flex;
+    align-items: center;
+}
+.report-btn span{
+    width: 120px;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: 0.3s width;
+}
+.report-btn:hover{
+    color: black;
+    transform: scale(1.05);
+    background-color: lightgray;
+}
+.report-btn:hover span{
+    width: 100%;
+}
+.report-invoice-btn{
+    right: 200px;
+    font-weight: bold;
+}
+.report-invoice-btn span{
+    width: auto;
 }
 .report-tab-container{
     width:99%;
@@ -990,10 +1010,26 @@
     padding: 5px;
     color: white;
     text-align: center;
+    position: relative;
     background-color: dodgerblue;
 }
 .invoice-toolbar button{
     color: white;
+    min-width: 110px;
+    border-radius: 20px;
+    transition: 0.3s all;
+}
+.invoice-toolbar button div{
+    display: flex;
+    align-items: center;
+}
+.invoice-toolbar button div svg{
+    font-size: 25px;
+    position: absolute;
+    right: 8px;
+}
+.invoice-toolbar button:hover{
+    transform: scale(1.05);
 }
 .invoice{
     width: 816px;
@@ -1403,171 +1439,6 @@
 .user-toolbar-card:hover{
     background-color: rgb(24, 24, 24);
 }
-.log-picker-container-backdrop{
-    top: 0;
-    left: 0;
-    z-index: 800;
-    width: 100vw;
-    height: 100vh;
-    display: none;
-    position: absolute;
-    background-color: rgb(0, 0, 0, 0.2);
-}
-.log-picker-container{
-    left: 50%;
-    top: 200px;
-    min-width: 350px;
-    max-width: 350px;
-    position: absolute;
-    text-align: center;
-    display: inline-block;
-    background-color: white;
-    transform: translateX(-50%);
-    box-shadow: 0 0 5px 5px rgb(0, 0, 0, 0.1);
-}
-.log-picker{
-    display: flex;
-}
-.log-picker-info{
-    width: 50%;
-    padding: 20px 5px 20px 5px;
-    border-right: 1px solid lightgray;
-}
-.log-picker-info h6{
-    margin-top: 10px;
-}
-.log-picker-info img{
-    width: 50%;
-    margin: auto;
-    margin-bottom: 10px;
-}
-.log-picker-from-to{
-    display: flex;
-    position: relative;
-}
-.log-picker-from-to div{
-    position: absolute;
-    width: 100%;
-}
-.log-picker-from-to button{
-    flex: 1;
-    outline: none;
-    cursor: pointer;
-    border-radius: 0;
-    border: none;
-    color: teal;
-    background-color: lightgray;
-}
-.log-picker-from-to button:hover{
-    color: white;
-    background-color: rgb(1, 146, 146);
-}
-.log-picker-from-to div div div[data-date-visible]{
-    cursor: default !important;
-    color: white !important;
-    font-size: 14px;
-    font-weight: bold;
-    background-color: #b87422 !important;
-}
-.log-picker-from-to-selected{
-    cursor: default !important;
-    color: white !important;
-    background-color: #b87422 !important;
-}
-.log-picker-range{
-    width: 100%;
-    padding: 20px 5px 20px 5px;
-}
-.log-picker-range div[data-month]{
-    display: inline-block;
-    width: 25%;
-    text-align: center;
-}
-.log-picker-range div[data-month] div{
-    width: 45px;
-    padding: 3px;
-    color: white;
-    cursor: pointer;
-    user-select: none;
-    margin: 0 0 5px 0;
-    border-radius: 5px;
-    background-color: teal;
-    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.3);
-}
-.log-picker-range div[data-month] div:active{
-    box-shadow: none;
-}
-.log-picker-range div[data-month] div:hover{
-    background-color: rgb(1, 146, 146) !important;
-}
-.log-picker-btn-active{
-    background-color: rgb(1, 80, 80) !important;
-}
-.log-picker-btn-active-bold{
-    font-weight: bold !important;
-}
-.log-picker-year{
-    display: flex;
-    max-width: 100%;
-    margin: 10px 5px 10px 5px;
-}
-.log-picker-year > div{
-    width: 100%;
-    text-align: center;
-}
-.log-picker-year svg{
-    font-size: 30px;
-    cursor: pointer;
-}
-.log-picker-btn-container{
-    text-align: right;
-    margin-top: -20px;
-    padding: 10px;
-}
-.log-picker-btn-container button{
-    min-width: 70px;
-    color: white;
-    padding: 5px 0;
-    border-radius: 4px;
-    background-color: teal;
-    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
-}
-.log-picker-btn-container button:hover{
-    background-color: rgb(1, 146, 146) !important;
-}
-.log-picker-btn-container button:active{
-    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
-}
-.log-picker-btn-container button:hover{
-    background-color: white;
-}
-.log-picker-btn-date-container{
-    padding-bottom: 10px;
-}
-.log-picker-btn-date-container div{
-    text-align: left;
-    padding-left: 10px;
-    font-weight: bold;
-}
-.log-picker-btn-date-container [data-date]{
-    padding: 5px;
-    margin: 3px;
-    width: 15px;
-    height: 15px;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-    text-align: center;
-    display: inline-block;
-    background-color: teal;
-    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.2);
-}
-.log-picker-btn-date-container [data-date]:active{
-    box-shadow: 1px 1px 2px rgb(0, 0, 0, 0.2);
-}
-.log-picker-btn-date-container [data-date]:hover{
-    background-color: rgb(1, 146, 146) !important;
-}
 .btn-card-container{
     width: 25%;
     display: inline-table;
@@ -1742,6 +1613,7 @@
 .log-range-picker{
     top: 100px;
     left: 50%;
+    z-index: 10000;
     position: absolute;
     display: inline-block;
     transform: translateX(-50%);

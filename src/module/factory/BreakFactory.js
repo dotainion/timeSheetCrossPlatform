@@ -8,11 +8,10 @@ export class BreakFactory extends Factory{
         const log = new Break();
         log.setId(`${record?.['id']}` || '');
         log.setUserId(`${record?.['info']['userId']}` || '');
-        log.setMonth(`${record?.['info']['month']}` || '');
-        log.setYear(`${record?.['info']['year']}` || '');
         log.setLogId(`${record?.['info']['logId']}` || '');
         log.setStartBreak(`${record?.['info']?.['startBreak']}` || '');
         log.setEndBreak(`${record?.['info']?.['endBreak']}` || '');
+        log.setTimestamp(record?.['info']?.['timestamp'] || '');
         return log;
     }
 }

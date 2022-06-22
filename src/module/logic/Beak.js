@@ -1,4 +1,3 @@
-import { database } from "firebase";
 import { DateHelper } from "../../infrastructure/DateHelper";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { BreakFactory } from "../factory/BreakFactory";
@@ -29,10 +28,9 @@ export class Break extends ToastHandler{
                 info: {
                     logId: logId,
                     userId: userId,
-                    month: this.date.monthMini(date.getMonth()),
-                    year: date.getFullYear(),
                     startBreak: date.toLocaleTimeString(),
                     endBreak: endTime,
+                    timestamp: date.getTime()
                 }
             });
             return this.repo.startBreak(logObject);
@@ -59,9 +57,9 @@ export class Break extends ToastHandler{
         }
     }
 
-    getBreakByMonth(userId, month, year){
+    getBreakByTimestamp(userId, queryObj){
         try{
-            return this.repo.getBreakByMonth(userId, month, year);
+            return this.repo.getBreakByTimestamp(userId, queryObj);
         }catch(error){
             this.error('Unable to get time started.');
         }

@@ -1,4 +1,7 @@
-import firebase from 'firebase';
+import { initializeApp } from 'firebase/app';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, getDocs, enableIndexedDbPersistence } from 'firebase/firestore';
 import { FB_API_KEY, FB_APP_ID, FB_AUTH_DOMAIN, FB_MEASUREMENT_ID, FB_MESSAGING_SENDER_ID, FB_PROJECT_ID, FB_STORAGE_BUCKET } from './EnvVariables';
 
 export const fbConfig = {
@@ -11,11 +14,15 @@ export const fbConfig = {
     measurementId: FB_MEASUREMENT_ID
 };
 
-const app = firebase.initializeApp(fbConfig);
-export const auth = app.auth();
-export const db = app.firestore();
-db.enablePersistence().then(()=>{
-    
-}).catch(()=>{
+const app = initializeApp(fbConfig);
+const analytics = getAnalytics(app);
+export const auth = getAuth();
+export const db = getFirestore(app);
+enableIndexedDbPersistence(db).catch((err)=>{
+    if (err.code == 'failed-precondition') {
+        
+    } else if (err.code == 'unimplemented') {
+        
+    }
+})
 
-});

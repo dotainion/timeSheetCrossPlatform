@@ -15,7 +15,7 @@ export class DateHelper{
             'December'
         ];
         if (index == null) return m;
-        return m[index] || null;
+        return m[parseInt(index)] || null;
     }
 
     monthMini(index=null){
@@ -34,7 +34,7 @@ export class DateHelper{
             'Dec'
         ];
         if (index == null) return m;
-        return m[index] || null;
+        return m[parseInt(index)] || null;
     }
 
     week(index){
@@ -48,7 +48,7 @@ export class DateHelper{
             'Saturday'
         ];
         if (index == null) return w;
-        return w[index] || null;
+        return w[parseInt(index)] || null;
     }
 
     weekMini(index){
@@ -62,7 +62,7 @@ export class DateHelper{
             'Sat'
         ];
         if (index == null) return w;
-        return w[index] || null;
+        return w[parseInt(index)] || null;
     }
 
     minizeWeekAndMonth(value){

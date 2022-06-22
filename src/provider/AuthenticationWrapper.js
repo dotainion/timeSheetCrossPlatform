@@ -4,6 +4,8 @@ import { Users } from "../module/logic/Users";
 import { Teams } from '../module/logic/Teams';
 import { StartupPage } from "../other/StartupPage";
 import { Roles } from "../infrastructure/Roles";
+import { authenticate } from '../infrastructure/config/AuthConfig';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import $ from 'jquery';
 
 const lUser = new Users();
@@ -22,9 +24,10 @@ export const AuthenticationWrapper = ({children}) =>{
     const pauseObsoverRef = useRef();
 
     useEffect(()=>{
-        auth.onAuthStateChanged(async(uUser)=>{
-            if (uUser && $(pauseObsoverRef.current).attr('data-state') != 'pause'){
-                let userObj = await lUser.getById(uUser?.uid);
+        onAuthStateChanged(auth, async(currentUser)=>{
+            if (currentUser && $(pauseObsoverRef.current).attr('data-state') != 'pause'){
+                let userObj = await lUser.getById(currentUser?.uid);
+                console.log(userObj);
                 if (role.includes(userObj?.role)){
                     let teamObj = await lTeam.getById(userObj?.teamId);
                     setUser(userObj);
@@ -44,7 +47,7 @@ export const AuthenticationWrapper = ({children}) =>{
 
     return(
         <Context.Provider value={value}>
-            <div ref={pauseObsoverRef} data-state-change-pause />
+            <div ref={pauseObsoverRef} data-state />
             {loading ? <StartupPage/> : children}
         </Context.Provider>
     )

@@ -1,4 +1,5 @@
 import { DateHelper } from "../../infrastructure/DateHelper";
+import { time } from "../../infrastructure/tools/Time";
 import { Validation } from "../../infrastructure/Validation";
 
 export class QueryDate extends Validation{
@@ -10,10 +11,30 @@ export class QueryDate extends Validation{
     fromDate;
     toWeek;
     toDate;
+    form;
+    to;
+    fromInt;
+    toInt;
 
     constructor(){
         super();
         this.date = new DateHelper();
+    }
+
+    setToInt(toInt){
+        this.toInt = toInt;
+    }
+
+    setFromInt(fromInt){
+        this.fromInt = fromInt;
+    }
+
+    setFrom(from){
+        this.from = from;
+    }
+
+    setTo(to){
+        this.to = to;
     }
 
     setFromWeek(fromWeek){
@@ -72,14 +93,32 @@ export class QueryDate extends Validation{
         this.toYear = toYear;
     }
 
+    parseTimestamp(timestamp){
+        const date = new Date(timestamp);
+        return {
+            year: `${date.getFullYear() || ''}`,
+            month: `${date.getMonth() || ''}`,
+            day: `${date.getDay() || ''}`,
+            date: `${date.getDate() || ''}`
+        }
+    }
+
     initNowDate(){
-        this.setFromMonth(this.date.monthMini((new Date().getMonth())));
-        this.setFromYear(`${(new Date()).getFullYear()}`);
-        this.setToMonth(this.date.monthMini((new Date().getMonth())));
-        this.setToYear(`${(new Date()).getFullYear()}`);
-        this.setFromDate(`${(new Date()).getDate()}`);
-        this.setFromWeek(this.date.weekMini((new Date()).getDay()));
-        this.setToDate(`${(new Date()).getDate()}`);
-        this.setToWeek(this.date.weekMini((new Date()).getDay()));
+        const fromDate = new Date();
+        fromDate.setDate(fromDate.getDate() -1);
+        const toDate = new Date();
+        toDate.setDate(toDate.getDate() +1);
+        this.setFromMonth(this.date.monthMini(fromDate.getMonth()));
+        this.setFromYear(`${fromDate.getFullYear()}`);
+        this.setToMonth(this.date.monthMini(toDate.getMonth()));
+        this.setToYear(`${toDate.getFullYear()}`);
+        this.setFromDate(`${fromDate.getDate()}`);
+        this.setFromWeek(this.date.weekMini(fromDate.getDay()));
+        this.setToDate(`${toDate.getDate()}`);
+        this.setToWeek(this.date.weekMini(toDate.getDay()));
+        this.setFrom(fromDate);
+        this.setTo(toDate);
+        this.setFromInt(fromDate.getTime());
+        this.setToInt(toDate.getTime());
     }
 }

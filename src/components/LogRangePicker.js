@@ -30,8 +30,10 @@ export const LogRangePicker = ({isOpen, onClose, onSelected}) =>{
                 fromWeek: date.weekMini((new Date(ranges.selection.startDate)).getDay()),
                 toDate: (new Date(ranges.selection.endDate)).getDate(),
                 toWeek: date.weekMini((new Date(ranges.selection.endDate)).getDay()),
-                from: ranges.selection.startDate,
-                to: ranges.selection.endDate
+                from: new Date(ranges.selection.startDate),
+                to: new Date(ranges.selection.endDate),
+                fromInt: (new Date(ranges.selection.startDate)).getTime(),
+                toInt: (new Date(ranges.selection.endDate)).getTime()
             })
         );
     }

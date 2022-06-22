@@ -91,8 +91,8 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
     }, [isRange]);
 
     return(
-        <div ref={datePickerRef} onClick={onClose} className="log-picker-container-backdrop">
-            <div onClick={(e)=>e.stopPropagation()} className="log-picker-container">
+        <div ref={datePickerRef} onClick={onClose} className="">
+            <div onClick={(e)=>e.stopPropagation()} className="">
                 <div className="log-picker">
                     <div className="log-picker-info">
                         <div>TIME PICKER</div>
@@ -113,7 +113,7 @@ export const LogPicker = ({revertTo, isOpen, onClose, onChange}) =>{
                     </div>
                     <div className="log-picker-range">
                         <div>SELECT A MONTH RANGE:</div>
-                        <div className="log-picker-year">
+                        <div className="log-picker-range">
                             <IoIosArrowDropleftCircle onClick={()=>setYear(year -1)} />
                             <div className={isActiveYear(year)}>{year}</div>
                             <IoIosArrowDroprightCircle onClick={()=>setYear(year +1)} />

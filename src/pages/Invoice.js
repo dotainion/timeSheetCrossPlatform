@@ -5,6 +5,10 @@ import $ from 'jquery';
 import { time } from "../infrastructure/tools/Time";
 import { Button } from "../widgets/Button";
 import { Calculator } from "../infrastructure/Calculator";
+import { useLocation } from 'react-router-dom';
+import { BiSearchAlt } from 'react-icons/bi';
+import { LogRangePicker } from "../components/LogRangePicker";
+import { AiOutlinePrinter, AiOutlineDownload } from 'react-icons/ai';
 
 
 const pdf = new jsPDF({
@@ -15,9 +19,13 @@ const pdf = new jsPDF({
 
 const calc = new Calculator();
 
-export const Invoice = ({isOpen, onClose, values, logs}) =>{
+export const Invoice = () =>{
     const [totals, setTotals] = useState({totalHours: 0, total: 0});
     const [invoices, setInvoices] = useState([]);
+    const [userInfo, setUserInfo] = useState({name: '', timeFrom: '', timeTo: ''});
+    const [openSearch, setOpenSearch] = useState(false);
+
+    const location = useLocation();
 
     const inputRef = useRef();
     const printedPageRef = useRef();
@@ -48,49 +56,63 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
         pdf.html(clone, pdfCallback);
     }
 
-    const onAddRate = (e, val=null) =>{
+    const onAddRatePerHour = (e, val=null) =>{
         const [hour, minutes, seconds] = val ? val?.split(':') :  totals.totalHours?.split(':');
         const total = parseFloat(`${hour}.${minutes}`) * parseFloat(e.target.value || 0);
         setTotals({totalHours: totals.totalHours, total: total});
     }
 
-    useEffect(()=>{
-        if (values?.sheets?.length){
+    const initializeSpreadsheet = (spreadsheet) =>{
+        if (spreadsheet?.values?.sheets?.length){
             let tempSheets = [];
-            values.sheets.forEach((sheet)=>{
+            spreadsheet.values.sheets.forEach((sheet)=>{
                 sheet.forEach((item)=>{
-                    if (!values.exludedIds.includes(item.id) && item.start && item.end){
+                    if (!spreadsheet.values.exludedIds.includes(item.id) && item.start && item.end){
                         tempSheets.push(item);
                     }
                 });
             });
             setInvoices(tempSheets);
-            setTotals({totalHours: values.total, total: totals.total});
+            setTotals({totalHours: spreadsheet.values.total, total: totals.total});
+        }
+    }
+
+    const initializeTimeLog = (logs) =>{
+        if (!logs?.length) return;
+        let tempSheets = logs?.map((log)=>{
+            return { 
+                start: log?.startTime, 
+                end: log?.endTime, 
+                date: (new Date(log?.timestamp)).toDateString() 
+            };
+        });
+        setInvoices(tempSheets);
+        setTotals({totalHours: calc.calculateTime(logs), total: totals.total});
+    }
+
+    useEffect(()=>{
+        if(location.state){
+            if(location.state?.spreadsheet){
+                initializeSpreadsheet(location.state.spreadsheet);
+            }else if(location.state?.timesheet){
+                initializeTimeLog(location.state.timesheet);
+                setUserInfo(location.state?.info);
+            }else{
+                console.log('Unable to pull data.')
+            }
         }
         $(invoiceContainerRef.current).css({
             height: window.innerHeight - ($(toolbarRef.current).height() -20) + 'px',
         });
-    }, [values]);
-
-    useEffect(()=>{
-        if (!logs?.length) return;
-        let tempSheets = logs?.map((log)=>{
-            return { start: log?.startTime, end: log?.endTime };
-        });
-        setInvoices(tempSheets);
-        //need testing cause log may be an array of x per day
-        //eg a user can start end multiple times per day.
-        //need refactoring
-        //may need to use calc.calculateTimeLoop instead.
-        setTotals({totalHours: calc.calculateTime(logs), total: 0});
-    }, [logs]);
+    }, []);
 
     return(
-        <Modal isOpen={isOpen}>
+        <div>
             <div ref={toolbarRef} className="invoice-toolbar">
-                <Button onClick={onPrint} title="Print" />
-                <Button onClick={download} title="Download" />
-                <Button onClick={onClose} title="Close" />
+                <Button onClick={onPrint} title={<div>Print<AiOutlinePrinter /></div>} />
+                <Button onClick={download} title={<div>Download<AiOutlineDownload /></div>} />
+                <Button onClick={()=>setOpenSearch(true)} title={<div>Search...<BiSearchAlt /></div>} />
+                
             </div>
             <div ref={invoiceContainerRef} className="invoice-container">
                 <div className="invoice">
@@ -101,7 +123,7 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
                         <div style={{...printStyles.invoiceHeader, marginTop: '10px'}}>
                             <div style={printStyles.invoiceHeaderDiv}>
                                 <b style={printStyles.invoiceHeaderB}>Consultant:</b>
-                                <span>Name - Mr. Mallon Blair</span>
+                                <span>Name - Mr/Ms. {userInfo.name}</span>
                             </div>
                         </div>
                         <div style={{...printStyles.invoiceHeader, marginBottom: '30px'}}>
@@ -111,14 +133,15 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
                             </div>
                             <div style={printStyles.invoiceHeaderDiv}>
                                 <div style={{backgroundColor: printStyles.cColor, padding: '8px', width: '100%', display: 'inline-block'}}>
-                                    <b style={printStyles.invoiceHeaderB}>Week Starting:</b>
-                                    01/10/2022
+                                    <b style={printStyles.invoiceHeaderB}>Week Starting: </b>
+                                    {userInfo.timeFrom}
+                                    <b> To: </b>
+                                    {userInfo.timeTo}
                                 </div>
                             </div>
                         </div>
                         <div style={printStyles.invoiceRow}>
                             <div style={printStyles.invoiceRowDiv}><b>Date</b></div>
-                            <div style={printStyles.invoiceRowDiv}><b>Day</b></div>
                             <div style={printStyles.invoiceRowDiv}><b>start time</b></div>
                             <div style={printStyles.invoiceRowDiv}><b>end time</b></div>
                             <div style={printStyles.invoiceRowDiv}><b>non-billable</b></div>
@@ -126,11 +149,10 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
                         </div>
                         {invoices.map((tm, key)=>(
                             <div style={printStyles.invoiceRow} key={key}>
-                                <div style={printStyles.invoiceRowDiv}>Date</div>
-                                <div style={printStyles.invoiceRowDiv}>Day</div>
+                                <div style={printStyles.invoiceRowDiv}>{tm?.date}</div>
                                 <div style={printStyles.invoiceRowDiv}>{tm?.start}</div>
                                 <div style={printStyles.invoiceRowDiv}>{tm?.end}</div>
-                                <div style={printStyles.invoiceRowDiv}>Unpaid</div>
+                                <div style={printStyles.invoiceRowDiv}>00:00:00</div>
                                 <div style={printStyles.invoiceRowDiv}>{time.sub(tm?.end, tm?.start)}</div>
                             </div>
                         ))}
@@ -146,7 +168,7 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
                                 <div style={{...printStyles.invoiceTotalDiv, borderBottom: '1px solid black'}}></div>
                                 <div style={printStyles.invoiceTotalDiv}>Rate Per Hour</div>
                                 <div style={{...printStyles.invoiceTotalDiv, backgroundColor: printStyles.cColor}}><span>$</span>
-                                    <input ref={inputRef} type="number" style={printStyles.input} onKeyUp={onAddRate} />
+                                    <input ref={inputRef} type="number" style={printStyles.input} onKeyUp={onAddRatePerHour} />
                                     <span>USD</span>
                                 </div>
                             </div>
@@ -161,7 +183,11 @@ export const Invoice = ({isOpen, onClose, values, logs}) =>{
                     <iframe id="iframePrint" style={printStyles.iframe} />
                 </div>
             </div>
-        </Modal>
+            <LogRangePicker
+                isOpen={openSearch}
+                onClose={()=>setOpenSearch(false)}
+            />
+        </div>
     )
 }
 

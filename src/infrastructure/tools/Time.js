@@ -4,10 +4,12 @@ class Time{
     smallerSeconds = 0;
     PERIODS = ["am", "AM", "pm", "PM"];
     H24 = [13,14,15,16,17,18,19,20,21,22,23,24];
+
     clear(){
         this.largerSeconds = 0;
         this.smallerSeconds = 0;
     }
+
     strip(str){
         if (!str) return "00:00:00";
         this.PERIODS.forEach((en)=>{
@@ -21,19 +23,24 @@ class Time{
         }
         return values;
     }
+
     parse(str){
         if (isNaN(str)) return 0;
         else return parseInt(str);
     }
+
     sectoSeconds(seconds){
         return this.parse(seconds);
     }
+
     hourToSeconds(hours){
         return (this.parse(hours) * 60) * 60; //hours to seconds 3600 is 1 hour
     }
+
     minToSeconds(minutes){
         return this.parse(minutes) * 60;//minutes to seconds
     }
+
     parse24hours(larger, smaller){
         let [hr, min, sec] = this.strip(larger);
         let [hr2, min2, sec2] = this.strip(smaller);
@@ -43,6 +50,7 @@ class Time{
         }
         return [larger, smaller];
     }
+
     convertToHMS(value){
         const sec = parseInt(value, 10); // convert value to number if it's string
         let hours   = Math.floor(sec / 3600); // get hours
@@ -54,6 +62,7 @@ class Time{
         if (seconds < 10) {seconds = "0"+seconds;}
         return hours+':'+minutes+':'+seconds; // Return is HH : MM : SS
     }
+
     process(largerTime, smallerTime){
         const [larger, smaller] = this.parse24hours(largerTime, smallerTime);
         const [hr, min, sec] = this.strip(larger);
@@ -66,6 +75,7 @@ class Time{
         this.smallerSeconds += this.hourToSeconds(hr2 || 0);
         this.smallerSeconds += this.minToSeconds(min2 || 0);
     }
+
     get(cmd){
         let result;
         if (cmd === "add"){
@@ -76,14 +86,28 @@ class Time{
         this.clear();
         return result;
     }
+
     add(largerTime, smallerTime, date=false){//"06:00:00"
         this.process(largerTime, smallerTime);
         return this.get("add");
     }
+
     sub(largerTime, smallerTime, date=false){//"06:00:00"
         if (!largerTime || !smallerTime) return '00:00:00'; 
         this.process(largerTime, smallerTime);
         return this.get("sub");
+    }
+
+    isValid(date){
+        if (new Date(date) == 'Invalid Date') return false;
+        return true;
+    }
+
+    toBase2(value){
+        if(`${value}`.length < 2){
+            return `0${value}`;
+        }
+        return value;
     }
 }
 

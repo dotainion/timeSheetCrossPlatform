@@ -13,6 +13,10 @@ export class QueryDateFactory extends Factory{
         query.setToMonth(`${record['toMonth']}` || '');
         query.setFromYear(`${record['fromYear']}` || '');
         query.setFromMonth(`${record['fromMonth']}` || '');
+        query.setFrom(record['from'] || '');
+        query.setTo(record['to'] || '');
+        query.setFromInt(record['fromInt'] || '');
+        query.setToInt(record['toInt'] || '');
         return query;
     }
 }

@@ -1,7 +1,6 @@
 import { collection } from "../../infrastructure/config/databaseConfig";
 import { Repository } from "../../infrastructure/Repository";
 import { LogFactory } from "../factory/LogFactory";
-import { UsersFactory } from "../factory/UsersFactory";
 
 export class LogRepository extends Repository{
     factory;
@@ -14,13 +13,10 @@ export class LogRepository extends Repository{
     async startTime(log){
         return this.factory.map(
             await this.addData(collection.logs, {
-                date: log.date,
-                month: log.month,
-                year: log.year,
-                week: log.week,
                 userId: log.userId,
                 startTime: log.startTime,
                 endTime: log.endTime,
+                timestamp: log.timestamp
             })
         );
     }
@@ -43,26 +39,24 @@ export class LogRepository extends Repository{
         )
     }
 
-    async getLogsByMonth(userId, month, year){
+    async getLogsByTimestamp(userId, queryObj){
         return this.factory.map(
-            await this.getWhere(collection.logs, [
-                { userId }, 
-                { month }, 
-                { year }
-            ])
+            await this.getWhereTimestampRange(
+                collection.logs, 
+                queryObj.fromInt, 
+                queryObj.toInt, 
+                userId
+            )
         );
     }
 
     async updateTime(log){
         return this.factory.map([
             await this.updateData(collection.logs, {
-                date: log.date,
-                month: log.month,
-                year: log.year,
-                week: log.week,
                 userId: log.userId,
                 startTime: log.startTime,
                 endTime: log.endTime,
+                timestamp: log.timestamp
             }, log.id)
         ]);
     }

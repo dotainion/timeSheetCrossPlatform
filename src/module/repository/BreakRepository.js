@@ -1,7 +1,6 @@
 import { collection } from "../../infrastructure/config/databaseConfig";
 import { Repository } from "../../infrastructure/Repository";
 import { BreakFactory } from "../factory/BreakFactory";
-import { LogFactory } from "../factory/LogFactory";
 
 
 export class BreakRepository extends Repository{
@@ -17,10 +16,9 @@ export class BreakRepository extends Repository{
             await this.addData(collection.break, {
                 logId: breaks.logId,
                 userId: breaks.userId,
-                month: breaks.month,
-                year: breaks.year,
                 startBreak: breaks.startBreak,
                 endBreak: breaks.endBreak,
+                timestamp: breaks.timestamp
             })
         );
     }
@@ -43,13 +41,14 @@ export class BreakRepository extends Repository{
         )
     }
 
-    async getBreakByMonth(userId, month, year){
+    async getBreakByTimestamp(userId, queryObj){
         return this.factory.map(
-            await this.getWhere(collection.break, [
-                { userId },
-                { month },
-                { year }
-            ])
+            await this.getWhereTimestampRange(
+                collection.break, 
+                queryObj.fromInt, 
+                queryObj.toInt, 
+                userId
+            )
         )
     }
 

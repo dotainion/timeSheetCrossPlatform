@@ -6,8 +6,7 @@ export class Break extends Validation{
     userId = null;
     startBreak = null;
     endBreak = null;
-    month = null;
-    year = null;
+    timestamp = null;
     
     setId(id){
         this.id = id;
@@ -21,19 +20,15 @@ export class Break extends Validation{
         this.userId = userId;
     }
 
-    setMonth(month){
-        this.month = month;
-    }
-
-    setYear(year){
-        this.year = year;
-    }
-
     setStartBreak(startBreak){
         this.startBreak = startBreak;
     }
 
     setEndBreak(endBreak){
         this.endBreak = endBreak;
+    }
+
+    setTimestamp(timestamp){
+        this.timestamp = timestamp;
     }
 }

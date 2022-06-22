@@ -4,6 +4,7 @@ const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const isDev = require("electron-is-dev");
 const ipcMain = electron.ipcMain;
+//const { autoUpdater } = require('electron-updater');
 
 
 let mainWindow;
@@ -12,10 +13,10 @@ function createWindow() {
         width: 900, 
         height: 720,
         icon: __dirname + '../src/images/logo.png',
-        frame: false,
+        frame: true,
         resizable: true,
         transparent: true, 
-        autoHideMenuBar: true,
+        autoHideMenuBar: false,
         alwaysOnTop: false,
         webPreferences: {
             nodeIntegration: true,
@@ -33,7 +34,11 @@ function createWindow() {
     mainWindow.on("closed", () => (mainWindow = null));
 
     //open dev tool console
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
+
+    /*mainWindow.once('ready-to-show', () => {
+        autoUpdater.checkForUpdatesAndNotify();
+    });*/
 }
 
 app.on("ready", createWindow);
@@ -49,8 +54,8 @@ app.on("activate", () => {
     }
 });
 
-/* added */
-/*ipcMain.on('app_version', (event) => {
+/* added 
+ipcMain.on('app_version', (event) => {
     event.sender.send('app_version', {
         version: app.getVersion()
     });
@@ -65,9 +70,9 @@ autoUpdater.on('update-available', () => {
 });
 autoUpdater.on('update-downloaded', () => {
     mainWindow.webContents.send('update_downloaded');
-});
+});*/
 
-ipcRenderer.on('update_available', () => {
+/*ipcRenderer.on('update_available', () => {
     ipcRenderer.removeAllListeners('update_available');
     console.log('A new update is available. Downloading now...');
 });

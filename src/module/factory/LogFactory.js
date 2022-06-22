@@ -7,12 +7,9 @@ export class LogFactory extends Factory{
         const log = new Log();
         log.setId(`${record?.['id']}` || '');
         log.setUserId(`${record?.['info']['userId']}` || '');
-        log.setDate(`${record?.['info']?.['date']}` || '');
-        log.setMonth(`${record?.['info']?.['month']}` || '');
-        log.setYear(`${record?.['info']?.['year']}` || '');
-        log.setWeek(`${record?.['info']?.['week']}` || '');
         log.setStartTime(`${record?.['info']?.['startTime']}` || '');
         log.setEndTime(`${record?.['info']?.['endTime']}` || '');
+        log.setTimestamp(record?.['info']?.['timestamp'] || '');
         return log;
     }
 }
