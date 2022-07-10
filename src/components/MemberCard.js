@@ -13,7 +13,7 @@ export const MemberCard = ({onClick, icon, name, gender, description, address, n
     }
 
     return(
-        <div ref={parentRef} className="team-card-container">
+        <div ref={parentRef} className="team-card-container card h-scale pointer" style={{width: '18rem'}}>
             <div onClick={onTriger} className={`team-card ${ useHover && 'team-card-hover'}`}>
                 {icon}
                 <VEllipsisOption

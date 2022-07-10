@@ -10,11 +10,9 @@ export const PercentageCard = ({title, data, percentage, color}) =>{
     }, []);
     return(
         <div className="percentage-container">
-            <div className="percentage-card" style={{backgroundColor: color}}>
-                <div>
-                    <label style={{fontSize: '15px'}}>{data}</label>
-                    <label style={{fontSize: '12px'}}>{title}</label>
-                </div>
+            <div className="card p-1 mb-3 text-light" style={{backgroundColor: color}}>
+                <h6 className="p-0 m-0">{data}</h6>
+                <div>{title}</div>
             </div>
             <CircularProgressbar 
                 minValue={0} 

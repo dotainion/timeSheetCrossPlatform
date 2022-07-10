@@ -87,14 +87,14 @@ export const CreateMember = () =>{
             <div className="create-member-container">
                 <h2>Create a member</h2>
                 <h1>Let's start with information on your member</h1>
-                <Input title="First Name" inputRef={fNameRef} />
-                <Input title="Last Name" inputRef={lNameRef} />
-                <Input title="Email" inputRef={emailRef} type="email" />
-                <Input title="Phone Number" inputRef={phoneRef} />
-                <Input title="Gender" inputRef={genderRef} options={(new Gender()).genders()} />
-                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} />
-                <Input title="Username" inputRef={usernameRef} disabled />
-                <Input title="Password" inputRef={passwordRef} type="password" />
+                <Input title="First Name" inputRef={fNameRef} cssClass="border-secondary" />
+                <Input title="Last Name" inputRef={lNameRef} cssClass="border-secondary" />
+                <Input title="Email" inputRef={emailRef} type="email" cssClass="border-secondary" />
+                <Input title="Phone Number" inputRef={phoneRef} cssClass="border-secondary" />
+                <Input title="Gender" inputRef={genderRef} options={(new Gender()).genders()} cssClass="border-secondary" />
+                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} cssClass="border-secondary" />
+                <Input title="Username" inputRef={usernameRef} disabled cssClass="border-secondary" />
+                <Input title="Password" inputRef={passwordRef} type="password" cssClass="border-secondary" />
                 <div data-btn-container>
                     <Button onClick={addMember} title="Save" />
                     <ImgButton onChange={(img)=>imageRef.current = img} />

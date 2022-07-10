@@ -4,6 +4,8 @@ import { Roles } from "../../infrastructure/Roles";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { Validation } from "../../infrastructure/Validation";
 import { Users } from "./Users";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateEmail } from 'firebase/auth';
+
 
 export class Authenticate extends ToastHandler{
     constructor(){
@@ -19,7 +21,7 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            const response = await auth.signInWithEmailAndPassword(email, password);
+            const response = await signInWithEmailAndPassword(auth, email, password);
             this.saveCreds.saveLogin(email, password);
             return response;
         }catch(error){
@@ -49,7 +51,7 @@ export class Authenticate extends ToastHandler{
         }
         
         try{
-            const response = await auth.createUserWithEmailAndPassword(email, password);
+            const response = await createUserWithEmailAndPassword(auth, email, password);
 
             const res = await this.user.addWithId({
                 clientId: response?.user?.uid, 
@@ -90,7 +92,16 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            return await auth.sendPasswordResetEmail(email);
+            return await sendPasswordResetEmail(auth, email);
+        }catch(error){
+            this.error(error.message);
+            return false;
+        }
+    }
+
+    async emailVerification(){
+        try{
+            return await sendEmailVerification(auth.currentUser);
         }catch(error){
             this.error(error.message);
             return false;
@@ -102,7 +113,7 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            return await auth.currentUser.updateEmail(email);
+            return await updateEmail(auth.currentUser, email);
         }catch(error){
             this.error(error.message);
             return false;
@@ -129,7 +140,8 @@ export class Authenticate extends ToastHandler{
             }
 
             this.saveCreds.pauseStateChange(true);
-            const response = await auth.createUserWithEmailAndPassword(email, password);
+            const response = await createUserWithEmailAndPassword(auth, email, password);
+            await this.emailVerification();
             await this.resetPasswordViaEmail(email);
 
             const rtUsr = await this.user.add(

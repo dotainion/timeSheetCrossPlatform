@@ -28,9 +28,9 @@ export const VEllipsisOption = ({isOpen, option, parentRef}) =>{
 
     return(
         <>
-        <div className="v-ellipsis-opt-container">
+        <div className="position-relative m-0 p-0">
             <span ref={ellipsisRef}>
-                <VscEllipsis className="v-ellipsis-icon" />
+                <VscEllipsis className="" style={{fontSize: '25px'}} />
             </span>
             <div ref={overlayRef} className="v-ellipsis-overlay" style={{display: 'none'}}>
                 {option?.map((opt, key)=>(

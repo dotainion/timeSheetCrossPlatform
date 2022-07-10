@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MemberCard } from "../components/MemberCard";
 import { Layout } from "../layout/Layout";
 import { routes } from "../Routes/Routes";
 import { BsFillPersonFill } from 'react-icons/bs';
@@ -20,6 +19,8 @@ import { useProvider } from "../provider/ProviderWrapper";
 import { Roles } from "../infrastructure/Roles";
 import { BiImport } from 'react-icons/bi';
 import { ButtonCard } from "../widgets/ButtonCard";
+import { VEllipsisOption } from "../widgets/VEllipsisOption";
+import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 
 
 const uTeam = new Teams();
@@ -70,47 +71,61 @@ export const TeamMembers = () =>{
                     <ButtonCard onClick={()=>navigate(routes.createMember.replace('teamId', `teamId:${team?.id}`))} title={'Add Member'} add />
                     <ButtonCard onClick={()=>navigate(routes.members)} title={'Import Member'} imports />
                 </div>
-                {
-                    members.length?
-                    members.map((usr, key)=>(
-                        <MemberCard
-                            icon={<BsFillPersonFill/>}
-                            name={`${usr.firstName} ${usr.lastName}`}
-                            gender={usr.gender}
-                            number={usr.number}
-                            supervisor="None"
-                            role={usr.role}
-                            useHover={true}
-                            onClick={(e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
-                            menu={[
-                                {
-                                    title: 'Spreadsheet Settings',
-                                    action: (e)=>navigate(`${routes.spreadSheetSettings.replace('userId', `userId:${usr.id}`)}`)
-                                },{
-                                    title: 'User Settings',
-                                    action: (e)=>navigate(`${routes.memberSettings.replace('userId', `userId:${usr.id}`)}`)
-                                },{
-                                    title: 'Re Assign',
-                                    action: (e)=>navigate(routes.members, {state: usr.id})
-                                },{
-                                    title: 'Report',
-                                    action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
+                <ButtonCardContainer>
+                    {
+                        members.length?
+                        members.map((usr, key)=>(
+                            <ButtonCard
+                                icon={<BsFillPersonFill/>}
+                                title={
+                                    <div className="d-flex w-100 align-items-center">
+                                        <div><BsFillPersonFill className="fs-3 mt-1 me-2" /></div>
+                                        <div>{`${usr.firstName} ${usr.lastName}`}</div>
+                                    </div>
                                 }
+                                subTitle={
+                                    <div>
+                                        <div>{usr.gender}</div>
+                                        <div>{usr.number}</div>
+                                    </div>
+                                }
+                                body={
+                                    <div>
+                                        <div>Role: {usr.role}</div>
+                                        <div>Supervisor: {'None'}</div>
+                                    </div>
+                                }
+                                menu={[
+                                    {
+                                        title: 'Spreadsheet Settings',
+                                        action: (e)=>navigate(`${routes.spreadSheetSettings.replace('userId', `userId:${usr.id}`)}`)
+                                    },{
+                                        title: 'User Settings',
+                                        action: (e)=>navigate(`${routes.memberSettings.replace('userId', `userId:${usr.id}`)}`)
+                                    },{
+                                        title: 'Re Assign',
+                                        action: (e)=>navigate(routes.members, {state: usr.id})
+                                    },{
+                                        title: 'Report',
+                                        action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
+                                    }
+                                ]}
+                                onClick={(e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
+                                key={key}
+                            />
+                        )):
+                        <NoRecords 
+                            image={memberIcon}
+                            btnName="Add Member"
+                            title="Welcome to Time Sheet App"
+                            messages={[
+                                'Lets get started with creating your first member to the team',
+                                'Create your first member by clicking the card  with the plus +.'
                             ]}
-                            key={key}
+                            onClick={()=>{}}
                         />
-                    )):
-                    <NoRecords 
-                        image={memberIcon}
-                        btnName="Add Member"
-                        title="Welcome to Time Sheet App"
-                        messages={[
-                            'Lets get started with creating your first member to the team',
-                            'Create your first member by clicking the card  with the plus +.'
-                        ]}
-                        onClick={()=>{}}
-                    />
-                }
+                    }
+                </ButtonCardContainer>
             </div>
             <Loading loading={loading} />
         </Layout>

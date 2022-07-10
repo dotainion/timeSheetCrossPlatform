@@ -11,7 +11,6 @@ import { Teams as _Teams_ } from '../module/logic/Teams';
 import { CgProfile } from 'react-icons/cg';
 import { AiOutlineClose } from "react-icons/ai";
 import $ from 'jquery';
-import { MemberCard } from "../components/MemberCard";
 import { IoIosPeople } from 'react-icons/io';
 import bgImg from '../images/team-bg.webp';
 import { NoRecords } from "../components/NoRecords";
@@ -22,6 +21,7 @@ import { Loading } from "../components/Loading";
 import { useProvider } from "../provider/ProviderWrapper";
 import { ButtonCard } from "../widgets/ButtonCard";
 import { useAuth } from "../provider/AuthenticationWrapper";
+import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 
 const team = new _Teams_();
 
@@ -55,39 +55,41 @@ export const Teams = () =>{
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
                     <ButtonCard onClick={()=>navigate(routes.manageTeam)} title={'Add Team'} add />
                 </div>
-                {
-                    teams.length?
-                    teams.map((obj, key)=>(
-                        <MemberCard 
-                            icon={<IoIosPeople/>}
-                            name={obj.name}
-                            description={obj.description}
-                            supervisor="None"
-                            useHover={true}
-                            onClick={()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})}
-                            menu={[
-                                {
-                                    title: 'Edit',
-                                    action: ()=>navigate(`${routes.manageTeam}:${obj.id}`, {state: obj})
-                                },{
-                                    title: 'Delete',
-                                    action: (e)=>setOpenAlert({state: true, data: obj, cardRef: e.ref})
-                                }
+                <ButtonCardContainer>
+                    {
+                        teams.length?
+                        teams.map((obj, key)=>(
+                            <ButtonCard 
+                                user={<IoIosPeople/>}
+                                title={obj.name}
+                                subTitle="Teams..."
+                                body={obj.description}
+                                footer={<div className="text-muted">Role: {'none'}</div>}
+                                onClick={()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})}
+                                menu={[
+                                    {
+                                        title: 'Edit',
+                                        action: ()=>navigate(`${routes.manageTeam}:${obj.id}`, {state: obj})
+                                    },{
+                                        title: 'Delete',
+                                        action: (e)=>setOpenAlert({state: true, data: obj, cardRef: e.ref})
+                                    }
+                                ]}
+                                key={key}
+                            />
+                        )):
+                        <NoRecords 
+                            image={teamIcon}
+                            btnName = "Add Team"
+                            title="Welcome to Time Sheet App"
+                            messages={[
+                                'Lets get started with creating your first team',
+                                'Create your first team by clicking the card  with the plus +.'
                             ]}
-                            key={key}
+                            onClick={()=>navigate(routes.manageTeam)}
                         />
-                    )):
-                    <NoRecords 
-                        image={teamIcon}
-                        btnName = "Add Team"
-                        title="Welcome to Time Sheet App"
-                        messages={[
-                            'Lets get started with creating your first team',
-                            'Create your first team by clicking the card  with the plus +.'
-                        ]}
-                        onClick={()=>navigate(routes.manageTeam)}
-                    />
-                }
+                    }
+                </ButtonCardContainer>
             </div>
 
             <ConfirmXl

@@ -11,6 +11,9 @@ import { Users } from "../module/logic/Users";
 import { Loading } from "../components/Loading";
 import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
+import { ButtonCard } from "../widgets/ButtonCard";
+import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
+import { ButtonCardMemberBody } from "../components/ButtonCardMemberBody";
 
 const roles = new Roles();
 const _teams_ = new Teams();
@@ -27,19 +30,11 @@ export const AllMembers = () =>{
     const location = useLocation();
     const membersList = useRef();
 
-    const updateRole = async(role, userId) =>{
-        _members_.updateUser({role: role}, userId);
-    }
-
-    const updateTeam = async(teamId, userId) =>{
-        _members_.updateUser({teamId: teamId}, userId);
-    }
-
     const onSearch = (search) =>{
+        if(!search) return;
         setLoading(true);
         let maches = [];
         let unMaches = [];
-        if(!search) return;
         let s = search?.toLowerCase();
         for(let item of membersList.current || []){
             const fName = item.firstName?.toLowerCase()?.includes(s);
@@ -115,14 +110,14 @@ export const AllMembers = () =>{
     useEffect(initialize, []);
 
     return(
-        <Layout>
-            <div className="all-member-container">
-                <div data-search>
-                    <div>
+        <Layout title={'Title'}>
+            <div className="container pt-3">
+                <div className="d-md-flex w-75 m-auto" style={{minWidth: '320px'}}>
+                    <div className="w-100">
                         <Search onSearch={onSearch} />
                     </div>
-                    <div>
-                        <select onChange={(e)=>onFilter(e.target.value)}>
+                    <div className="ps-md-5 mt-2">
+                        <select className="border-0 border-bottom bg-transparent p-1 pointer" onChange={(e)=>onFilter(e.target.value)}>
                             <option value={'ALL'} >View All</option>
                             {teams.map((t, key)=>(
                                 <option value={t?.id} key={key}>{t?.name}</option>
@@ -130,42 +125,18 @@ export const AllMembers = () =>{
                         </select>
                     </div>
                 </div>
-                <div className="all-members-scroll">
+                <ButtonCardContainer>
                     {members.map((usr, key)=>(
-                        <div 
-                            className="all-member-card" 
-                            style={{backgroundColor: usr?.selected && 'lightblue'}} 
+                        <ButtonCard
+                            title={`${usr?.firstName || ''} ${usr?.lastName || ''}`}
+                            subTitle={usr?.email}
+                            body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
+                            profile
+                            onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})}
                             key={key}
-                            >
-                            <div onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})} data-profile>
-                                <div data-image>
-                                    <CgProfile/>
-                                </div>
-                                <div>
-                                    <span>{usr?.firstName}</span>&nbsp;
-                                    <span>{usr?.lastName}</span>
-                                    <div>{usr?.email}</div>
-                                </div>
-                            </div>
-                            <div>
-                                <select onChange={(e)=>updateRole(e.target.value, usr?.id)} defaultValue={usr?.role}>
-                                    <option value={''}>unassign</option>
-                                    {(new Roles()).roles().map((role, key)=>(
-                                        <option value={role?.id} key={key}>{role?.title}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <select onChange={(e)=>updateTeam(e.target.value, usr?.id)} defaultValue={usr?.teamName}>
-                                    <option value={''}>unassign</option>
-                                    {teams.map((t, key)=>(
-                                        <option key={key}>{t?.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
+                        />
                     ))}
-                </div>
+                </ButtonCardContainer>
             </div>
             <Loading loading={loading} />
         </Layout>

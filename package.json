@@ -1,6 +1,6 @@
 {
   "name": "time-sheet-desktop",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Time sheet application",
   "author": "nick blair",
   "main": "public/electron.js",
@@ -8,7 +8,11 @@
     "appId": "display.timesheet",
     "win": {
       "icon": "build/logo192.png"
-    }
+    },
+    "files": [
+      "public/**/*",
+      "electron.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -45,7 +49,7 @@
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
     "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\" ",
-    "deploy": "set GH_TOKEN=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 && electron-builder build --win --publish always"
+    "deploy": "set GH_TOKEN=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 && electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [

@@ -32,40 +32,44 @@ import { ManageTeam } from './pages/MangeTeam';
 import { Test } from './Test/Test';
 import { SpreadsheetReport } from './pages/SpreadsheetReport';
 import { Invoice } from './pages/Invoice';
+import { PageNotFound } from './errors/PageNotFound';
+import { AutoUpdateWrapper } from './provider/AutoUpdateWrapper';
 
 
 function App() {
   return (
     <HashRouter>
-      <AuthenticationWrapper>
-        <ProviderWrapper>
-          <Routes>
-            <Route path={routes.default} element={<Navigate to={routes.signIn} />} />
-            {/** public **/}
-            <Route path={routes.signIn} element={<AuthRouter element={<SignIn/>} />} />
-            <Route path={routes.register} element={<Register/>} />
-            {/** administrator **/}
-            <Route path={routes.manageMembers} element={<AuthRouter element={<ManageMembers/>} isAdmin />} />
-            <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} isAdmin />} />
-            <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} isAdmin />} />
-            <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
-            <Route path={routes.spreadsheetReport} element={<AuthRouter element={<SpreadsheetReport/>} isAdmin />} />
-            <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
-            <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
-            <Route path={routes.members} element={<AuthRouter element={<AllMembers/>} isAdmin />} />
-            <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />            
-            <Route path={routes.createMember} element={<AuthRouter element={<CreateMember/>} isAdmin />} />
-            <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
-            <Route path={routes.manageTeam} element={<AuthRouter element={<ManageTeam/>} isAdmin />} />
-            <Route path={routes.invoice} element={<AuthRouter element={<Invoice/>} isAdmin />} />
-            <Route path={'/test'} element={<AuthRouter element={<Test/>} isAdmin />} />
-            {/** employees **/}
-            <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
-            {/** not found **/}
-            <Route path="*" element={<div>Page Not Found.</div>} />
-          </Routes>
-        </ProviderWrapper>
-      </AuthenticationWrapper>
+      <AutoUpdateWrapper>
+        <AuthenticationWrapper>
+          <ProviderWrapper>
+            <Routes>
+              <Route path={routes.default} element={<Navigate to={routes.signIn} />} />
+              {/** public **/}
+              <Route path={routes.signIn} element={<AuthRouter element={<SignIn/>} />} />
+              <Route path={routes.register} element={<Register/>} />
+              {/** administrator **/}
+              <Route path={routes.manageMembers} element={<AuthRouter element={<ManageMembers/>} isAdmin />} />
+              <Route path={routes.dashboard} element={<AuthRouter element={<Dashboard/>} isAdmin />} />
+              <Route path={routes.administrator} element={<AuthRouter element={<Administrator/>} isAdmin />} />
+              <Route path={routes.report} element={<AuthRouter element={<Report/>} isAdmin />} />
+              <Route path={routes.spreadsheetReport} element={<AuthRouter element={<SpreadsheetReport/>} isAdmin />} />
+              <Route path={routes.teams} element={<AuthRouter element={<Teams/>} isAdmin />} />
+              <Route path={routes.teamMembers} element={<AuthRouter element={<TeamMembers/>} isAdmin />} />
+              <Route path={routes.members} element={<AuthRouter element={<AllMembers/>} isAdmin />} />
+              <Route path={routes.memberSettings} element={<AuthRouter element={<MemberSettings/>} isAdmin />} />            
+              <Route path={routes.createMember} element={<AuthRouter element={<CreateMember/>} isAdmin />} />
+              <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
+              <Route path={routes.manageTeam} element={<AuthRouter element={<ManageTeam/>} isAdmin />} />
+              <Route path={routes.invoice} element={<AuthRouter element={<Invoice/>} isAdmin />} />
+              <Route path={'/test'} element={<AuthRouter element={<Test/>} isAdmin />} />
+              {/** employees **/}
+              <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />
+              {/** not found **/}
+              <Route path="*" element={<PageNotFound/>} />
+            </Routes>
+          </ProviderWrapper>
+        </AuthenticationWrapper>
+      </AutoUpdateWrapper>
     </HashRouter>
   );
 }

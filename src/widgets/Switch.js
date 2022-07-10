@@ -11,7 +11,7 @@ export const Switch = ({inputRef, onChange}) =>{
             $(btnRef.current).css({
                 left: !e.target.checked ? '0' : '',
                 right: e.target.checked ? '-2px' : '',
-                backgroundColor: e.target.checked ? 'rgb(58, 58, 58)' : ''
+                backgroundColor: e.target.checked ? 'green' : ''
             });
             onChange?.(e.target.checked);
         });

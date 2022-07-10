@@ -20,7 +20,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     }
 
     const onFocus = () =>{
-        $(titleRef.current).addClass('input-entery-title-focus');
+        $(titleRef.current).addClass('input-title-focus');
         inputRef
             ? $(inputRef?.current).focus()
             : $(inputCRef.current).focus();
@@ -29,7 +29,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     const onBlur = () =>{
         if(fixedLabel) return;
         if ($(inputCRef.current).val() || inputRef && $(inputRef.current).val()) return;
-        $(titleRef.current).removeClass('input-entery-title-focus');
+        $(titleRef.current).removeClass('input-title-focus');
     }
 
     useEffect(()=>{
@@ -52,13 +52,13 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
 
     useEffect(()=>{
         if(fixedLabel){
-            $(titleRef.current).addClass('input-entery-title-focus');
+            $(titleRef.current).addClass('input-title-focus');
         }
     }, [fixedLabel]);
 
     return(
-        <div ref={inputContainerRef} className={`input-entery ${cssClass} ${options && 'pointer'}`} type={type}>
-            <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className={`input-entery-title`}>{title}</div>
+        <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${cssClass} ${options && 'pointer'}`} data-input type={type}>
+            <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
             {
                 !options
                     ? !paragraph 
@@ -72,6 +72,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                         min={min} 
                         max={max} 
                         step="1"
+                        className="w-100 p-2 border-0 bg-transparent"
                         />
                         : <textarea 
                             ref={inputRef || inputCRef} 
@@ -79,6 +80,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                             onChange={onChange} 
                             onFocus={onFocus} 
                             onBlur={onBlur} 
+                            className="w-100 p-2 border-0 bg-transparent"
                         />
                     : <select 
                         ref={inputRef || inputCRef} 
@@ -87,10 +89,11 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                         disabled={disabled}
                         onChange={onChange}
                         defaultValue={defaultOption} 
+                        className="w-100 p-2 border-0 pointer bg-transparent"
                         >
                         <option hidden={defaultOption}></option>
                         {options?.map?.((opt, key)=>(
-                            <option value={opt?.value} key={key}>{opt?.title}</option>
+                            <option value={opt?.value || opt?.id} key={key}>{opt?.title || opt?.name}</option>
                         ))}
                     </select>
             }

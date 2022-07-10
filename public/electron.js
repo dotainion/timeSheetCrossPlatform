@@ -1,44 +1,48 @@
 const electron = require("electron");
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
 const path = require("path");
 const isDev = require("electron-is-dev");
+const { autoUpdater } = require('electron-updater');
+const app = electron.app;
+const BrowserWindow = electron.BrowserWindow;
 const ipcMain = electron.ipcMain;
-//const { autoUpdater } = require('electron-updater');
+const ipcRenderer = electron.ipcRenderer;
 
 
 let mainWindow;
+
 function createWindow() {
     mainWindow = new BrowserWindow({ 
         width: 900, 
         height: 720,
-        icon: __dirname + '../src/images/logo.png',
         frame: true,
         resizable: true,
-        transparent: true, 
+        transparent: false, 
         autoHideMenuBar: false,
         alwaysOnTop: false,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: true,
             worldSafeExecuteJavaScript: true,
-            preload: path.resolve('./src/electron/preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
         }
     });
 
     mainWindow.loadURL(
         isDev
-        ? "http://localhost:3000"
-        : `file://${path.join(__dirname, "../build/index.html")}`
+        ? 'http://localhost:3000'
+        : `file://${path.join(__dirname, '../build/index.html')}`
     );
     mainWindow.on("closed", () => (mainWindow = null));
 
     //open dev tool console
     mainWindow.webContents.openDevTools();
 
-    /*mainWindow.once('ready-to-show', () => {
+    mainWindow.once('ready-to-show', () => {
+        //alert('checking for updates....');
+        console.log('checking for updates...');
         autoUpdater.checkForUpdatesAndNotify();
-    });*/
+    });
+    autoUpdater.checkForUpdatesAndNotify();
 }
 
 app.on("ready", createWindow);
@@ -54,27 +58,28 @@ app.on("activate", () => {
     }
 });
 
-/* added 
+//added 
 ipcMain.on('app_version', (event) => {
+    console.log('sending varsion.....');
     event.sender.send('app_version', {
         version: app.getVersion()
     });
 });
 
-mainWindow.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify();
-});
-
 autoUpdater.on('update-available', () => {
+    console.log('sending updates.....');
+    alert('sending updates...');
     mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('update-downloaded', () => {
+    console.log('downloading updates.....');
+    alert('downloading updates...');
     mainWindow.webContents.send('update_downloaded');
-});*/
+});
 
 /*ipcRenderer.on('update_available', () => {
-    ipcRenderer.removeAllListeners('update_available');
     console.log('A new update is available. Downloading now...');
+    ipcRenderer.removeAllListeners('update_available');
 });
 ipcRenderer.on('update_downloaded', () => {
     ipcRenderer.removeAllListeners('update_downloaded');
@@ -84,11 +89,12 @@ ipcRenderer.on('update_downloaded', () => {
 //this should be in another file if posiple so it can be called.
 function restartApp() {
     ipcRenderer.send('restart_app');
-}
+}*/
 
 ipcMain.on('restart_app', () => {
+    console.log('restarting...');
     autoUpdater.quitAndInstall();
-});*/
+});
 
 //add file name electronBuilder.yml and add bellow code in comment.
 //electronBuilder.yml should be in a gitignore file

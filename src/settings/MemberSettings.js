@@ -9,6 +9,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import $ from 'jquery';
 import { Teams } from "../module/logic/Teams";
 import profile from '../images/profile.jpg';
+import { Switch } from "../widgets/Switch";
 
 
 const _teams_ = new Teams();
@@ -33,16 +34,6 @@ export const MemberSettings = () =>{
         const key = Object.keys(data)[0];
         location.state[key] = data[key];
         navigate(location.pathname, {state: location.state});
-    }
-
-    const updateRole = async(role, userId) =>{
-        _members_.updateUser({role: role}, userId);
-        updateLocationState({role: role});
-    }
-
-    const updateTeam = async(teamId, userId) =>{
-        _members_.updateUser({teamId: teamId}, userId);
-        updateLocationState({teamId: teamId});
     }
 
     const onUpdateProfile = async(data, userId) =>{
@@ -78,6 +69,7 @@ export const MemberSettings = () =>{
         numberRef.current.focus();
         emailRef.current.focus();
         genderRef.current.focus();
+        roleRef.current.focus();
 
         $(firstNameRef.current).on('change', (e)=>onUpdateProfile({firstName: e.target.value}, usr?.id));
         $(lastNameRef.current).on('change', (e)=>onUpdateProfile({lastName: e.target.value}, usr?.id));
@@ -90,40 +82,39 @@ export const MemberSettings = () =>{
 
     return(
         <Layout>
-            <div className="member-settings-container">
-                <div data-nav-container>
-                    <div data-nav data-no-pointer>
-                        <AiOutlineEdit/>
-                        <span>Edit Settings</span>
-                    </div>
-                    <div data-nav>
-                        <select ref={roleRef}>
-                            <option value={''}>unassign</option>
-                            {(new Roles()).roles().map((role, key)=>(
-                                <option key={key}>{role.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div data-nav>
-                        <select ref={teamRef}>
-                            <option value={''}>unassign</option>
-                            {teams.map((team, key)=>(
-                                <option value={team.id} key={key}>{team.name}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div data-profile-container>
-                    <div data-header><h2>Profile</h2></div>
+            <div className="">
+                <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm"><h2>Profile</h2></div>
+                <div className="d-md-flex">
                     <div>
-                        <img src={profile} />
+                        <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                            <Input inputRef={firstNameRef} title={'First Name'} />
+                            <Input inputRef={lastNameRef} title={'Last Name'} />
+                            <Input inputRef={numberRef} title={'Number'} type={'number'} />
+                            <Input inputRef={emailRef} title={'Email Address'} />
+                            <Input inputRef={genderRef} title={'Gender'} options={(new Gender()).genders()} />
+                        </div>
+                        <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                            <h5>Role</h5>
+                            <p className="text-secondary">hdgfhdgf</p>
+                            <Switch />
+                        </div>
                     </div>
-                    <div data-inputs>
-                        <Input inputRef={firstNameRef} title={'First Name'} />
-                        <Input inputRef={lastNameRef} title={'Last Name'} />
-                        <Input inputRef={numberRef} title={'Number'} type={'number'} />
-                        <Input inputRef={emailRef} title={'Email Address'} />
-                        <Input inputRef={genderRef} title={'Gender'} />
+                    <div>
+                        <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                            <h5>Role</h5>
+                            <p className="text-secondary">The behaviour expected of an individual who occupies a given position or status.</p>
+                            <Input inputRef={roleRef} title={'Pay Rate'} options={(new Roles()).roles()} />
+                        </div>
+                        <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                            <h5>Team</h5>
+                            <p className="text-secondary">A group of people who perform interdependent tasks to work toward accomplishing a common mission or specific objective.</p>
+                            <Input inputRef={teamRef} options={teams} />
+                        </div>
+                        <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                            <h5>Title</h5>
+                            <p className="text-secondary">You can upgrade to a custom domain to make your site more memberable SSL.</p>
+                            <Input title={'Pay Rate'} />
+                        </div>
                     </div>
                 </div>
             </div>

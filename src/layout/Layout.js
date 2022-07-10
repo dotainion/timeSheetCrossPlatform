@@ -1,33 +1,29 @@
-import React, { useEffect, useRef } from "react";
-import { Sidebar } from "../components/Sidebar";
+import React, { useEffect, useRef, useState } from "react";
+import { SideMenu } from "../menu/SideMenu";
 import { BreadCrumbs } from "../widgets/BreadCrumbs";
+import { GiHamburgerMenu } from 'react-icons/gi';
 import $ from 'jquery';
+import { MenuButton } from "../menu/MenuButton";
 
 
 export const Layout = ({options, title, children}) =>{
-    const layoutNavigationRef = useRef();
-    const childrenContainerRef = useRef();
-
     useEffect(()=>{
-        $(window).resize(()=>{
-            const navHeight = $(layoutNavigationRef.current).height();
-            $(childrenContainerRef.current).animate({
-                height: window.innerHeight - navHeight - 10
-            }, 'fast');
-        });
-        $(window).resize();
+        
     }, []);
     return(
-        <div className="layout-container">
-            <Sidebar />
-            <div className="max-width">
-                <div ref={layoutNavigationRef} className="layout-navigation">
-                    <div className="layout-wrapper-nav">
-                        <h2>{title}</h2>
-                        <BreadCrumbs options={options} />
+        <div className="d-flex">
+            <SideMenu />
+            <div className="w-100 vh-100">
+                <nav>
+                    <div className="container-fluid d-flex align-items-center">
+                        <MenuButton/>
+                        <div className="ms-2">
+                            <h6 className="m-0 p-0">{title}</h6>
+                            <BreadCrumbs options={options} />
+                        </div>
                     </div>
-                </div>
-                <div ref={childrenContainerRef} className="layout-children">{children}</div>
+                </nav>
+                <div className="w-100 h-100 overflow-auto bg">{children}</div>
             </div>
         </div>
     )
