@@ -23,4 +23,10 @@ export class UserSettingRepository extends Repository{
             await this.getDataById(collection.settings, uuid)
         ]);
     }
+
+    async getSettings(clientId){
+        return this.factory.map(
+            await this.getWhere(collection.settings,  [{clientId}])
+        );
+    }
 }

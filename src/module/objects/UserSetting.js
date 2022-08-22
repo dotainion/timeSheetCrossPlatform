@@ -3,6 +3,7 @@ import { Validation } from "../../infrastructure/Validation";
 export class UserSetting extends Validation{
     id = null;
     sheetId = null;
+    clientId = null;
     spreadsheetId = null;
     
     setId(id){
@@ -11,6 +12,10 @@ export class UserSetting extends Validation{
 
     setSheetId(sheetId){
         this.sheetId = sheetId;
+    }
+
+    setClientId(clientId){
+        this.clientId = clientId;
     }
 
     setSpreadsheetId(spreadsheetId){

@@ -7,6 +7,7 @@ export class UserSettingFactory extends Factory{
         const setting = new UserSetting();
         setting.setId(`${record?.['id']}` || '');
         setting.setSheetId(`${record?.['info']?.['sheetId']}` || '');
+        setting.setClientId(`${record?.['info']?.['clientId']}` || '');
         setting.setSpreadsheetId(`${record?.['info']?.['spreadsheetId']}` || '');
         return setting;
     }

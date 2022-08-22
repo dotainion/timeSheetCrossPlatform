@@ -5,9 +5,10 @@ import { MdManageAccounts } from 'react-icons/md';
 import { FaSignature, FaUsersCog, FaUserCircle } from 'react-icons/fa';
 import { ImProfile } from 'react-icons/im';
 import { VEllipsisOption } from './VEllipsisOption';
+import { AiOutlineGoogle } from 'react-icons/ai';
 
 
-export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, user, imports, manage, asign, team, onClick, disabled}) =>{
+export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, user, imports, manage, asign, team, google, onClick, disabled}) =>{
     const parentRef = useRef();
 
     const onTriger = (e) =>{
@@ -23,6 +24,7 @@ export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, u
             {asign && <FaSignature className={'card-img-top'} />}
             {team && <FaUsersCog className={'card-img-top'} />}
             {user && <FaUserCircle className={'card-img-top'} />}
+            {google && <AiOutlineGoogle className={'card-img-top'} />}
             {profile && <ImProfile className="position-absolute m-2" style={{fontSize: '20px', right: '0'}} />}
             {menu && <div className="position-absolute end-0 me-2" style={{top: '-10px'}}>
                 <VEllipsisOption

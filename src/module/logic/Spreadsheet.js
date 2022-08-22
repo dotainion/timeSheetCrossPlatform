@@ -87,6 +87,9 @@ export class Spreadsheet extends ToastHandler{
 
     async getSpreadsheet(spreadsheetId){
         try{
+            if(typeof spreadsheetId === 'string'){
+                spreadsheetId = [spreadsheetId];
+            }
             return await this.responder.post('/get/spreadsheet', {
                 spreadsheetId
             });

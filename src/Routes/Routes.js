@@ -5,7 +5,7 @@ export const routes = {
     teamMembers: '/team/members:teamId',
     dashboard: "/dashboard",
     report: '/report:memberId:sheetId/*',
-    spreadsheetReport: '/spread/sheet/report:memberId:sheetId/*',
+    spreadsheetReport: '/spread/sheet/report:memberId:spreadsheetId:sheetId:title/*',
     clockIn: '/clock/in',
     manageMembers: '/manage/members',
     signIn: '/sign/in',
@@ -17,4 +17,5 @@ export const routes = {
     spreadSheetSettings: '/spread/sheet/settings:userId',
     manageTeam: '/manage/team:teamId',
     invoice: '/invoice:userId',
+    membersSpreadsheets: '/members/google/sheets',
 }

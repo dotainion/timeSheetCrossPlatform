@@ -7,6 +7,7 @@ import { time } from "./tools/Time";
 const date = new DateHelper();
 
 class Spreadsheet{
+    extra = {};
     sheets = [];
     result = {
         total: 0,
@@ -30,6 +31,8 @@ class Spreadsheet{
 
         let holdFilter = [];
         let tempFilter = [];
+        sheet['title'] = this.extra['title'] || sheet?.title;
+        sheet['sheetId'] = this.extra['sheetId'] || sheet?.sheetId;
 
         let index = 0;
         firstFilterSheet.forEach((items)=>{
@@ -104,7 +107,7 @@ class Spreadsheet{
         let timeDateFormInvoicing = {};
         sheets?.forEach((sheet)=>{
             let subTotal = null;
-            sheet?.forEach((tmv)=>{
+            [sheet]?.forEach((tmv)=>{
                 if (exludedIds.includes(tmv.id)) return;
                 if(subTotal === null){
                     if (tmv.week) timeDateFormInvoicing['timeFrom'] = tmv.week;
@@ -174,5 +177,9 @@ export class Calculator{
     calculateTimeLoop(logs=[]){
         this.time.toTotalTimeLoop(logs);
         return this.time.get();
+    }
+
+    setExtra(key, value){
+        this.sheet.extra[key] = value;
     }
 }

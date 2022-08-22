@@ -25,7 +25,7 @@ export const BreadCrumbs = ({options}) =>{
                     options?.length?
                     options.map((crumbs, key)=>(
                         <div onClick={crumbs?.action} id={crumbs?.title + key} key={key}>
-                            <span>{crumbs?.title}</span>
+                            <span className="small">{crumbs?.title}</span>
                         </div>
                     )):null
                 }

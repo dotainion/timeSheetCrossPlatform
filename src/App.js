@@ -34,6 +34,7 @@ import { SpreadsheetReport } from './pages/SpreadsheetReport';
 import { Invoice } from './pages/Invoice';
 import { PageNotFound } from './errors/PageNotFound';
 import { AutoUpdateWrapper } from './provider/AutoUpdateWrapper';
+import { MembersSpreadsheets } from './pages/MembersSpreadsheets';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
               <Route path={routes.spreadSheetSettings} element={<AuthRouter element={<MemberSpreadSheetSettings/>} isAdmin />} />
               <Route path={routes.manageTeam} element={<AuthRouter element={<ManageTeam/>} isAdmin />} />
               <Route path={routes.invoice} element={<AuthRouter element={<Invoice/>} isAdmin />} />
+              <Route path={routes.membersSpreadsheets} element={<AuthRouter element={<MembersSpreadsheets/>} isAdmin />} />
               <Route path={'/test'} element={<AuthRouter element={<Test/>} isAdmin />} />
               {/** employees **/}
               <Route path={routes.clockIn} element={<AuthRouter element={<ClockIn/>} />} />

@@ -1,6 +1,6 @@
 {
   "name": "time-sheet-desktop",
-  "version": "0.1.2",
+  "version": "0.1.1",
   "description": "Time sheet application",
   "author": "nick blair",
   "main": "public/electron.js",
@@ -39,17 +39,18 @@
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "shortid": "^2.2.16",
+    "update-electron-app": "^2.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "react-start": "react-scripts start",
+    "start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
     "build": "npm run react-build && npm run electron-build",
-    "start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\" ",
-    "deploy": "set GH_TOKEN=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 && electron-builder build --win --publish always"
+    "react-start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\" ",
+    "deploy": "set GH_TOKEN=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 && electron-builder build --win --publish always"
   },
   "eslintConfig": {
     "extends": [

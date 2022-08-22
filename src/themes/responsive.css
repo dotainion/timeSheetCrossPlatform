@@ -64,12 +64,6 @@
         width: 95%;
         border-radius: 10px;
     }
-    .report-billable-devider{
-        display: block;
-    }
-    .report-billable-centerize{
-        width: 95%;
-    }
     .multi-select-container{
         min-width: 280px;
     }
@@ -170,12 +164,6 @@
 @media screen and (min-width:767px){
     .team-card-container{
         width: 50%;
-    }
-}
-
-@media screen and (max-width:853px){
-    .report-billable-devider{
-        display: block;
     }
 }
 

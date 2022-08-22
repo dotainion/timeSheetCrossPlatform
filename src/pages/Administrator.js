@@ -25,6 +25,7 @@ export const Administrator = () =>{
             <ButtonCardContainer>
                 <ButtonCard onClick={()=> navigate(routes.manageMembers)} title={'Manage Members'} manage />
                 <ButtonCard onClick={()=> navigate(routes.teams)} title={'Manage Teams'} team />
+                <ButtonCard onClick={()=> navigate(routes.membersSpreadsheets)} title={'Google Sheets'} google />
                 <ButtonCard onClick={()=> {}} title={'Schedules'} team disabled />
                 <ButtonCard onClick={()=> {}} title={'Export timesheets'} team disabled />
                 <ButtonCard onClick={()=> {}} title={'Invoice and Billing'} team disabled />

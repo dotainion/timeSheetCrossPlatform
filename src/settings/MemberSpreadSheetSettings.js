@@ -7,7 +7,7 @@ import { Input } from "../widgets/Input";
 import { AiOutlineClose } from 'react-icons/ai';
 import sheetAccount from '../Security/spreadsheet-service.json';
 import $ from 'jquery';
-import { UserSetting } from '../module/logic/userSetting';
+import { UserSetting } from '../module/logic/UserSetting';
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { useLocation } from "react-router-dom";
 import { Users } from "../module/logic/Users";

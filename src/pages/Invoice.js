@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { LogRangePicker } from "../components/LogRangePicker";
 import { AiOutlinePrinter, AiOutlineDownload } from 'react-icons/ai';
+import { Layout } from "../layout/Layout";
 
 
 const pdf = new jsPDF({
@@ -31,6 +32,12 @@ export const Invoice = () =>{
     const printedPageRef = useRef();
     const toolbarRef = useRef();
     const invoiceContainerRef = useRef();
+
+    const menu = [
+        {title: <>Print<AiOutlinePrinter className="fs-5 ms-2" /></>, onClick: ()=>onPrint()},
+        {title: <>Download<AiOutlineDownload className="fs-5 ms-2" /></>, onClick: ()=>download()},
+        {title: <>Search...<BiSearchAlt className="fs-5 ms-2" /></>, onClick: ()=>setOpenSearch(true)},
+    ];
 
     const onPrint = () =>{
         const pri = document.getElementById("iframePrint").contentWindow;
@@ -101,20 +108,11 @@ export const Invoice = () =>{
                 console.log('Unable to pull data.')
             }
         }
-        $(invoiceContainerRef.current).css({
-            height: window.innerHeight - ($(toolbarRef.current).height() -20) + 'px',
-        });
     }, []);
 
     return(
-        <div>
-            <div ref={toolbarRef} className="invoice-toolbar">
-                <Button onClick={onPrint} title={<div>Print<AiOutlinePrinter /></div>} />
-                <Button onClick={download} title={<div>Download<AiOutlineDownload /></div>} />
-                <Button onClick={()=>setOpenSearch(true)} title={<div>Search...<BiSearchAlt /></div>} />
-                
-            </div>
-            <div ref={invoiceContainerRef} className="invoice-container">
+        <Layout menu={menu}>
+            <div className="invoice-container">
                 <div className="invoice">
                     <div ref={printedPageRef} style={printStyles.parent}>
                         <div style={printStyles.editable}>
@@ -129,7 +127,7 @@ export const Invoice = () =>{
                         <div style={{...printStyles.invoiceHeader, marginBottom: '30px'}}>
                             <div style={printStyles.invoiceHeaderDiv}>
                                 <b style={printStyles.invoiceHeaderB}>Client:</b>
-                                <span>Serial Entrepreneur</span>
+                                <span>{'Client name'}</span>
                             </div>
                             <div style={printStyles.invoiceHeaderDiv}>
                                 <div style={{backgroundColor: printStyles.cColor, padding: '8px', width: '100%', display: 'inline-block'}}>
@@ -187,7 +185,7 @@ export const Invoice = () =>{
                 isOpen={openSearch}
                 onClose={()=>setOpenSearch(false)}
             />
-        </div>
+        </Layout>
     )
 }
 

@@ -1,14 +1,113 @@
-const electron = require("electron");
+const { BrowserWindow, app, ipcMain, ipcRenderer, dialog, Menu } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const { autoUpdater } = require('electron-updater');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const ipcMain = electron.ipcMain;
-const ipcRenderer = electron.ipcRenderer;
+require('update-electron-app')();
 
+const isMac = process.platform === 'darwin';
 
 let mainWindow;
+
+const template = [
+    // { role: 'appMenu' }
+    ...(isMac ? [{
+        label: app.name,
+        submenu: [
+            { role: 'about' },
+            { type: 'separator' },
+            { role: 'services' },
+            { type: 'separator' },
+            { role: 'hide' },
+            { role: 'hideOthers' },
+            { role: 'unhide' },
+            { type: 'separator' },
+            { role: 'quit' }
+        ]
+    }] : []),
+    // { role: 'fileMenu' }
+    {
+        label: 'File',
+        submenu: [
+            isMac ? { role: 'close' } : { role: 'quit' }
+        ]
+    },
+    // { role: 'editMenu' }
+    {
+        label: 'Edit',
+        submenu: [
+            { role: 'undo' },
+            { role: 'redo' },
+            { type: 'separator' },
+            { role: 'cut' },
+            { role: 'copy' },
+            { role: 'paste' },
+            ...(isMac ? [
+            { role: 'pasteAndMatchStyle' },
+            { role: 'delete' },
+            { role: 'selectAll' },
+            { type: 'separator' },
+            {
+                label: 'Speech',
+                submenu: [
+                { role: 'startSpeaking' },
+                { role: 'stopSpeaking' }
+                ]
+            }
+            ] : [
+            { role: 'delete' },
+            { type: 'separator' },
+            { role: 'selectAll' }
+            ])
+        ]
+    },
+    // { role: 'viewMenu' }
+    {
+        label: 'View',
+        submenu: [
+            { role: 'reload' },
+            { role: 'forceReload' },
+            { role: 'toggleDevTools' },
+            { type: 'separator' },
+            { role: 'resetZoom' },
+            { role: 'zoomIn' },
+            { role: 'zoomOut' },
+            { type: 'separator' },
+            { role: 'togglefullscreen' }
+        ]
+    },
+    // { role: 'windowMenu' }
+    {
+        label: 'Window',
+        submenu: [
+            { role: 'minimize' },
+            { role: 'zoom' },
+            ...(isMac ? [
+            { type: 'separator' },
+            { role: 'front' },
+            { type: 'separator' },
+            { role: 'window' }
+            ] : [
+            { role: 'close' }
+            ])
+        ]
+    },
+    {
+        role: 'help',
+        submenu: [
+            {
+            label: 'Learn More',
+            click: async () => {
+                //const { shell } = require('electron')
+                //await shell.openExternal('https://electronjs.org')
+            }
+            }
+        ]
+    }
+];
+
+
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);
 
 function createWindow() {
     mainWindow = new BrowserWindow({ 
@@ -42,7 +141,9 @@ function createWindow() {
         console.log('checking for updates...');
         autoUpdater.checkForUpdatesAndNotify();
     });
-    autoUpdater.checkForUpdatesAndNotify();
+    setInterval(() => {
+        autoUpdater.checkForUpdates()
+    }, 60000)
 }
 
 app.on("ready", createWindow);
@@ -68,13 +169,22 @@ ipcMain.on('app_version', (event) => {
 
 autoUpdater.on('update-available', () => {
     console.log('sending updates.....');
-    alert('sending updates...');
     mainWindow.webContents.send('update_available');
 });
-autoUpdater.on('update-downloaded', () => {
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
     console.log('downloading updates.....');
-    alert('downloading updates...');
-    mainWindow.webContents.send('update_downloaded');
+    const dialogOpts = {
+        type: 'info',
+        buttons: ['Restart', 'Later'],
+        title: 'Application Update',
+        message: process.platform === 'win32' ? releaseNotes : releaseName,
+        detail: 'A new version has been downloaded. Restart the application to apply the updates.',
+    }
+    
+    dialog.showMessageBox(dialogOpts).then((returnValue) => {
+        if (returnValue.response === 0) autoUpdater.quitAndInstall()
+    })
+    //mainWindow.webContents.send('update_downloaded');
 });
 
 /*ipcRenderer.on('update_available', () => {

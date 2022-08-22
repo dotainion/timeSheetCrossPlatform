@@ -5,7 +5,7 @@ import { Spreadsheet } from "../module/logic/Spreadsheet";
 import { Users } from "../module/logic/Users";
 import { DateHelper } from "../infrastructure/DateHelper";
 import $ from 'jquery';
-import { UserSetting } from "../module/logic/userSetting";
+import { UserSetting } from "../module/logic/UserSetting";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { TimesheetCalendar } from "../components/TimesheetCalendar";
 import { FaFileInvoiceDollar } from 'react-icons/fa';

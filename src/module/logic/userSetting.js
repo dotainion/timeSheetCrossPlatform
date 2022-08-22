@@ -35,4 +35,12 @@ export class UserSetting extends ToastHandler{
             this.error(error.message);
         }
     }
+
+    async getSettings(clientId){
+        try{
+            return await this.repo.getSettings(clientId);
+        }catch(error){
+            this.error(error.message);
+        }
+    }
 }

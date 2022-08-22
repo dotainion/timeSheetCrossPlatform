@@ -142,10 +142,11 @@
     cursor: pointer;
 }
 .menu-btn{
-    display: flex;
-    padding: 5px;
+    transition: 0.3s all;
+    border-radius: 5px;
 }
 .menu-btn:hover{
+    transform: scale(1.05);
     background-color: rgb(0, 0, 0, 0.1);
 }
 .menu-icon-ps{
@@ -502,18 +503,6 @@ input, select{
     border-radius: 20px;
     transform: translateY(-50%);
 }
-.report-billable-devider{
-    display: flex;
-    width: 100%;
-    /*min-width: 1000px;*/
-    overflow: hidden;
-    margin-bottom: 20px;
-}
-.report-billable-centerize{
-    width: 100%;
-    padding: 20px;
-    border: 1px solid lightgray;
-}
 .report-billable-detail{
     display: flex;
     width: 100%;
@@ -532,11 +521,6 @@ input, select{
     font-size: 12px;
     padding-bottom: 20px;
     border-bottom: 1px solid lightgray;
-}
-.report-header-container{
-    margin-top: 10px;
-    padding-bottom: 40px;
-    position: relative;
 }
 .report-btn{
     position: absolute;
@@ -915,38 +899,11 @@ input, select{
 }
 .invoice-container{
     width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-.invoice-toolbar{
-    padding: 5px;
-    color: white;
-    text-align: center;
-    position: relative;
-    background-color: dodgerblue;
-}
-.invoice-toolbar button{
-    color: white;
-    min-width: 110px;
-    border-radius: 20px;
-    transition: 0.3s all;
-}
-.invoice-toolbar button div{
-    display: flex;
-    align-items: center;
-}
-.invoice-toolbar button div svg{
-    font-size: 25px;
-    position: absolute;
-    right: 8px;
-}
-.invoice-toolbar button:hover{
-    transform: scale(1.05);
+    margin-bottom: 300px;
 }
 .invoice{
     width: 816px;
     max-width: 816px;
-    /*height: 1056px;*/
     margin-top: 20px;
     margin-left: 50%;
     padding: 10px;
@@ -1389,6 +1346,10 @@ input, select{
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
 }
+.h-scale:active{
+    transform: scale(1);
+    background-color: dodgerblue;
+}
 .sidebar {
     width: 250px;
     min-height: 100vh;
@@ -1403,4 +1364,66 @@ input, select{
 }
 .sidebar-active{
     background: rgba(0, 0, 0, 0.2);
+}
+.filez{
+    width: 18rem;
+    padding-right: 20px;
+    background-color: transparent;
+}
+.file::after{
+    position: absolute;
+    content: '';
+    right: -20px;
+    z-index: 10;
+    border-bottom: 30px solid #ced4da; 
+    border-right:20px solid transparent; 
+}
+.file::before{
+    position: absolute;
+    content: '';
+    right: -20px;
+    width: 20px;
+    bottom: 0;
+    height: calc(100% - 30px);
+    z-index: 10;
+    background-color: #e9ecef;
+}
+.file .card-body{
+    position: relative;
+}
+.file .card-body::after{
+    position: absolute;
+    content: '';
+    right: -20px;
+    width: 20px;
+    bottom: 0;
+    height: calc(100% + 1px);
+    z-index: 10;
+}
+.file .card-body div{
+    position: absolute;
+    right: -10px;
+    bottom: 3px;
+    z-index: 20;
+    font-size: 11px;
+}
+.file-bg::before{
+    background-color: dodgerblue;
+}
+.file-bg .card-header{
+    color: white;
+    background-color: dodgerblue;
+}
+.file-bg .card-body::after{
+    background-color: dodgerblue;
+}
+.file-bg2::before{
+    background-color: gray;
+}
+.file-bg2 .card-header{
+    color: white;
+    background-color: gray;
+}
+.file-bg2 .card-body::after{
+    background-color: gray;
 }
