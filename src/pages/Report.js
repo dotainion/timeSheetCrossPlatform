@@ -13,12 +13,11 @@ import { LogRangePicker } from "../components/LogRangePicker";
 import { QueryDate } from "../module/objects/QueryDate";
 import { BiSearchAlt } from 'react-icons/bi';
 import { routes } from "../Routes/Routes";
+import { Invoice } from "../module/logic/Invoice";
 
 
 const mbr = new Users();
-const api = new Spreadsheet();
-const dateHelper = new DateHelper();
-const setting = new UserSetting();
+const invoice = new Invoice();
 const dateObject = new QueryDate();
 dateObject.initNowDate();
 
@@ -29,15 +28,15 @@ export const Report = () =>{
     const [searchBy, setSearchBy] = useState(dateObject);
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [member, setMember] = useState();
-    const [openInvoice, setOpenInvoice] = useState(false);
     const [total, setTotal] = useState('');
 
     const location = useLocation();
     const navigate = useNavigate()
 
     const navigateToInvoice = () =>{
+        if(!logs || !logs.length) return;
         const state = {
-            timesheet: logs,
+            logs: invoice.timeClock(logs),
             info: {
                 name: member?.firstName + ' ' + member?.lastName,
                 timeFrom: (new Date(searchBy.from)).toLocaleDateString(),
@@ -49,20 +48,12 @@ export const Report = () =>{
 
     useEffect(async()=>{
         const id = location.pathname.split(':')[2];
-
         let avilMember;
         if(location.state) avilMember = location.state;
         else avilMember = await mbr.getById(id);
-
-        if(!avilMember.id){
-            return;
-        }
-
+        if(!avilMember.id) return;
         setMember(avilMember);
-        
-        return () =>{
-            
-        }
+        return () =>{}
     }, []);
 
     return(

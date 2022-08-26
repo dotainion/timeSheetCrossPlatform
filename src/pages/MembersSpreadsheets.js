@@ -39,10 +39,12 @@ export const MembersSpreadsheets = () =>{
         const userSettings = await settings.getSettings(user?.clientId);
         const spreadsheetIds = userSettings.list().map((obj)=>obj.spreadsheetId);
         const sheet = await api.getSpreadsheet(spreadsheetIds);
+        if(sheet?.error) return setLoading(false);
         const spreadSheetData = bindInfoToSpreadsheet(userSettings, sheet.data);
         setSpreadSheets(spreadSheetData || []);
         setLoading(false);
     }, [user]);
+    
     return (
         <Layout>
             <FileCardContainer>
@@ -53,9 +55,9 @@ export const MembersSpreadsheets = () =>{
                         title={file?.properties.title}
                         onClick={()=>{
                             navigate(
-                                routes.memberSheets
-                                .replace('userId', 'userId:'+file.userId)
-                                .replace('spreadsheetId', 'spreadsheetId:'+file.spreadsheetId)
+                                routes.spreadsheetReport
+                                .replace(':memberId', ':memberId:'+file.userId)
+                                .replace(':spreadsheetId', ':spreadsheetId:'+file.spreadsheetId)
                             );
                         }}
                     />

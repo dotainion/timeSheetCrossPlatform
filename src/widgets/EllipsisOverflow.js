@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import $ from 'jquery';
 
 
-export const EllipsisOverflow = ({ellipsisRef, children}) =>{
+export const EllipsisOverflow = ({ellipsisRef, timeType, children}) =>{
     const containerRef = useRef();
     const overlayRef = useRef();
 
@@ -51,7 +51,7 @@ export const EllipsisOverflow = ({ellipsisRef, children}) =>{
 
     return(
         <span ref={containerRef}>
-            <span ref={ellipsisRef}>{children}</span>
+            <span ref={ellipsisRef} data-time={timeType}>{children}</span>
         </span>
     )
 }

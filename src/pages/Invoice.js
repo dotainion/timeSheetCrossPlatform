@@ -21,7 +21,7 @@ const pdf = new jsPDF({
 const calc = new Calculator();
 
 export const Invoice = () =>{
-    const [totals, setTotals] = useState({totalHours: 0, total: 0});
+    const [totals, setTotals] = useState({hours: 0, total: 0});
     const [invoices, setInvoices] = useState([]);
     const [userInfo, setUserInfo] = useState({name: '', timeFrom: '', timeTo: ''});
     const [openSearch, setOpenSearch] = useState(false);
@@ -30,8 +30,6 @@ export const Invoice = () =>{
 
     const inputRef = useRef();
     const printedPageRef = useRef();
-    const toolbarRef = useRef();
-    const invoiceContainerRef = useRef();
 
     const menu = [
         {title: <>Print<AiOutlinePrinter className="fs-5 ms-2" /></>, onClick: ()=>onPrint()},
@@ -64,50 +62,22 @@ export const Invoice = () =>{
     }
 
     const onAddRatePerHour = (e, val=null) =>{
-        const [hour, minutes, seconds] = val ? val?.split(':') :  totals.totalHours?.split(':');
+        if(!totals.hours) return;
+        const [hour, minutes, seconds] = val ? val?.split(':') :  totals.hours?.split(':');
         const total = parseFloat(`${hour}.${minutes}`) * parseFloat(e.target.value || 0);
-        setTotals({totalHours: totals.totalHours, total: total});
+        setTotals({hours: totals.hours, total: total});
     }
 
-    const initializeSpreadsheet = (spreadsheet) =>{
-        if (spreadsheet?.values?.sheets?.length){
-            let tempSheets = [];
-            spreadsheet.values.sheets.forEach((sheet)=>{
-                sheet.forEach((item)=>{
-                    if (!spreadsheet.values.exludedIds.includes(item.id) && item.start && item.end){
-                        tempSheets.push(item);
-                    }
-                });
-            });
-            setInvoices(tempSheets);
-            setTotals({totalHours: spreadsheet.values.total, total: totals.total});
-        }
-    }
-
-    const initializeTimeLog = (logs) =>{
+    const calculate = (logs) =>{
         if (!logs?.length) return;
-        let tempSheets = logs?.map((log)=>{
-            return { 
-                start: log?.startTime, 
-                end: log?.endTime, 
-                date: (new Date(log?.timestamp)).toDateString() 
-            };
-        });
-        setInvoices(tempSheets);
-        setTotals({totalHours: calc.calculateTime(logs), total: totals.total});
+        setTotals({hours: calc.calculateTime(logs), total: totals.total});
     }
 
     useEffect(()=>{
-        if(location.state){
-            if(location.state?.spreadsheet){
-                initializeSpreadsheet(location.state.spreadsheet);
-            }else if(location.state?.timesheet){
-                initializeTimeLog(location.state.timesheet);
-                setUserInfo(location.state?.info);
-            }else{
-                console.log('Unable to pull data.')
-            }
-        }
+        if(!location.state) return;
+        setInvoices(location.state.logs.collected);
+        setUserInfo(location.state.info);
+        calculate(location.state.logs.collected);
     }, []);
 
     return(
@@ -148,10 +118,10 @@ export const Invoice = () =>{
                         {invoices.map((tm, key)=>(
                             <div style={printStyles.invoiceRow} key={key}>
                                 <div style={printStyles.invoiceRowDiv}>{tm?.date}</div>
-                                <div style={printStyles.invoiceRowDiv}>{tm?.start}</div>
-                                <div style={printStyles.invoiceRowDiv}>{tm?.end}</div>
+                                <div style={printStyles.invoiceRowDiv}>{tm?.startTime}</div>
+                                <div style={printStyles.invoiceRowDiv}>{tm?.endTime}</div>
                                 <div style={printStyles.invoiceRowDiv}>00:00:00</div>
-                                <div style={printStyles.invoiceRowDiv}>{time.sub(tm?.end, tm?.start)}</div>
+                                <div style={printStyles.invoiceRowDiv}>{time.sub(tm?.endTime, tm?.startTime)}</div>
                             </div>
                         ))}
                         <div style={printStyles.invoiceTotalCenter}>
@@ -159,7 +129,7 @@ export const Invoice = () =>{
                                 <div style={printStyles.invoiceTotalDiv}></div>
                                 <div style={printStyles.invoiceTotalDiv}></div>
                                 <div style={printStyles.invoiceTotalDiv}><b>Total Hours</b></div>
-                                <div style={{...printStyles.invoiceTotalDiv, backgroundColor: printStyles.pColor}}><b>{totals?.totalHours}</b></div>
+                                <div style={{...printStyles.invoiceTotalDiv, backgroundColor: printStyles.pColor}}><b>{totals?.hours}</b></div>
                             </div>
                             <div style={printStyles.invoiceTotal}>
                                 <div style={{...printStyles.invoiceTotalDiv, textAlign: 'right'}}>Client Signature:</div>

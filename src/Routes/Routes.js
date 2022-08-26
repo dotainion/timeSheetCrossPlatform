@@ -5,7 +5,7 @@ export const routes = {
     teamMembers: '/team/members:teamId',
     dashboard: "/dashboard",
     report: '/report:memberId:sheetId/*',
-    spreadsheetReport: '/spread/sheet/report:memberId:spreadsheetId:sheetId:title/*',
+    spreadsheetReport: '/spread/sheet/report:memberId:spreadsheetId/*',
     clockIn: '/clock/in',
     manageMembers: '/manage/members',
     signIn: '/sign/in',

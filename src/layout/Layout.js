@@ -17,13 +17,13 @@ export const Layout = ({options, title, menu, children}) =>{
                 <nav>
                     <div className="container-fluid d-flex align-items-center">
                         <MenuButton/>
+                        <span className="ps-1 fw-bold">{title}</span>
                         <div className="ms-2">
-                            <h6 className="m-0 p-0 small">{title}</h6>
                             <BreadCrumbs options={options} />
                         </div>
                         {menu?.map((m, i)=>(
                             <span 
-                                className="p-1 ps-3 pe-3 mt-1 mb-1 pointer small menu-btn" 
+                                className="p-1 ps-2 pe-2 mt-1 mb-1 pointer small menu-btn" 
                                 onClick={m?.onClick}
                                 key={i}
                             >{m?.title}</span>

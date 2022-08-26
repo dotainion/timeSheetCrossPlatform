@@ -18,78 +18,78 @@ const date = new DateHelper();
 
 let excludeTimeCardIds = [];
 export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
+    const calendarRef = useRef();
+    const intervalRef = useRef();
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const addExcluded = (checked, id) =>{
-        if (checked){
-            let tempIds = [];
-            for(let ids of excludeTimeCardIds){
-                if (ids !== id) tempIds.push(ids);
-            }
-            excludeTimeCardIds = tempIds;
-        }else{
-            excludeTimeCardIds.push(id); 
-        }
-        runCalculation();
-    } 
-
-    const runCalculation = async() =>{
-        if (!sheets?.length) return;
-        const calc = new Calculator();
-        const result = calc.calculateSheet(
-            sheets, 
-            excludeTimeCardIds
-        );
-        onCalculate?.(result);
+    const calculation = (checked, id) =>{
+        let logs = [];
+        clearTimeout(intervalRef.current);
+        intervalRef.current = setTimeout(()=>{
+            $(calendarRef.current).find('[data-calendar]').each((i, calendar)=>{
+                if($(calendar).find('input[type=radio]')[0].checked){
+                    const date = $(calendar).find('[data-time=date]');
+                    const start = $(calendar).find('[data-time=start]');
+                    const end = $(calendar).find('[data-time=end]');
+                    if(!$(start).text().replace('-', '') || !$(end).text().replace('-', '')) return;
+                    logs.push({
+                        startTime: $(start).text(), 
+                        endTime: $(end).text(),
+                        timestamp: new Date($(date).text()).getTime(),
+                        id: shortId.generate(),
+                    });
+                }
+            });
+            const calc = new Calculator();
+            console.log(logs);
+            onCalculate?.({total: calc.calculateTime(logs), logs});
+        }, 50);
     };
 
-    useEffect(()=>{
-        if(!isOpen) return;
-        if (sheets?.length){
-            navigate(`${sheets?.[sheets?.length -1]?.[0]?.sheetId}`);
-        }
-        runCalculation();
+    const onDisplay = (id) =>{
+        sheets?.forEach((tab)=>{
+            $(`#${tab?.id}`).removeClass('d-none').hide();
+            $(`#tab-${tab?.id}`).removeClass('report-tab-active').show();
+        });
+        $(`#${id}`).removeClass('d-none').show('fast');
+        $(`#tab-${id}`).addClass('report-tab-active').show();
+    }
 
-        return () =>{
-            
-        }
+    useEffect(()=>{
+        if(!isOpen || !sheets?.length) return;
+        onDisplay(`${sheets?.[0]?.id}`);
+        calculation();
+        return () =>{}
     }, [sheets, isOpen]);
 
     return(
-        <div hidden={!isOpen}>
-            <Routes>
-                <Route path="" element={<div>hellow orld</div>} />
-            </Routes>
+        <div ref={calendarRef} hidden={!isOpen}>
             <div className="report-tab-container">
                 {sheets?.map((tab, key)=>(
                     <div 
-                        onClick={()=>navigate(`${tab?.[0]?.sheetId}`)}
-                        className={`${location.pathname.includes(tab?.[0]?.sheetId) && 'report-tab-active'}`}
+                        onClick={()=>onDisplay(tab?.id)}
+                        id={`tab-${tab?.id}`}
                         key={key}
-                    >{tab?.[0]?.title}</div>
+                    >{tab?.header}</div>
                 ))}
             </div>
             {
                 sheets?.length ?
-                sheets?.map((sheets, key)=>(
-                    <Routes key={key}>
-                        <Route path={`/${sheets?.[0]?.sheetId}`} element={
-                            <CalendarComponent
-                                sheets={sheets}
-                                onExclude={(checked, id)=>addExcluded(checked, id)}
-                            />
-                        } />
-                    </Routes>
+                sheets?.map((data, key)=>(
+                    <div className="d-none" id={data?.id} key={key}>
+                        <CalendarComponent 
+                            sheets={data} 
+                            onExclude={calculation}
+                        />
+                    </div>
                 )) :
                 <NoRecords
                     image={reportNone}
                     title="To see report"
                     btnName="none"
-                    messages={[
-                        "Select a sheet from the list above",
-                    ]}
+                    messages={["Select a sheet from the list above"]}
                     onClick={()=>{}}
                 />
             }
@@ -101,37 +101,39 @@ export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
 const CalendarComponent = memo(({sheets, onExclude}) =>{
     const [toggSelcAll, setToggSelcAll] = useState(true);
 
+    useEffect(()=>{
+
+    }, []);
     return(
         <div>
             <div className="calendar-header">
-                <div className="calendar-select-all">
-                    <RadioButton onChange={setToggSelcAll} title={toggSelcAll? 'Deselect All': 'Select All'} defaultSelect={true} />
+                <div className="calendar-select-all ms-4">
+                    <RadioButton onChange={setToggSelcAll} title={toggSelcAll? 'Deselect All': 'Select All'} defaultSelect={false} />
                 </div>
-                <span>{sheets?.[0]?.header}</span>
+                <span className="float-end pe-4">{sheets?.header}</span>
             </div>
-            {sheets?.map((val, key)=>(
-                <div className="calendar-container" key={key}>
+            {sheets?.sheet?.map((val, key)=>(
+                <div className="calendar-container" data-calendar key={key}>
                     <div className="calendar-week">
                         <div className="calendar-exempt-btn" hidden={!val?.week}>
-                            <RadioButton onChange={(checked)=>onExclude?.(checked, val.id)} defaultSelect={toggSelcAll} />
+                            <RadioButton onChange={onExclude} defaultSelect={toggSelcAll} />
                         </div>
                         <div className="calendar-full">
-                            <EllipsisOverflow>{val.week || '-'}</EllipsisOverflow>
+                            <EllipsisOverflow timeType={'date'}>{val.week || '-'}</EllipsisOverflow>
                         </div>
                         <div className="calendar-time">
                             <div className="relative">
-                                <EllipsisOverflow>{val.start || '-'}</EllipsisOverflow>
+                                <EllipsisOverflow timeType={'start'}>{val.start || '-'}</EllipsisOverflow>
                                 <Editable value={val.start} />
                             </div>
                             <div className="relative">
-                                <EllipsisOverflow>{val.end || '-'}</EllipsisOverflow>
+                                <EllipsisOverflow timeType={'end'}>{val.end || '-'}</EllipsisOverflow>
                                 <Editable value={val.end} />
                             </div>
                         </div>
                         <div className="calendar-result">
-                            <EllipsisOverflow>{val.total || '-'}</EllipsisOverflow>
+                            <EllipsisOverflow>{val.start && time.sub(val.end, val.start) + ' Hours' || '-'}</EllipsisOverflow>
                         </div>
-                        {/*<Breaks/>*/}
                     </div>
                 </div>
             ))}

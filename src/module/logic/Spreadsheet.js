@@ -1,3 +1,4 @@
+import { Assert } from "../../infrastructure/Assert";
 import { Collector } from "../../infrastructure/Collector";
 import { Responder } from "../../infrastructure/Responder";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
@@ -7,9 +8,11 @@ import { ToastHandler } from "../../infrastructure/ToastHandler";
 export class Spreadsheet extends ToastHandler{
     collector;
     responder;
+    assert;
 
     constructor(){
         super();
+        this.assert = new Assert();
         this.collector = new Collector();
         this.responder = new Responder();
     }
@@ -75,6 +78,8 @@ export class Spreadsheet extends ToastHandler{
 
     async getSheet(title, spreadsheetId){
         try{
+            if(typeof title === 'string') title = [title];
+            this.assert.isArray(title);
             const response =  await this.responder.post('/get/sheet', {
                 title,
                 spreadsheetId
@@ -87,9 +92,8 @@ export class Spreadsheet extends ToastHandler{
 
     async getSpreadsheet(spreadsheetId){
         try{
-            if(typeof spreadsheetId === 'string'){
-                spreadsheetId = [spreadsheetId];
-            }
+            if(typeof spreadsheetId === 'string') spreadsheetId = [spreadsheetId];
+            this.assert.isArray(spreadsheetId);
             return await this.responder.post('/get/spreadsheet', {
                 spreadsheetId
             });
