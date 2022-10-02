@@ -43,7 +43,6 @@ export const SpreadsheetCalendar = memo(({isOpen, sheets, onCalculate}) =>{
                 }
             });
             const calc = new Calculator();
-            console.log(logs);
             onCalculate?.({total: calc.calculateTime(logs), logs});
         }, 50);
     };

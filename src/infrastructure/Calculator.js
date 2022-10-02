@@ -52,16 +52,20 @@ class TimeSheet{
             const tTime = time.sub(log?.endTime, log?.startTime);
             this.hours = time.add(this.hours, tTime);
         });
+        return this;
     }
 
     toTotalTimeLoop(logs=[]){
         logs?.forEach((log)=>{
             this.toTotalTime(log);
         });
+        return this;
     }
 
     get(){
-        return this.hours;
+        const hours = this.hours;
+        this.hours = null;
+        return hours;
     }
 }
 
