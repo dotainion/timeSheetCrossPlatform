@@ -3,8 +3,7 @@ import { Loading } from "../components/Loading";
 import logo from '../images/logo.png';
 
 
-export const AccountsContainer = ({children}) =>{
-    const [loading, setLoading] = useState(false);
+export const AccountsContainer = ({loading, children}) =>{
 
     return(
         <div className="sign-in-container">
@@ -17,8 +16,8 @@ export const AccountsContainer = ({children}) =>{
                     </div>
                     <div className="w-100 position-relative px-5 my-5">
                         {children}
+                        <Loading loading={loading} />
                     </div>
-                    <Loading loading={loading} />
                 </div>
             </div>
         </div>

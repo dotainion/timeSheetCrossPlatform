@@ -54,7 +54,7 @@ export const Register = () =>{
     useEffect(()=> $('.input-entery').css({backgroundColor: 'transparent'}), []);
 
     return(
-        <AccountsContainer>
+        <AccountsContainer loading={loading}>
             <h4 className="my-4 text-center">Creat an account</h4>
             <Input inputRef={firstNameRef} title="First Name" type="name" />
             <Input inputRef={lastNameRef} title="Last Name" type="name" />

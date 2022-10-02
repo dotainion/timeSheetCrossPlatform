@@ -68,7 +68,7 @@ export const SignIn = () =>{
     }, [isAuthenticated]);
 
     return(
-        <AccountsContainer>
+        <AccountsContainer loading={loading}>
             <div ref={signInRef} className="position-relative w-100 h-100">
                 <div className="position-absolute start-50 top-50 translate-middle w-100">
                     <h4 className="my-4 text-center">Log in</h4>
