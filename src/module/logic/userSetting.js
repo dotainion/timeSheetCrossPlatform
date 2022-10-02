@@ -18,8 +18,10 @@ export class UserSetting extends ToastHandler{
             const collector = this.factory.mapResults({
                 id: uuid,
                 info: {
-                    sheetId: data?.sheetId,
-                    spreadsheetId: data?.spreadsheetId,
+                    sheetId: data?.sheetId ||'',
+                    spreadsheetId: data?.spreadsheetId ||'',
+                    clientId: data?.clientId || '',
+                    url: data?.url || ''
                 }
             });
             await this.repo.addSetting(collector);
@@ -30,7 +32,7 @@ export class UserSetting extends ToastHandler{
 
     async getSetting(uuid){
         try{
-            return await this.repo.getSetting(uuid);
+            return await (await this.repo.getSetting(uuid)).first();
         }catch(error){
             this.error(error.message);
         }

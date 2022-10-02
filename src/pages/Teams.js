@@ -22,10 +22,15 @@ import { useProvider } from "../provider/ProviderWrapper";
 import { ButtonCard } from "../widgets/ButtonCard";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
+import img from '../images/stone.jpg';
+import { BiMessageRoundedDetail } from 'react-icons/bi';
+
 
 const team = new _Teams_();
 
 export const Teams = () =>{
+    const { user } = useAuth();
     const { teams, addToTeam } = useProvider();
 
     const [deleteMembersAlso, setDeleteMembersAlso] = useState();
@@ -33,43 +38,32 @@ export const Teams = () =>{
 
     const navigate = useNavigate();
 
-    const breadCrumbs = [
-        
-    ];
-
     const onDeleteTeam = (teamId, cardRef) =>{
         team.delete(teamId, deleteMembersAlso);
         $(cardRef).remove();
     }
 
-    useEffect(()=>{
-
-        return () =>{
-            
-        }
-    }, [teams]);
-
     return(
-        <Layout options={breadCrumbs} title="Teams">
+        <div className="overflow-hidden h-100">
             <div className="team-list-container">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>navigate(routes.manageTeam)} title={'Add Team'} add />
+                    <ButtonCard onClick={()=>navigate(routes.nested().manageTeam())} title={'Add Team'} add />
                 </div>
                 <ButtonCardContainer>
                     {
                         teams.length?
                         teams.map((obj, key)=>(
                             <ButtonCard 
-                                user={<IoIosPeople/>}
+                                image={img}
                                 title={obj.name}
-                                subTitle="Teams..."
+                                //subTitle={<div onClick={()=>console.log(obj)}>hello</div>}
                                 body={obj.description}
                                 footer={<div className="text-muted">Role: {'none'}</div>}
-                                onClick={()=>navigate(`${routes.teamMembers}:${obj.id}:${obj.name}`, {state: obj})}
+                                onClick={()=>navigate(`${routes.nested().teamMembers()}:${obj.id}:${obj.name}`, {state: obj})}
                                 menu={[
                                     {
                                         title: 'Edit',
-                                        action: ()=>navigate(`${routes.manageTeam}:${obj.id}`, {state: obj})
+                                        action: ()=>navigate(`${routes.nested().manageTeam()}:${obj.id}`, {state: obj})
                                     },{
                                         title: 'Delete',
                                         action: (e)=>setOpenAlert({state: true, data: obj, cardRef: e.ref})
@@ -86,7 +80,7 @@ export const Teams = () =>{
                                 'Lets get started with creating your first team',
                                 'Create your first team by clicking the card  with the plus +.'
                             ]}
-                            onClick={()=>navigate(routes.manageTeam)}
+                            onClick={()=>navigate(routes.nested().manageTeam())}
                         />
                     }
                 </ButtonCardContainer>
@@ -103,6 +97,6 @@ export const Teams = () =>{
                 onConfirm={()=>onDeleteTeam(openAlert.data.id, openAlert.cardRef)}
             />
 
-        </Layout>
+        </div>
     )
 }

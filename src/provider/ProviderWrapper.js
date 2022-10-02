@@ -35,6 +35,7 @@ export const ProviderWrapper = ({children}) =>{
     }
 
     useEffect(async()=>{
+        console.log(user)
         if (!user?.teamId) return;
         setUserTeam(await _teams_.getById(user.teamId));
     }, [user]);

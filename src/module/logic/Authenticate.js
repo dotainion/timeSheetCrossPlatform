@@ -16,6 +16,20 @@ export class Authenticate extends ToastHandler{
         this.saveCreds = new BrowserLoginCredentials();
     }
 
+    sanitizeErrorLog(message){
+        let errorLog = message;
+        if(message.includes('email-already-in-use')){
+            errorLog = 'Email already in use.';
+        }
+        if(message.includes('too-many-request')){
+            errorLog = 'Too many request. Please try again later.';
+        }
+        if(message.includes('internal-error')){
+            errorLog = 'Something went wrong.';
+        }
+        return errorLog;
+    }
+
     async signIn(email, password){
         try{
             if (!this.validate.isEmailValid(email)){
@@ -25,12 +39,12 @@ export class Authenticate extends ToastHandler{
             this.saveCreds.saveLogin(email, password);
             return response;
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
 
-    async register(fName, lName, companyName, email, password, confirmPassword, callBack){
+    async register(fName, lName, companyName, email, password, confirmPassword){
         if (!this.validate.isEmailValid(email)){
             return this.error('Invalid email.');
         }
@@ -52,8 +66,8 @@ export class Authenticate extends ToastHandler{
         
         try{
             const response = await createUserWithEmailAndPassword(auth, email, password);
-
-            const res = await this.user.addWithId({
+            
+            await this.user.addWithId({
                 clientId: response?.user?.uid, 
                 email: email, 
                 firstName: fName, 
@@ -69,11 +83,9 @@ export class Authenticate extends ToastHandler{
 
             this.saveCreds.saveLogin(email, password);
 
-            callBack?.(res);
-
             this.success('Successful.');
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
@@ -82,7 +94,7 @@ export class Authenticate extends ToastHandler{
         try{
             return await auth.currentUser.updatePassword(password);
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
@@ -92,9 +104,10 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
+            console.log(email);
             return await sendPasswordResetEmail(auth, email);
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
@@ -103,7 +116,7 @@ export class Authenticate extends ToastHandler{
         try{
             return await sendEmailVerification(auth.currentUser);
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
@@ -115,7 +128,7 @@ export class Authenticate extends ToastHandler{
             }
             return await updateEmail(auth.currentUser, email);
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }
     }
@@ -160,7 +173,7 @@ export class Authenticate extends ToastHandler{
             this.saveCreds.saveCreateUserLogin(email, password);
             return rtUsr;
         }catch(error){
-            this.error(error.message);
+            this.error(this.sanitizeErrorLog(error.message));
             return false;
         }finally{
             const creds = this.saveCreds.getLogin();

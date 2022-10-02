@@ -25,6 +25,8 @@ import { Loading } from "../../components/Loading";
 import { useProvider } from "../../provider/ProviderWrapper";
 import { LogRangePicker } from "../../components/LogRangePicker";
 import { QueryDate } from "../../module/objects/QueryDate";
+import { FaBullseye } from "react-icons/fa";
+import { ClockButton } from "../../widgets/ClockButton";
 
 
 const log = new Log();
@@ -32,6 +34,13 @@ const breaks = new Break();
 const toast = new ToastHandler();
 const dateObject = new QueryDate();
 dateObject.initNowDate();
+
+const contents = {
+    start: 'Clock In',
+    break: 'Pause',
+    unBreak: 'Un Break',
+    end: 'Clock Out'
+}
 
 export const ClockIn = () =>{
     const { user } = useAuth();
@@ -41,11 +50,11 @@ export const ClockIn = () =>{
     const [minimize, setMinimize] = useState(false);
     const [pin, setPin] = useState(false);
     const [timeLog, setTimeLog] = useState();
-    const [onPause, setOnPause] = useState();
     const [loading, setLoading] = useState(false);
     const [openLogPicker, setOpenLogPicker] = useState(false);
     const [start, setStart] = useState({state: false, at: null});
     const [searchBy, setSearchBy] = useState(dateObject);
+    const [currentState, setCurrentState] = useState(contents.end);
 
     const parentRef = useRef();
 
@@ -57,18 +66,15 @@ export const ClockIn = () =>{
     ];
 
     const startTimer = async(at=null) =>{
-        if (start.state && !loading && !onPause){
-            return toast.warning(`Time already started at ${timeLog?.startTime || ''}`);
-        }
         setLoading(true);
-        if (!onPause){
-            setStart({state: true, at: at});
-            const collector = await log.startTime(user?.id);
-            setTimeLog(collector.first());
-        }else{
-            setOnPause(null);
-            const collector2 = await breaks.endBreak(timeLog?.id);
+        const collector = await log.startTime(user?.id);
+        setTimeLog(collector.first());
+        setStart({state: true, at: at});
+        if(currentState?.includes(contents.break)){
+            setCurrentState([contents.start, contents.break, contents.unBreak]);
+            return setLoading(false);
         }
+        setCurrentState(contents.start);
         setLoading(false);
     }
 
@@ -76,28 +82,26 @@ export const ClockIn = () =>{
         setLoading(true);
         const collector = await breaks.getPendingBreak(timeLog?.id);
         if (collector.hasItems()){
-            return toast.warning('Please end break first, then try again.');
+            toast.warning('Please end break first, then try again.');
+            return setLoading(false);
         }
-        if (!onPause){
-            setStart({state: false, at: null});
-            await log.endTime(user?.id);
-        }
+        setTimeLog(null);
+        setCurrentState(contents.end);
+        await log.endTime(user?.id);
+        setStart({state: false, at: null});
         setLoading(false);
     }
 
     const startBreak = async() =>{
+        if(!timeLog?.id) return;
         setLoading(true);
-        if (onPause == 'Pause'){
-            setOnPause(null);
-            const collector = await breaks.endBreak(timeLog?.id);
-            return setLoading(false);;
+        const bLog = await breaks.startBreak(timeLog?.id, user?.id);
+        if(bLog.hasItems()){
+            setCurrentState(contents.start);
+            await breaks.endBreak(timeLog?.id);
+            return setLoading(false);
         }
-        if (start.state === true){
-            await breaks.startBreak(timeLog?.id, user?.id);
-            setOnPause('Pause');
-        }else{
-            toast.warning('Only allow during the start of a task.');
-        }
+        setCurrentState([contents.start, contents.break, contents.unBreak]);
         setLoading(false);
     }
 
@@ -106,8 +110,9 @@ export const ClockIn = () =>{
         if (timeCollector.hasItems()){
             const newTime = new Date().toLocaleTimeString();
             const startTime = time.sub(newTime, timeCollector.first().startTime);
-            setStart({state: true, at: startTime});
             setTimeLog(timeCollector.first());
+            setStart({state: true, at: startTime});
+            setCurrentState(contents.start);
             setLoading(false);
             return timeCollector.first();
         }
@@ -117,42 +122,30 @@ export const ClockIn = () =>{
     const initBreak = async(logId) =>{
         const breakCollector = await breaks.getPendingBreak(logId);
         if (breakCollector.hasItems()){
-            setOnPause('Pause');
+            setCurrentState([contents.start, contents.break, contents.unBreak]);
         }
     }
 
-    const initialize = async() =>{
+    useEffect(async()=>{
+        if(!user?.id) return;
         const log = await initTime();
         await initBreak(log?.id);
-    }
-
-    useEffect(()=>{
-        initialize();
     }, [user]);
-
-    useEffect(()=>{
-        
-    }, [pin]);
-
-    useEffect(()=>{
-        
-    }, [start]);
     
     return(
         <UserLayout onSearch={()=>setOpenLogPicker(true)} onMinimize={()=>setMinimize(true)} minimize={minimize} >
             <div ref={parentRef} className="clock-in-container">
-                <div className="clock-in-logo">
-                    <div>
-                        <div className="clock-in-logo-flex">
-                            <div>{userTeam?.name}</div>
-                            <div><img src={logo} draggable={false} alt="" /></div>
-                        </div>
+                <div className="d-inline-block float-end me-5 mt-4 mb-3 pe-5">
+                    <div className="d-flex">
+                        <div className="me-2">{userTeam?.name}</div>
+                        <img src={logo} style={{width: '40px', height: '40px'}} draggable={false} alt="" />
                     </div>
                 </div>
                 <div className="clock-in" style={{width: minimize && '360px', overflow: loading && 'hidden'}}>
                     <div className="max-width clock-in-user">
                         <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >
-                            <label>{user?.firstName} </label>
+                            <label>{user?.firstName}</label>
+                            <label>&nbsp;</label>
                             <label>{user?.lastName}</label></div>
                         <div>
                             <Options parentRef={parentRef} options={options}>
@@ -175,39 +168,18 @@ export const ClockIn = () =>{
                             <StopClock 
                                 startTimer={start.state} 
                                 startAt={start.at} 
-                                displayOverride={onPause}
+                                displayOverride={''}
                             />
                         </div>
                     </div>
                     <div className="max-width" >
                         <div className="clock-in-btns">
-                            <ShowInfo info="Start">
-                                <div className="clock-in-btn-dots" style={{backgroundColor: 'green'}}/>
-                                <AiFillClockCircle 
-                                    onClick={startTimer} 
-                                    className="start" 
-                                    style={{backgroundColor: start.state === true && 'rgb(255, 255, 255, 0.8)'}}
-                                />
-                            </ShowInfo>
-                            <ShowInfo info="Pause">
-                                <div className="clock-in-btn-dots" style={{backgroundColor: 'orange'}}/>
-                                <GiCoffeeCup 
-                                    onClick={startBreak} 
-                                    className="break" 
-                                    style={{backgroundColor: onPause && 'rgb(255, 255, 255, 0.8)'}}
-                                />
-                            </ShowInfo>
-                            <ShowInfo info="Stop">
-                                <div className="clock-in-btn-dots" style={{backgroundColor: 'red'}}/>
-                                <AiFillClockCircle 
-                                    onClick={endTimer} 
-                                    className="end" 
-                                    style={{backgroundColor: start.state === false && 'rgb(255, 255, 255, 0.8)'}}
-                                />
-                            </ShowInfo>
+                            <ClockButton onClick={startTimer} title={contents.start} color="green" tooltip="Start" disabled={loading} state={currentState} />
+                            <ClockButton onClick={startBreak} title={currentState?.includes(contents.break)?contents.unBreak:contents.break} color="orange" tooltip="Pause" disabled={loading} state={currentState} />
+                            <ClockButton onClick={endTimer} title={contents.end} color="red" tooltip="Stop" disabled={loading} state={currentState} />
                         </div>
                     </div>
-                    <Loading loading={loading} relative />
+                    <Loading loading={loading} />
                 </div>
                 <div hidden={minimize}>
                     <div className="clock-in-calendar-header">

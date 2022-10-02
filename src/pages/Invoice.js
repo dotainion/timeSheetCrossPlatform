@@ -10,6 +10,7 @@ import { BiSearchAlt } from 'react-icons/bi';
 import { LogRangePicker } from "../components/LogRangePicker";
 import { AiOutlinePrinter, AiOutlineDownload } from 'react-icons/ai';
 import { Layout } from "../layout/Layout";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 const pdf = new jsPDF({
@@ -24,7 +25,6 @@ export const Invoice = () =>{
     const [totals, setTotals] = useState({hours: 0, total: 0});
     const [invoices, setInvoices] = useState([]);
     const [userInfo, setUserInfo] = useState({name: '', timeFrom: '', timeTo: ''});
-    const [openSearch, setOpenSearch] = useState(false);
 
     const location = useLocation();
 
@@ -34,7 +34,6 @@ export const Invoice = () =>{
     const menu = [
         {title: <>Print<AiOutlinePrinter className="fs-5 ms-2" /></>, onClick: ()=>onPrint()},
         {title: <>Download<AiOutlineDownload className="fs-5 ms-2" /></>, onClick: ()=>download()},
-        {title: <>Search...<BiSearchAlt className="fs-5 ms-2" /></>, onClick: ()=>setOpenSearch(true)},
     ];
 
     const onPrint = () =>{
@@ -81,7 +80,7 @@ export const Invoice = () =>{
     }, []);
 
     return(
-        <Layout menu={menu}>
+        <LayoutPageHandler menu={menu}>
             <div className="invoice-container">
                 <div className="invoice">
                     <div ref={printedPageRef} style={printStyles.parent}>
@@ -151,11 +150,7 @@ export const Invoice = () =>{
                     <iframe id="iframePrint" style={printStyles.iframe} />
                 </div>
             </div>
-            <LogRangePicker
-                isOpen={openSearch}
-                onClose={()=>setOpenSearch(false)}
-            />
-        </Layout>
+        </LayoutPageHandler>
     )
 }
 

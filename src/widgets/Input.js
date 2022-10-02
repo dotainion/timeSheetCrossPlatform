@@ -57,47 +57,50 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     }, [fixedLabel]);
 
     return(
-        <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${cssClass} ${options && 'pointer'}`} data-input type={type}>
-            <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
-            {
-                !options
-                    ? !paragraph 
-                        ? <input 
-                        ref={inputRef || inputCRef} 
-                        onFocus={onFocus} 
-                        onBlur={onBlur} 
-                        onChange={onChange}
-                        disabled={disabled}
-                        type={type} 
-                        min={min} 
-                        max={max} 
-                        step="1"
-                        className="w-100 p-2 border-0 bg-transparent"
-                        />
-                        : <textarea 
+        <div data-input-container className={`${cssClass}`}>
+            <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${options && 'pointer'}`} data-input type={type}>
+                <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
+                {
+                    !options
+                        ? !paragraph 
+                            ? <input 
                             ref={inputRef || inputCRef} 
-                            disabled={disabled}
-                            onChange={onChange} 
                             onFocus={onFocus} 
                             onBlur={onBlur} 
+                            onChange={onChange}
+                            disabled={disabled}
+                            type={type} 
+                            min={min} 
+                            max={max} 
+                            step="1"
                             className="w-100 p-2 border-0 bg-transparent"
-                        />
-                    : <select 
-                        ref={inputRef || inputCRef} 
-                        onFocus={onFocus} 
-                        onBlur={onBlur}
-                        disabled={disabled}
-                        onChange={onChange}
-                        defaultValue={defaultOption} 
-                        className="w-100 p-2 border-0 pointer bg-transparent"
-                        >
-                        <option hidden={defaultOption}></option>
-                        {options?.map?.((opt, key)=>(
-                            <option value={opt?.value || opt?.id} key={key}>{opt?.title || opt?.name}</option>
-                        ))}
-                    </select>
-            }
-            
+                            />
+                            : <textarea 
+                                ref={inputRef || inputCRef} 
+                                disabled={disabled}
+                                onChange={onChange} 
+                                onFocus={onFocus} 
+                                onBlur={onBlur} 
+                                className="w-100 p-2 border-0 bg-transparent"
+                                style={{outline: 'none'}}
+                            />
+                        : <select 
+                            ref={inputRef || inputCRef} 
+                            onFocus={onFocus} 
+                            onBlur={onBlur}
+                            disabled={disabled}
+                            onChange={onChange}
+                            defaultValue={defaultOption} 
+                            className="w-100 p-2 border-0 pointer bg-transparent"
+                            >
+                            <option hidden={defaultOption}></option>
+                            {options?.map?.((opt, key)=>(
+                                <option value={opt?.value || opt?.id} key={key}>{opt?.title || opt?.name}</option>
+                            ))}
+                        </select>
+                }
+                
+            </div>
         </div>
     )
 }

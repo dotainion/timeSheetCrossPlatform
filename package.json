@@ -44,11 +44,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "react-build": "react-scripts build",
+    "build": "react-scripts build",
     "react-test": "react-scripts test",
     "react-eject": "react-scripts eject",
     "electron-build": "electron-builder",
-    "build": "npm run react-build && npm run electron-build",
+    "react-build": "npm run react-build && npm run electron-build",
     "react-start": "concurrently \"cross-env BROWSER=none npm run react-start\" \"wait-on http://localhost:3000 && electron .\" ",
     "deploy": "set GH_TOKEN=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 && electron-builder build --win --publish always"
   },

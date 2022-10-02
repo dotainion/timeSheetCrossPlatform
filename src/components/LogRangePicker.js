@@ -51,7 +51,7 @@ export const LogRangePicker = ({isOpen, onClose, onSelected}) =>{
     }, [isOpen]);
 
     return(
-        <div ref={pickerRef} onClick={onClose} className="backdrop">
+        <div ref={pickerRef} onClick={onClose} className="backdrop" style={{display: 'none'}}>
             <div onClick={(e)=>e.stopPropagation()} className="log-range-picker">
                 <DateRangePicker
                     ranges={[selectionRange]}

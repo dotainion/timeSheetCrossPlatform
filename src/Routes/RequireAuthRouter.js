@@ -1,12 +1,12 @@
 import React from "react";
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { Roles } from "./infrastructure/Roles";
-import { useAuth } from "./provider/AuthenticationWrapper";
-import { routes } from "./Routes/Routes";
+import { Roles } from "../infrastructure/Roles";
+import { useAuth } from "../provider/AuthenticationWrapper";
+import { routes } from "./Routes";
 
 const role = new Roles();
 
-export const AuthRouter = ({element, isAdmin}) =>{
+export const RequireAuthRouter = ({element, isAdmin}) =>{
     const { isAuthenticated } = useAuth();
 
     const location = useLocation();
@@ -17,7 +17,7 @@ export const AuthRouter = ({element, isAdmin}) =>{
         }
         if (role.isSuperior(isAuthenticated?.role) && isAdmin){
             if (location.pathname == routes.signIn){
-                return <Navigate to={routes.dashboard} />;
+                return <Navigate to={routes.admin()} />;
             }
             return element;
         }
@@ -28,10 +28,10 @@ export const AuthRouter = ({element, isAdmin}) =>{
             return element;
         }
         if (role.isSuperior(isAuthenticated?.role) && location.pathname == routes.signIn){
-            return <Navigate to={routes.dashboard} />;
+            return <Navigate to={routes.admin()} />;
         }
         if (role.isMember(isAuthenticated?.role) && location.pathname == routes.signIn){
-            return <Navigate to={routes.dashboard} />;
+            return <Navigate to={routes.admin()} />;
         }
     }
     if (location.pathname == routes.signIn || location.pathname == routes.register){

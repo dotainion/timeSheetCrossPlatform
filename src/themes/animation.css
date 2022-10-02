@@ -1,39 +1,5 @@
-
-.loading-container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 15000;
-    background-color: rgb(0, 0, 0, 0.3);
-}
-.loading-container div{
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-.loading-container div span{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 5000;
-    transform: translate3d(-50%, -50%, 0);
-}
-.loading-container div span::before {
+.spin{
     animation: 1.5s linear infinite spinner;
-    animation-play-state: inherit;
-    border: solid 5px white;
-    border-bottom-color: #1c87c9;
-    border-radius: 50%;
-    content: "";
-    height: 40px;
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    transform: translate3d(-50%, -50%, 0);
-    width: 40px;
-    will-change: transform;
 }
 @keyframes spinner {
     0% {
@@ -42,4 +8,32 @@
     100% {
       transform: translate3d(-50%, -50%, 0) rotate(360deg);
     }
+}
+.move-hv-top-left{
+    animation: 1.5s infinite tt1;
+}
+.move-hv-top-right{
+    animation: 1.5s infinite tt2;
+}
+.move-hv-bottom-left{
+    animation: 1.5s infinite tt3;
+}
+.move-hv-bottom-right{
+    animation: 1.5s infinite tt4;
+}
+@keyframes tt1 {
+    from{transform: translate3d(0%, 0%, 0);}
+    to{transform: translate3d(100%, 100%, 0);}
+}
+@keyframes tt2 {
+    from{transform: translate3d(0%, 0%, 0);}
+    to{transform: translate3d(-100%, 100%, 0);}
+}
+@keyframes tt3 {
+    from{transform: translate3d(0%, 0%, 0);}
+    to{transform: translate3d(100%, -100%, 0);}
+}
+@keyframes tt4 {
+    from{transform: translate3d(0%, 0%, 0);}
+    to{transform: translate3d(-100%, -100%, 0);}
 }

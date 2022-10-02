@@ -1,20 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
 
 
-export const Button = ({onClick, title, style, loading, useEnterKey}) =>{
+export const Button = ({onClick, title, style, blue, dark, loading, useEnterKey}) =>{
+    const [color, setColor] = useState();
 
     useEffect(()=>{
         if(!useEnterKey) return;
         $('html').keypress((e)=>{
-            if(e.key == 'Enter'){
-                onClick?.();
-            }
+            e.key == 'Enter' && onClick?.();
         });
     }, [useEnterKey]);
+
+    useEffect(()=>{
+        if(blue) setColor('btn-primary');
+        else setColor('btn-dark');
+    }, []);
     return(
         <button 
-            className="btn-container" 
+            className={`btn ${color} mt-2 mb-2`} 
             onClick={onClick} 
             style={style}
             >

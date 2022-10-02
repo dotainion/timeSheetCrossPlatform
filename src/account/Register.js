@@ -8,12 +8,17 @@ import $ from 'jquery';
 import { Loading } from "../components/Loading";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
+import { useAuth } from "../provider/AuthenticationWrapper";
+import { Roles } from "../infrastructure/Roles";
+import { AccountsContainer } from "./AccountsContainer";
 
 
 
 const auth = new Authenticate();
 
 export const Register = () =>{
+    const { isAuthenticated } = useAuth();
+
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -35,38 +40,32 @@ export const Register = () =>{
             emailRef.current.value, 
             passwordRef.current.value, 
             confirmPasswordRef.current.value,
-            ()=> navigate(routes.dashboard)
+            ()=> null
         );
         setLoading(false);
     }
 
     useEffect(()=>{
-        $('.input-entery').css({backgroundColor: 'transparent'})
-    }, []);
+        if(!isAuthenticated) return;
+        if((new Roles()).isSuperior(isAuthenticated?.role)) navigate(routes.admin());
+        else if((new Roles()).isMember(isAuthenticated?.role)) navigate(routes.clockIn);
+    }, [isAuthenticated]);
+
+    useEffect(()=> $('.input-entery').css({backgroundColor: 'transparent'}), []);
 
     return(
-        <div className="sign-in-container">
-            <div className="sign-in-card">
-                <div className="sign-in-side-l">
-                    <div className="sign-in-logo-container">
-                        <img src={logo} draggable={false} />
-                    </div>
-                </div>
-                <div className="sign-in-side-r">
-                    <h4>Creat an account</h4>
-                    <Input inputRef={firstNameRef} title="First Name" type="name" />
-                    <Input inputRef={lastNameRef} title="Last Name" type="name" />
-                    <Input inputRef={companyNameRef} title="Company Name" type="name" />
-                    <Input inputRef={emailRef} title="Email" type="email" />
-                    <Input inputRef={passwordRef} title="Password" type="password" />
-                    <Input inputRef={confirmPasswordRef} title="Conform Password" type="password" />
-                    <div className="sign-in-forget-pss">
-                        <span onClick={()=>navigate(routes.signIn)} style={{color: 'dodgerblue'}}>Login instead</span>
-                    </div>
-                    <Button onClick={onRegister} title="Create" loading={loading} />
-                </div>
+        <AccountsContainer>
+            <h4 className="my-4 text-center">Creat an account</h4>
+            <Input inputRef={firstNameRef} title="First Name" type="name" />
+            <Input inputRef={lastNameRef} title="Last Name" type="name" />
+            <Input inputRef={companyNameRef} title="Company Name" type="name" />
+            <Input inputRef={emailRef} title="Email" type="email" />
+            <Input inputRef={passwordRef} title="Password" type="password" />
+            <Input inputRef={confirmPasswordRef} title="Conform Password" type="password" />
+            <div className="text-end mb-3 mt-3 mb-2">
+                <span className="text-primary pointer" onClick={()=>navigate(routes.signIn)}>Login instead</span>
             </div>
-            <Loading loading={loading} />
-        </div>
+            <Button onClick={onRegister} title="Create" useEnterKey blue />
+        </AccountsContainer>
     )
 }

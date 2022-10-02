@@ -19,6 +19,7 @@ import { LogRangePicker } from "../components/LogRangePicker";
 import { QueryDate } from "../module/objects/QueryDate";
 import { Invoice } from "../module/logic/Invoice";
 import { routes } from "../Routes/Routes";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 const mbr = new Users();
@@ -46,7 +47,7 @@ export const SpreadsheetReport = () =>{
                 timeTo: (new Date(details.logs[details.logs.length -1].timestamp)).toLocaleDateString()
             }
         }
-        navigate(routes.invoice+':'+member?.id, {state: state});
+        navigate(routes.nested().invoice+':'+member?.id, {state: state});
     }
     
 
@@ -73,10 +74,9 @@ export const SpreadsheetReport = () =>{
     }, []);
 
     return(
-        <Layout title="Report" menu={[{title: 'Invoice', onClick: ()=>navigateToInvoice()}]}>
+        <LayoutPageHandler title="Report" menu={[{title: 'Invoice', onClick: ()=>navigateToInvoice()}]}>
             <div>
-                <div className="">
-                    <h3>Team/Member</h3>
+                <div className="mt-3">
                     <div>Caribbean coding academy grenada</div>
                     <div>Time sheet delails</div>
                 </div>
@@ -86,7 +86,7 @@ export const SpreadsheetReport = () =>{
                     <div className="report-billable-detail">
                         <div className="report-flex">
                             <div className="report-flex-head">Billed Hours</div>
-                            <div>{details.total || '$0.00'}</div>
+                            <div>{details.total || '00:00:00'}</div>
                             <div>$0.00</div>
                         </div>
                         <div className="report-flex">
@@ -103,6 +103,6 @@ export const SpreadsheetReport = () =>{
                 />
             </div>
             <Loading loading={loading} />
-        </Layout>
+        </LayoutPageHandler>
     )
 }

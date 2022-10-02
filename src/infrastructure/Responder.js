@@ -1,9 +1,8 @@
-import React from "react";
 import axios from 'axios';
 
 
 export class Responder{
-    URL = 'http://localhost:2000';
+    URL = 'https://time-sheet-cross-platform.herokuapp.com';//'http://localhost:2000';
 
     async post(url, data=null){
         try{

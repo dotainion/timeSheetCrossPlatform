@@ -1,5 +1,5 @@
 import { db } from "./config/AuthConfig";
-import { getFirestore, collection, getDoc, getDocs, deleteDoc, enableIndexedDbPersistence, onSnapshot, where, query, limit, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDoc, getDocs, deleteDoc, enableIndexedDbPersistence, onSnapshot, where, query, limit, doc, setDoc } from 'firebase/firestore';
 
 export class Repository{
     transform(id, record){
@@ -18,9 +18,8 @@ export class Repository{
     }
 
     async addData(collectionRef, data, setUid=null){
-        let collector = collection(db, collectionRef);//;
-        if(setUid !== null) await collector.doc(setUid).set(data);
-        else await collector.add(data);
+        if(setUid !== null) await setDoc(doc(db, collectionRef, setUid), data);
+        else await addDoc(collection(db, collectionRef), data);
         return await this.getWhere(collectionRef, this.objToWhere(data));
     }
 

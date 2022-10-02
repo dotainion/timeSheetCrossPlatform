@@ -1,23 +1,6 @@
 .relative{
     position: relative;
 }
-.block-on-deskop{
-    display: '';
-}
-.modal-container{
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 208;
-    width: 100vw;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    background-size: cover;
-    background-color: white;
-    background-repeat: no-repeat;
-    background-image: url(../images/bubbles.jpg);
-}
 .modal-header{
     position: relative;
     color: white;
@@ -57,8 +40,10 @@
     background-color: rgb(0, 0, 0, 0.3);
 }
 .bg{
+    width: 100%;
+    height: 100vh;
     overflow: auto;
-    padding: 0 10px 10px 10px;
+    position: relative;
     background-color: rgb(241, 240, 240);
     background-size: cover;
     background-repeat: no-repeat;
@@ -186,10 +171,7 @@
 .bread-crumbs-inner{
     padding-top: 5px;
     padding-bottom: 5px;
-    border-bottom: 1px solid rgb(211, 211, 211, 0.5);
-}
-.bread-crumbs-inner b{
-    /*font-size: 20px;*/
+    border-bottom: 1px solid transparent;
 }
 .bread-crumbs-inner div{
     height: 23px;
@@ -198,7 +180,7 @@
     display: inline-block;
     margin-right: 3px;
     cursor: pointer;
-    background-color: var(--secondary-color);
+    background-color: #343a40;
 }
 .bread-crumbs-inner div span{
     font-size: 15px;
@@ -212,7 +194,7 @@
     bottom: 0;
     width: 0;
     height: 0;
-    border-left: 11.5px solid white;
+    border-left: 11.5px solid #212529;
     border-top: 11.5px solid transparent;
     border-bottom: 11.5px solid transparent;
 }
@@ -223,15 +205,15 @@
     bottom: 0;
     width: 0;
     height: 0;
-    border-left: 11.5px solid var(--secondary-color);
+    border-left: 11.5px solid #343a40;
     border-top: 11.5px solid transparent;
     border-bottom: 11.5px solid transparent;
 }
 .bread-crumbs-inner div:hover{
-    background-color: #b87422;
+    background-color: #212529 !important;
 }
 .bread-crumbs-inner div:hover:before{
-    border-left: 11.5px solid #b87422;
+    border-left: 11.5px solid #212529;
 }
 input, select{
     outline: none;
@@ -268,37 +250,6 @@ input, select{
     font-size: 12px !important;
     transition: all 0.3s;
 }
-.btn-container{
-    padding: 8px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border: none;
-    cursor: pointer;
-    margin: 5px;
-    position: relative;
-    background-color: rgb(0, 0, 0, 0.08);
-}
-.btn-container:hover{
-    background-color: rgb(0, 0, 0, 0.1);
-}
-.btn-container:active{
-    background-color: rgb(0, 0, 0, 0.2);
-}
-.btn-container span::before {
-    top: 50%;
-    left: 20px;
-    content: "";
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    position: absolute;
-    will-change: transform;
-    border: solid 3px white;
-    animation-play-state: inherit;
-    border-bottom-color: #0d537e;
-    transform: translate3d(-50%, -50%, 0);
-    animation: 1.5s linear infinite spinner;
-}
 .max-width{
     width: 100%;
 }
@@ -306,8 +257,8 @@ input, select{
     top: 10px;
     left: 50%;
     width: 50%;
-    z-index: 500;
     padding: 10px;
+    z-index: 10000;
     color: white;
     font-size: 15px;
     min-width: 300px;
@@ -373,12 +324,6 @@ input, select{
     margin: 0;
     padding-top: 10px;
     color: rgb(0, 0, 0, 0.7);
-}
-.float-center{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
 }
 .no-record{
     display: flex;
@@ -460,49 +405,6 @@ input, select{
 .confirm-btn-container{
     text-align: right;
 }
-.switch-container{
-    width: 40px;
-    height: 20px;
-    display: inline-block;
-    position: relative;
-}
-.switch-container input{
-    width: 100%;
-    z-index: 1;
-    position: relative;
-}
-.switch-bg{
-    top: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    position: absolute;
-    border-radius: 9px;
-    border: 1px solid rgb(30, 144, 255, 0.5);
-}
-.switch-btn{
-    top: 55%;
-    width: 60%;
-    height: 130%;
-    cursor: pointer;
-    border-radius: 50%;
-    position: absolute;
-    transform: translateY(-50%);
-    background-color: rgb(110, 110, 110);
-}
-.switch-content{
-    top: 65%;
-    width: 8px;
-    height: 100%;
-    padding: 3px;
-    font-size: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    padding-right: 8px;
-    position: absolute;
-    border-radius: 20px;
-    transform: translateY(-50%);
-}
 .report-billable-detail{
     display: flex;
     width: 100%;
@@ -521,46 +423,6 @@ input, select{
     font-size: 12px;
     padding-bottom: 20px;
     border-bottom: 1px solid lightgray;
-}
-.report-btn{
-    position: absolute;
-    right: 20px;
-    top: 0;
-    font-size: 25px;
-    color: rgb(0, 0, 0, 0.70);
-    cursor: pointer;
-    align-items: center;
-    transition: 0.5s all;
-    padding: 0 10px;
-    border-radius: 20px;
-    border: 1px solid gray;
-}
-.report-btn div{
-    display: flex;
-    align-items: center;
-}
-.report-btn span{
-    width: 120px;
-    font-size: 13px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    transition: 0.3s width;
-}
-.report-btn:hover{
-    color: black;
-    transform: scale(1.05);
-    background-color: lightgray;
-}
-.report-btn:hover span{
-    width: 100%;
-}
-.report-invoice-btn{
-    right: 200px;
-    font-weight: bold;
-}
-.report-invoice-btn span{
-    width: auto;
 }
 .report-tab-container{
     width:99%;
@@ -920,20 +782,6 @@ input, select{
 .clock-in-container{
     -webkit-app-region: drag;
 }
-.clock-in-logo{
-    text-align: right;
-    font-weight: bold;
-}
-.clock-in-logo > div{
-    display: inline-block;
-}
-.clock-in-logo-flex{
-    display: flex;
-    align-items: center;
-}
-.clock-in-logo-flex div{
-    padding-left: 10px;
-}
 .clock-in-logo img{
     width: 30px;
     height: 30px;
@@ -968,13 +816,13 @@ input, select{
 .clock-in-btns span{
     display: inline-block;
 }
-.clock-in-btns svg{
+.clock-in-btns button{
     position: relative;
-    font-size: 40px;
-    margin-top: 5px;
-    margin-left: 3px;
+    padding: 15px 10px;
+    margin-left: 5px;
     cursor: pointer;
     z-index: 10000;
+    font-size: 13px;
     border-radius: 50%;
     -webkit-app-region: no-drag;
 }
@@ -995,20 +843,6 @@ input, select{
     left: 5px;
     bottom: 3px;
     border-radius: 50%;
-}
-.display-info-on-hover{
-    position: relative;
-}
-.display-info-overlay{
-    position: absolute;
-    top: 0;
-    left: 50%;
-    display: none;
-    color: black;
-    font-size: 13px;
-    padding: 0 5px 0 5px;
-    background-color: white;
-    transform: translate3d(-50%, -70%, 0);
 }
 .options-overlay{
    position: absolute;
@@ -1045,43 +879,12 @@ input, select{
     left: 50%;
     width: 600px;
     height: 560px;
-    display: flex;
     min-height: 560px;
     position: absolute;   
     transform: translateX(-50%);
     -webkit-app-region: no-drag;
     background-color: rgb(255, 255, 255, 0.6);
     box-shadow: 0 3px 3px 5px rgb(0, 0, 0, 0.1);
-}
-.sign-in-card h4{
-    text-align: center;
-    margin-top: 10px;
-}
-.sign-in-side-l{
-    width: 50%;
-    padding: 20px;
-    position: relative;
-    background-color: dodgerblue;
-}
-.sign-in-side-r{
-    width: 100%;
-    padding: 20px 60px 20px 60px;
-    position: relative;
-}
-.sign-in-forget-pss{
-    text-align: right;
-    margin-bottom: 40px;
-    color: orangered;
-    cursor: pointer;
-}
-.sign-in-card .btn-container{
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    color: white;
-    padding: 12px;
-    margin-bottom: 30px;
-    background-color: dodgerblue;
 }
 .sign-in-logo-container{
     position: absolute;
@@ -1093,19 +896,6 @@ input, select{
 .sign-in-logo-container img{
     width: 100%;
     height: 100%;
-}
-.sign-in-card .relative{
-    width: 100%;
-    height: 100%;
-}
-.sign-in-card .float-center{
-    width: 100%;
-}
-.float-center{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
 }
 .percentage-container{
     display: inline-block;
@@ -1159,17 +949,6 @@ input, select{
     font-size: 13px;
     transform: translateY(-50%);
 }
-.clock-in-x-option-overlay-inner{
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    width: 767px;
-    min-width: 767px;
-    z-index: 500;
-    transform: translateX(-50%);
-    background-color: rgb(255, 255, 255, 0.6);
-    box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);
-}
 .clock-in-day-card{
     width: 50%;
 }
@@ -1180,63 +959,10 @@ input, select{
 .clock-in-day-card .calendar-week, .clock-in-day-card .calendar-time div, .clock-in-day-card .calendar-full, .clock-in-day-card .calendar-result{
     border-color: lightgray;
 }
-.clock-in-x-flexer{
-    display: flex;
-    height: 500px;
-}
-.clock-in-x-flexer-header{
-    display: flex;
-}
-.clock-in-x-break-card-heading{
-    position: relative;
-    padding: 0 5px 0 5px;
-    background-color: lightgray;
-}
-.clock-in-x-break-card-heading svg{
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    font-size: 27px;
-    color: rgb(0, 0, 0, 0.6);
-}
-.clock-in-x-break-card-heading svg:hover{
-    color: red;
-}
 .clock-in-x-logs{
-    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-}
-.clock-in-x-logs-header{
-    width: 100%;
-    text-align: center;
-}
-.clock-in-x-break{
-    width: 220px;
-    min-width: 220px;
-    padding: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    position: relative;
-}
-.clock-in-x-break-header{
-    width: 220px;
-    min-width: 220px;
-    padding: 0 10px 0 10px;
-}
-.clock-in-break-card, .clock-in-break-card-header{
-    display: flex;
-}
-.clock-in-break-card div, .clock-in-break-card-header div{
-    width: 100%;
-    margin: 0 5px 0 5px;
-}
-.clock-in-break-card:hover{
-    cursor: pointer;
-    background-color: rgb(0, 0, 0, 0.1);
-}
-.hide-on-desktop{
-    display: none;
+    height: 500px;
 }
 .hide-on-mobile{
     display: '';
@@ -1315,9 +1041,6 @@ input, select{
 .manage-team-container [data-btn-container]{
     width: 100%;
 }
-.manage-team-container [data-btn-container] .btn-container {
-    float: left;
-}
 .manage-team-container [data-btn-container] .image-btn {
     float: right;
 }
@@ -1348,80 +1071,36 @@ input, select{
     transform: scale(1);
     background-color: dodgerblue;
 }
-.sidebar {
-    width: 250px;
-    min-height: 100vh;
-    background: rgb(26, 24, 24);
-    color: #fff;
+.sidebar-btn{
+    transition: 0.5s all;
 }
-.sidebar > div{
-    padding: 10px;
+.sidebar-btn small{
+    font-size: 10px;
 }
-.sidebar > div:hover{
-    background: rgba(0, 0, 0, 0.2);
+.sidebar-btn:hover{
+    background: rgba(0, 0, 0, 0.2) !important;
 }
 .sidebar-active{
+    border-radius: 25px;
     background: rgba(0, 0, 0, 0.2);
 }
-.filez{
-    width: 18rem;
-    padding-right: 20px;
-    background-color: transparent;
+.clipboard-hover{
+    transition: 0.5s all;
 }
-.file::after{
-    position: absolute;
-    content: '';
-    right: -20px;
-    z-index: 10;
-    border-bottom: 30px solid #ced4da; 
-    border-right:20px solid transparent; 
+.clipboard-hover:hover{
+    background-color: rgb(0, 128, 0, 0.2);
 }
-.file::before{
-    position: absolute;
-    content: '';
-    right: -20px;
-    width: 20px;
-    bottom: 0;
-    height: calc(100% - 30px);
-    z-index: 10;
-    background-color: #e9ecef;
+.clipboard-hover:hover [data-copy-icon]{
+    display: block !important;
 }
-.file .card-body{
-    position: relative;
+.scrollbar-mini::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
 }
-.file .card-body::after{
-    position: absolute;
-    content: '';
-    right: -20px;
-    width: 20px;
-    bottom: 0;
-    height: calc(100% + 1px);
-    z-index: 10;
+.scrollbar-mini::-webkit-scrollbar-thumb {
+    border-radius: 25px;
+    background-color: white;
 }
-.file .card-body div{
-    position: absolute;
-    right: -10px;
-    bottom: 3px;
-    z-index: 20;
-    font-size: 11px;
-}
-.file-bg::before{
-    background-color: dodgerblue;
-}
-.file-bg .card-header{
-    color: white;
-    background-color: dodgerblue;
-}
-.file-bg .card-body::after{
-    background-color: dodgerblue;
-}
-.file-bg2::before{
-    background-color: gray;
-}
-.file-bg2 .card-header{
-    color: white;
-    background-color: gray;
-}
-.file-bg2 .card-body::after{
-    background-color: gray;
+.mbr-settings [data-input-container]{
+    background-color: rgb(0, 0, 0, 0.05);
 }

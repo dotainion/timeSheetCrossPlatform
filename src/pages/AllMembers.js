@@ -14,6 +14,8 @@ import { routes } from "../Routes/Routes";
 import { ButtonCard } from "../widgets/ButtonCard";
 import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 import { ButtonCardMemberBody } from "../components/ButtonCardMemberBody";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
+
 
 const roles = new Roles();
 const _teams_ = new Teams();
@@ -110,7 +112,7 @@ export const AllMembers = () =>{
     useEffect(initialize, []);
 
     return(
-        <Layout title={'Title'}>
+        <LayoutPageHandler title={'Title'}>
             <div className="container pt-3">
                 <div className="d-md-flex w-75 m-auto" style={{minWidth: '320px'}}>
                     <div className="w-100">
@@ -132,13 +134,13 @@ export const AllMembers = () =>{
                             subTitle={usr?.email}
                             body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
                             profile
-                            onClick={()=>navigate(routes.memberSettings.replace('userId', `userId:${usr?.id}`), {state: usr})}
+                            onClick={()=>navigate(routes.nested().memberSettings().replace('userId', `userId:${usr?.id}`), {state: usr})}
                             key={key}
                         />
                     ))}
                 </ButtonCardContainer>
             </div>
             <Loading loading={loading} />
-        </Layout>
+        </LayoutPageHandler>
     )
 }

@@ -12,6 +12,7 @@ import { useAuth } from "../provider/AuthenticationWrapper";
 import { useLocation } from "react-router-dom";
 import { Users } from "../module/logic/Users";
 import { Layout } from "../layout/Layout";
+import { LayoutPageHandler } from "../layout/LayoutPageHandler";
 
 
 
@@ -111,7 +112,7 @@ export const MemberSpreadSheetSettings = () =>{
     }, []);
 
     return(
-        <Layout>
+        <LayoutPageHandler>
             <div className="member-setting">
                 <h1>Power up your Spreadsheets</h1>
                 <h2>Allow you to access your spreadsheet directly from this app. Providing report on daily, weekly or monthly activities.</h2>
@@ -146,6 +147,6 @@ export const MemberSpreadSheetSettings = () =>{
                     <Button title="Cancel"/>
                 </div>
             </div>
-        </Layout>
+        </LayoutPageHandler>
     )
 }

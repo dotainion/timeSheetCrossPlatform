@@ -31,7 +31,8 @@ export class Log extends ToastHandler{
                     timestamp: date.getTime()
                 }
             });
-            return await this.repo.startTime(logObject);
+            await this.repo.startTime(logObject);
+            return await this.getPendingLog(userId);
         }catch(error){
             console.log(error)
             this.error('Unable to start task.');

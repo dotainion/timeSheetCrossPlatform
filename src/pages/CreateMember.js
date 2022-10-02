@@ -16,6 +16,7 @@ import { Layout } from "../layout/Layout";
 import { Button } from "../widgets/Button";
 import { ImgButton } from "../widgets/ImgButton";
 import { useLocation } from "react-router-dom";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 const auth = new Authenticate();
@@ -75,15 +76,15 @@ export const CreateMember = () =>{
     useEffect(()=>{
         $(emailRef.current).change((e)=>{
             $(usernameRef.current).val(e.target.value);
-            const label = $(usernameRef.current).parent().find('.input-entery-title')[0];
+            const label = $(usernameRef.current).parent().find('div').first();
             e.target.value 
-                ? $(label).addClass('input-entery-title-focus') 
-                : $(label).removeClass('input-entery-title-focus');
+                ? $(label).addClass('input-title-focus') 
+                : $(label).removeClass('input-title-focus');
         });
     }, []);
 
     return(
-        <Layout>
+        <LayoutPageHandler>
             <div className="create-member-container">
                 <h2>Create a member</h2>
                 <h1>Let's start with information on your member</h1>
@@ -101,6 +102,6 @@ export const CreateMember = () =>{
                 </div>
             </div>
             <Loading loading={loading} />
-        </Layout>
+        </LayoutPageHandler>
     )
 }

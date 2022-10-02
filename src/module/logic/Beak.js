@@ -18,10 +18,7 @@ export class Break extends ToastHandler{
     async startBreak(logId, userId, endTime='pending'){
         try{
             const collector = await this.repo.getPendingBreak(logId);
-            if (collector.hasItems()) {
-                this.warning(`Break already started at ${collector.first().startBreak}. Click start to end.`);
-                return collector;
-            }
+            if (collector.hasItems()) return collector;
             const date = new Date();
             const logObject = this.factory.mapResults({
                 id: null,

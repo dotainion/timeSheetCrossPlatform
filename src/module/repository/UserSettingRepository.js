@@ -14,7 +14,9 @@ export class UserSettingRepository extends Repository{
     async addSetting(setting){
         return await this.addData(collection.settings, {
             sheetId: setting.sheetId,
-            spreadsheetId: setting.spreadsheetId
+            spreadsheetId: setting.spreadsheetId,
+            clientId: setting.clientId,
+            url: setting.url
         }, setting.id);
     }
 

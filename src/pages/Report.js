@@ -14,6 +14,7 @@ import { QueryDate } from "../module/objects/QueryDate";
 import { BiSearchAlt } from 'react-icons/bi';
 import { routes } from "../Routes/Routes";
 import { Invoice } from "../module/logic/Invoice";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 const mbr = new Users();
@@ -43,7 +44,7 @@ export const Report = () =>{
                 timeTo: (new Date(searchBy.to)).toLocaleDateString()
             }
         }
-        navigate(routes.invoice+':'+member?.id, {state: state});
+        navigate(routes.nested().invoice()+':'+member?.id, {state: state});
     }
 
     useEffect(async()=>{
@@ -57,23 +58,12 @@ export const Report = () =>{
     }, []);
 
     return(
-        <Layout title="Report">
-            <div>
-                <div className="report-header-container">
-                    <div className="hide-on-mobile">Caribbean coding academy grenada</div>
-                    <div onClick={navigateToInvoice} className="report-btn report-invoice-btn">
-                        <div>
-                            <span>Invoice</span>
-                            <FaFileInvoiceDollar/>
-                        </div>
-                    </div>
-                    <div onClick={()=>setOpenLogPicker(true)} className="report-btn">
-                        <div>
-                            <span>From: <b>{(new Date(searchBy.fromInt)).toDateString()}</b> to: <b>{(new Date(searchBy.toInt)).toDateString()}</b></span>
-                            <BiSearchAlt/>
-                        </div>
-                    </div>
-                </div>
+        <LayoutPageHandler title="Report" menu={[
+            {title: 'Invoice', onClick: ()=>navigateToInvoice()}, 
+            {title: 'Search..', onClick: ()=>setOpenLogPicker(true), tooltip: `From: ${(new Date(searchBy.fromInt)).toDateString()} to: ${(new Date(searchBy.toInt)).toDateString()}`}
+        ]}>
+            <div className="mt-3">
+                <div className="hide-on-mobile">Caribbean coding academy grenada</div>
                 <div className="report-billable-devider">
                     <div className="report-billable-centerize">
                         <div>Logged Hours:</div>
@@ -110,6 +100,6 @@ export const Report = () =>{
                 onClose={()=>setOpenLogPicker(false)} 
                 onSelected={setSearchBy}
             />
-        </Layout>
+        </LayoutPageHandler>
     )
 }

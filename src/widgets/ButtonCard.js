@@ -8,7 +8,7 @@ import { VEllipsisOption } from './VEllipsisOption';
 import { AiOutlineGoogle } from 'react-icons/ai';
 
 
-export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, user, imports, manage, asign, team, google, onClick, disabled}) =>{
+export const ButtonCard = ({title, image, subTitle, body, footer, menu, profile, add, user, imports, manage, asign, team, google, onClick, disabled}) =>{
     const parentRef = useRef();
 
     const onTriger = (e) =>{
@@ -18,6 +18,7 @@ export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, u
     
     return(
         <div ref={parentRef} onClick={onTriger} className={`card m-2 p-0 text-start overflow-hidden ${disabled ? 'text-secondary' : 'h-scale pointer'}`} style={{width: '18rem', position: 'relative'}}>
+            {image && <img className="card-img-top" src={image} alt="Card image cap"/>}
             {add && <VscAdd className={'card-img-top'} />}
             {imports && <BiImport className={'card-img-top'} />}
             {manage && <MdManageAccounts className={'card-img-top'} />}
@@ -35,7 +36,7 @@ export const ButtonCard = ({title, subTitle, body, footer, menu, profile, add, u
             </div>}
             <div className="card-body overflow-hidden">
                 <h5 className="card-title">{title}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">{subTitle}</h6>
+                <h6 className="card-subtitle text-muted">{subTitle}</h6>
                 <div className="card-text">{body}</div>
             </div>
             {footer && <div className="card-footer">{footer}</div>}

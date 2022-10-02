@@ -115,34 +115,11 @@
         top: 18%;
         right: -8px;
     }
-    .clock-in-x-option-overlay-inner{
-        position: absolute;
-        top: 20px;
-        width: 98%;
-        min-width: 98%;
-    }
-    .clock-in-x-flexer{
-        display: block;
-    }
     .clock-in-x-logs{
-        height: 45%;
-    }
-    .clock-in-x-break{
-        height: 45%;
-        width: 100%;
-        padding: 0;
+        height: 39vh;
     }
     .hide-on-mobile{
         display: none;
-    }
-    .hide-on-desktop{
-        display: '=';
-    }
-    .max-width-on-mobile{
-        width: 100%;
-    }
-    .block-on-deskop{
-        display: block !important;
     }
     .rdrDateRangePickerWrapper{
         display: block !important;

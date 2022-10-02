@@ -19,12 +19,12 @@ export const BreadCrumbs = ({options}) =>{
         }catch{}
     }, [options]);
     return(
-        <div ref={breadRef} className="bread-crumbs">
+        <div ref={breadRef} className="">
             <div className="bread-crumbs-inner">
                 {
                     options?.length?
                     options.map((crumbs, key)=>(
-                        <div onClick={crumbs?.action} id={crumbs?.title + key} key={key}>
+                        <div  onClick={crumbs?.action} id={crumbs?.title + key} key={key}>
                             <span className="small">{crumbs?.title}</span>
                         </div>
                     )):null

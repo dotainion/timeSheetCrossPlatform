@@ -5,6 +5,7 @@ import { VscAdd } from 'react-icons/vsc';
 import { useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
 import { ButtonCard } from "../widgets/ButtonCard";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 
@@ -15,11 +16,11 @@ export const ManageMembers = () =>{
         
     }, []);
     return(
-        <Layout options={[{title: 'Administration', action: ()=> navigate(routes.administrator)}]}>
+        <div className="overflow-hidden h-100">
             <div className="row text-center p-3 m-auto">
-                <ButtonCard onClick={()=>navigate(routes.createMember+':unassign')} title={'Add Members'} add />
-                <ButtonCard onClick={()=>navigate(routes.members)} title={'Members'} asign />
+                <ButtonCard onClick={()=>navigate(routes.nested().createMember()+':unassign')} title={'Add Members'} add />
+                <ButtonCard onClick={()=>navigate(routes.nested().members())} title={'Members'} asign />
             </div>
-        </Layout>
+        </div>
     )
 }

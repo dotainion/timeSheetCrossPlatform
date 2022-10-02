@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PercentageCard } from "../components/PercentageCard";
 import { Layout } from "../layout/Layout";
-
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 
 export const Dashboard = () =>{
@@ -10,7 +10,7 @@ export const Dashboard = () =>{
         
     }, []);
     return(
-        <Layout>
+        <LayoutPageHandler>
             <div className="dashboard-container">
                 <div className="dash-employee-count">
                     <PercentageCard title={'Active Users'} data={'data'} color="rgb(0, 128, 0, 0.7)" />
@@ -18,6 +18,6 @@ export const Dashboard = () =>{
                     <PercentageCard title={'Inactive Users'} data={'data'} color="rgb(26, 24, 24, 0.7)" />
                 </div>
             </div>
-        </Layout>
+        </LayoutPageHandler>
     )
 }

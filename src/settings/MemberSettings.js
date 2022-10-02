@@ -10,14 +10,19 @@ import $ from 'jquery';
 import { Teams } from "../module/logic/Teams";
 import profile from '../images/profile.jpg';
 import { Switch } from "../widgets/Switch";
+import { LayoutPageHandler } from "../layout/LayoutPageHandler";
+import { Button } from "../widgets/Button";
+import { UserSetting } from "../module/logic/UserSetting";
 
 
 const _teams_ = new Teams();
 const _members_ = new Users();
+const _settings_ = new UserSetting();
 
 export const MemberSettings = () =>{
     const [usr, setUsr] = useState();
     const [teams, setTeams] = useState([]);
+    const [settings, setSettings] = useState({});
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -29,8 +34,10 @@ export const MemberSettings = () =>{
     const roleRef = useRef();
     const genderRef = useRef();
     const teamRef = useRef();
+    const spreadsheetRef = useRef();
 
     const updateLocationState = (data) =>{
+        if(!location.state) return;
         const key = Object.keys(data)[0];
         location.state[key] = data[key];
         navigate(location.pathname, {state: location.state});
@@ -39,6 +46,22 @@ export const MemberSettings = () =>{
     const onUpdateProfile = async(data, userId) =>{
         _members_.updateUser(data, userId);
         updateLocationState(data);
+    }
+
+    const splitSpeadSheetUrl = (data, userId) =>{
+        const urlList = data.spreadsheetUrl?.split('/');
+        const spreadsheetId = urlList?.[5];
+        if(!spreadsheetId) return;
+        updateSettings({spreadsheetId}, userId);
+    }
+
+    const updateSettings = (data, userId) =>{
+        const key = Object.keys(data)[0];
+        let cloneSetting = Object.keys(JSON.parse(JSON.stringify(settings || {})));
+        cloneSetting[key] = data[key];
+        cloneSetting['clientId'] = usr?.clientId;
+        cloneSetting['url'] = spreadsheetRef.current.value;
+        _settings_.addSetting(cloneSetting, userId);
     }
 
     useEffect(async()=>{
@@ -53,6 +76,8 @@ export const MemberSettings = () =>{
     useEffect(async()=>{
         if(!usr) return;
 
+        const userSetting = await _settings_.getSetting(usr?.id);
+        setSettings(userSetting || {});
         const TTeams = await _teams_.getByClientId(usr?.clientId);
         setTeams(TTeams);
         
@@ -64,12 +89,16 @@ export const MemberSettings = () =>{
         genderRef.current.value = usr?.gender;
         teamRef.current.value = usr?.teamId;
 
+        spreadsheetRef.current.value = userSetting.url;
+
         firstNameRef.current.focus();
         lastNameRef.current.focus();
         numberRef.current.focus();
         emailRef.current.focus();
         genderRef.current.focus();
         roleRef.current.focus();
+
+        spreadsheetRef.current.focus();
 
         $(firstNameRef.current).on('change', (e)=>onUpdateProfile({firstName: e.target.value}, usr?.id));
         $(lastNameRef.current).on('change', (e)=>onUpdateProfile({lastName: e.target.value}, usr?.id));
@@ -78,12 +107,14 @@ export const MemberSettings = () =>{
         $(roleRef.current).on('change', (e)=>onUpdateProfile({role: e.target.value}, usr?.id));
         $(teamRef.current).on('change', (e)=>onUpdateProfile({teamId: e.target.value}, usr?.id));
         $(genderRef.current).on('change', (e)=>onUpdateProfile({gender: e.target.value}, usr?.id));
+
+        $(spreadsheetRef.current).on('change', (e)=>splitSpeadSheetUrl({spreadsheetUrl: e.target.value}, usr?.id));
     }, [usr]);
 
     return(
-        <Layout>
-            <div className="">
-                <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm"><h2>Profile</h2></div>
+        <LayoutPageHandler>
+            <div className="mb-5 mbr-settings">
+                <div className="row bg-white p-2 m-md-3 mb-3 mt-3 rounded-3 shadow-sm"><h2>Profile</h2></div>
                 <div className="d-md-flex">
                     <div>
                         <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
@@ -94,8 +125,8 @@ export const MemberSettings = () =>{
                             <Input inputRef={genderRef} title={'Gender'} options={(new Gender()).genders()} />
                         </div>
                         <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
-                            <h5>Role</h5>
-                            <p className="text-secondary">hdgfhdgf</p>
+                            <h5>Disable</h5>
+                            <p className="text-secondary">This user will not be able to log in if disabed.</p>
                             <Switch />
                         </div>
                     </div>
@@ -117,7 +148,16 @@ export const MemberSettings = () =>{
                         </div>
                     </div>
                 </div>
+                <div className="row bg-white p-2 m-md-3 mb-3 mt-3 rounded-3 shadow-sm"><h2>Settings</h2></div>
+                <div>
+                    <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
+                        <h5>Spreadsheet</h5>
+                        <p className="text-secondary">Enter the spreadsheet url you will like to get access to.</p>
+                        <Input inputRef={spreadsheetRef} title={'Enter spreadsheet url here'} cssClass="mb-4" />
+                        <Button onClick={()=>splitSpeadSheetUrl({spreadsheetUrl: spreadsheetRef.current.value}, usr?.id)} title={'Save'} />
+                    </div>
+                </div>
             </div>
-        </Layout>
+        </LayoutPageHandler>
     )
 }

@@ -8,6 +8,7 @@ import { useProvider } from "../provider/ProviderWrapper";
 import { Button } from "../widgets/Button";
 import { ImgButton } from "../widgets/ImgButton";
 import { Input } from "../widgets/Input";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 
 const _team_ = new Teams();
 
@@ -84,7 +85,7 @@ export const ManageTeam = () =>{
     }, []);
 
     return(
-        <Layout>
+        <div className="overflow-hidden h-100">
             <div className="manage-team-container">
             <h2>{isCreate ? 'Create' : 'Edit'} a team</h2>
                 <h1>Let's start with a name for your team</h1>
@@ -96,6 +97,6 @@ export const ManageTeam = () =>{
                 </div>
             </div>
             <Loading loading={loading} />
-        </Layout>
+        </div>
     )
 }

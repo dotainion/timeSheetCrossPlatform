@@ -21,6 +21,8 @@ import { BiImport } from 'react-icons/bi';
 import { ButtonCard } from "../widgets/ButtonCard";
 import { VEllipsisOption } from "../widgets/VEllipsisOption";
 import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
+import { LayoutPageHandler } from '../layout/LayoutPageHandler';
+import img from '../images/lamp.gif';
 
 
 const uTeam = new Teams();
@@ -40,7 +42,7 @@ export const TeamMembers = () =>{
     const navOption = [
         {
             title: 'Teams',
-            action: ()=>navigate(routes.teams)
+            action: ()=>navigate(routes.nested().teams)
         }
     ];
 
@@ -60,23 +62,21 @@ export const TeamMembers = () =>{
         await initializeMembers(teamObject?.id);
         setLoading(false);
 
-        return () =>{
-
-        }
+        return () =>{}
     }, [location]);
     return(
-        <Layout options={navOption} title={`Members of team '${team?.name}'.`}>
-            <div>
+        <LayoutPageHandler options={navOption} title={`Members of team '${team?.name}'.`}>
+            <div className="overflow-hidden h-100">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>navigate(routes.createMember.replace('teamId', `teamId:${team?.id}`))} title={'Add Member'} add />
-                    <ButtonCard onClick={()=>navigate(routes.members)} title={'Import Member'} imports />
+                    <ButtonCard onClick={()=>navigate(routes.nested().createMember().replace('teamId', `teamId:${team?.id}`))} title={'Add Member'} add />
+                    <ButtonCard onClick={()=>navigate(routes.nested().members())} title={'Import Member'} imports />
                 </div>
                 <ButtonCardContainer>
                     {
                         members.length?
                         members.map((usr, key)=>(
                             <ButtonCard
-                                icon={<BsFillPersonFill/>}
+                                image={img}
                                 title={
                                     <div className="d-flex w-100 align-items-center">
                                         <div><BsFillPersonFill className="fs-3 mt-1 me-2" /></div>
@@ -98,19 +98,19 @@ export const TeamMembers = () =>{
                                 menu={[
                                     {
                                         title: 'Spreadsheet Settings',
-                                        action: (e)=>navigate(`${routes.spreadSheetSettings.replace('userId', `userId:${usr.id}`)}`)
+                                        action: (e)=>navigate(`${routes.nested().spreadSheetSettings().replace('userId', `userId:${usr.id}`)}`)
                                     },{
                                         title: 'User Settings',
-                                        action: (e)=>navigate(`${routes.memberSettings.replace('userId', `userId:${usr.id}`)}`)
+                                        action: (e)=>navigate(`${routes.nested().memberSettings().replace('userId', `userId:${usr.id}`)}`)
                                     },{
                                         title: 'Re Assign',
-                                        action: (e)=>navigate(routes.members, {state: usr.id})
+                                        action: (e)=>navigate(routes.nested().members(), {state: usr.id})
                                     },{
                                         title: 'Report',
-                                        action: (e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
+                                        action: (e)=>navigate(`${routes.nested().report().replace('memberId', `memberId:${usr.id}`)}`, {state: usr})
                                     }
                                 ]}
-                                onClick={(e)=>navigate(`${routes.report.replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
+                                onClick={(e)=>navigate(`${routes.nested().report().replace('memberId', `memberId:${usr.id}`)}`, {state: usr})}
                                 key={key}
                             />
                         )):
@@ -128,6 +128,6 @@ export const TeamMembers = () =>{
                 </ButtonCardContainer>
             </div>
             <Loading loading={loading} />
-        </Layout>
+        </LayoutPageHandler>
     )
 }

@@ -47,9 +47,9 @@ class TimeSheet{
     toTotalTime(logs=[]){
         logs?.forEach((log)=>{
             if (!this.hours){
-                return this.hours = time.sub(log?.endTime, log?.startTime);
+                return this.hours = time.sub(log.endTime, log.startTime);
             }
-            const tTime = time.sub(log?.endTime, log?.startTime);
+            const tTime = time.sub(log.endTime, log.startTime);
             this.hours = time.add(this.hours, tTime);
         });
         return this;

@@ -41,7 +41,7 @@ class Time{
         return this.parse(minutes) * 60;//minutes to seconds
     }
 
-    parse24hours(larger, smaller){
+    parseHours(larger, smaller){
         let [hr, min, sec] = this.strip(larger);
         let [hr2, min2, sec2] = this.strip(smaller);
         if (this.parse(hr) < this.parse(hr2)){
@@ -64,7 +64,7 @@ class Time{
     }
 
     process(largerTime, smallerTime){
-        const [larger, smaller] = this.parse24hours(largerTime, smallerTime);
+        const [larger, smaller] = this.parseHours(largerTime, smallerTime);
         const [hr, min, sec] = this.strip(larger);
         const [hr2, min2, sec2] = this.strip(smaller);
         this.largerSeconds += this.sectoSeconds(sec || 0);
@@ -87,12 +87,17 @@ class Time{
         return result;
     }
 
-    add(largerTime, smallerTime, date=false){//"06:00:00"
+    add(largerTime, smallerTime){//"06:00:00"
+        if(parseInt(largerTime.split(':')[0]) < parseInt(smallerTime.split(':')[0])){
+            const larger = largerTime;
+            largerTime = smallerTime;
+            smallerTime = larger;
+        }
         this.process(largerTime, smallerTime);
         return this.get("add");
     }
 
-    sub(largerTime, smallerTime, date=false){//"06:00:00"
+    sub(largerTime, smallerTime,){//"06:00:00"
         if (!largerTime || !smallerTime) return '00:00:00'; 
         this.process(largerTime, smallerTime);
         return this.get("sub");
