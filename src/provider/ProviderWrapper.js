@@ -16,6 +16,7 @@ export const ProviderWrapper = ({children}) =>{
     const [teams, setTeams] = useState([]);
     const [userTeam, setUserTeam] = useState();
     const [members, setMebers] = useState([]);
+    const [registrationMatch, setRegistrationMatch] = useState(false);
 
     const addToTeam = (newTeam) =>{
         const tmTmp = teams;
@@ -35,7 +36,6 @@ export const ProviderWrapper = ({children}) =>{
     }
 
     useEffect(async()=>{
-        console.log(user)
         if (!user?.teamId) return;
         setUserTeam(await _teams_.getById(user.teamId));
     }, [user]);
@@ -43,10 +43,7 @@ export const ProviderWrapper = ({children}) =>{
     useEffect(async()=>{
         if (!user?.teamId) return;
         setTeams(await _teams_.getByClientId(user?.clientId));
-
-        return () =>{
-            
-        }
+        return () =>{}
     }, [user]);
 
     const value = {
@@ -55,7 +52,9 @@ export const ProviderWrapper = ({children}) =>{
         members,
         userTeam,
         addToMember,
-        initializeMembers
+        initializeMembers,
+        registrationMatch, 
+        setRegistrationMatch
     }
 
     return(

@@ -27,7 +27,6 @@ export const AuthenticationWrapper = ({children}) =>{
         onAuthStateChanged(auth, async(currentUser)=>{
             if (currentUser && $(pauseObsoverRef.current).attr('data-state') != 'pause'){
                 let userObj = await lUser.getById(currentUser?.uid);
-                console.log(userObj);
                 if (role.includes(userObj?.role)){
                     let teamObj = await lTeam.getById(userObj?.teamId);
                     setUser(userObj);

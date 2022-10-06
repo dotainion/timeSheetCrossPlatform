@@ -255,7 +255,7 @@ input, select{
 }
 .toast{
     top: 10px;
-    left: 50%;
+    left: 10px;
     width: 50%;
     padding: 10px;
     z-index: 10000;
@@ -266,7 +266,6 @@ input, select{
     user-select: none;
     position: absolute;
     border-radius: 10px;
-    transform: translateX(-50%);
 }
 .toast div{
     float: right;
@@ -937,17 +936,6 @@ input, select{
     -webkit-app-region: drag;
     background-color: rgb(255, 255, 255, 0.5);
     box-shadow: 2px 2px 5px rgb(0, 0, 0, 0.4);
-}
-.clock-in-calendar-header h2{
-    margin: 0;
-    padding: 5px;
-}
-.clock-in-calendar-header div{
-    position: absolute;
-    top: 50%;
-    left: 20px;
-    font-size: 13px;
-    transform: translateY(-50%);
 }
 .clock-in-day-card{
     width: 50%;

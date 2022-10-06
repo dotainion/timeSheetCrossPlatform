@@ -4,6 +4,7 @@ class Routes{
     clockIn = '/clock/in';
     signIn = '/sign/in';
     register = '/register';
+    registration = '/registration';
     //
     _nested = '';
 

@@ -11,6 +11,8 @@ import { routes } from "../Routes/Routes";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { Roles } from "../infrastructure/Roles";
 import { AccountsContainer } from "./AccountsContainer";
+import { Registration } from "../module/logic/Registration";
+import { useProvider } from "../provider/ProviderWrapper";
 
 
 
@@ -18,6 +20,7 @@ const auth = new Authenticate();
 
 export const Register = () =>{
     const { isAuthenticated } = useAuth();
+    const { registrationMatch } = useProvider();
 
     const [loading, setLoading] = useState(false);
 
@@ -28,8 +31,7 @@ export const Register = () =>{
     const lastNameRef = useRef();
     const companyNameRef = useRef();
     const passwordRef = useRef();
-    const confirmPasswordRef = useRef();
-    
+    const confirmPasswordRef = useRef(); 
 
     const onRegister = async() =>{
         setLoading(true);
@@ -51,7 +53,12 @@ export const Register = () =>{
         else if((new Roles()).isMember(isAuthenticated?.role)) navigate(routes.clockIn);
     }, [isAuthenticated]);
 
-    useEffect(()=> $('.input-entery').css({backgroundColor: 'transparent'}), []);
+    useEffect(async()=>$('.input-entery').css({backgroundColor: 'transparent'}), []);
+
+    useEffect(()=>{
+        if(registrationMatch) return;
+        navigate(routes.registration);
+    }, [registrationMatch]);
 
     return(
         <AccountsContainer loading={loading}>
@@ -65,7 +72,7 @@ export const Register = () =>{
             <div className="text-end mb-3 mt-3 mb-2">
                 <span className="text-primary pointer" onClick={()=>navigate(routes.signIn)}>Login instead</span>
             </div>
-            <Button onClick={onRegister} title="Create" useEnterKey blue />
+            <Button onClick={onRegister} title="Create" blue />
         </AccountsContainer>
     )
 }

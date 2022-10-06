@@ -131,12 +131,16 @@ export const ClockIn = () =>{
         const log = await initTime();
         await initBreak(log?.id);
     }, [user]);
+
+    useEffect(()=>{
+        console.log(searchBy);
+    }, [searchBy]);
     
     return(
         <UserLayout onSearch={()=>setOpenLogPicker(true)} onMinimize={()=>setMinimize(true)} minimize={minimize} >
             <div ref={parentRef} className="clock-in-container">
                 <div className="d-inline-block float-end me-5 mt-4 mb-3 pe-5">
-                    <div className="d-flex">
+                    <div className="d-flex align-items-center">
                         <div className="me-2">{userTeam?.name}</div>
                         <img src={logo} style={{width: '40px', height: '40px'}} draggable={false} alt="" />
                     </div>
@@ -173,7 +177,7 @@ export const ClockIn = () =>{
                         </div>
                     </div>
                     <div className="max-width" >
-                        <div className="clock-in-btns">
+                        <div className="clock-in-btns text-nowrap">
                             <ClockButton onClick={startTimer} title={contents.start} color="green" tooltip="Start" disabled={loading} state={currentState} />
                             <ClockButton onClick={startBreak} title={currentState?.includes(contents.break)?contents.unBreak:contents.break} color="orange" tooltip="Pause" disabled={loading} state={currentState} />
                             <ClockButton onClick={endTimer} title={contents.end} color="red" tooltip="Stop" disabled={loading} state={currentState} />
@@ -182,9 +186,9 @@ export const ClockIn = () =>{
                     <Loading loading={loading} />
                 </div>
                 <div hidden={minimize}>
-                    <div className="clock-in-calendar-header">
+                    <div className="text-center shadow-sm my-3 p-2 border-top">
+                        <div className="display-6 fw-bold">Timesheet Application</div>
                         <div>Total: <b>{total}</b></div>
-                        <h2>Timesheet Application</h2>
                     </div>
                     <div className="clock-in-calendar-container" style={{backgroundColor: minimize && 'white'}}>
                         <TimesheetCalendar 
@@ -200,7 +204,7 @@ export const ClockIn = () =>{
             <LogRangePicker
                 isOpen={openLogPicker} 
                 onClose={()=>setOpenLogPicker(false)}
-                onChange={setSearchBy}
+                onSelected={setSearchBy}
             />
         </UserLayout>
     )

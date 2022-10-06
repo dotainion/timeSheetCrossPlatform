@@ -11,4 +11,5 @@ export const collection = {
     credentials: "credentials",
     geolocation: "geolocation",
     notification: "notification",
+    registration: "registration"
 }
