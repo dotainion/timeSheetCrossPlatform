@@ -8,6 +8,12 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswor
 
 
 export class Authenticate extends ToastHandler{
+    role = null;
+    user = null;
+    validate = null;
+    saveCreds = null;
+    errorMessage = null;
+
     constructor(){
         super();
         this.role = new Roles();
@@ -16,18 +22,25 @@ export class Authenticate extends ToastHandler{
         this.saveCreds = new BrowserLoginCredentials();
     }
 
+    errorLog(){
+        return this.errorMessage;
+    }
+
     sanitizeErrorLog(message){
-        let errorLog = message;
+        this.errorMessage = message;
         if(message.includes('email-already-in-use')){
-            errorLog = 'Email already in use.';
+            this.errorMessage = 'Email already in use.';
         }
         if(message.includes('too-many-request')){
-            errorLog = 'Too many request. Please try again later.';
+            this.errorMessage = 'Too many request. Please try again later.';
         }
         if(message.includes('internal-error')){
-            errorLog = 'Something went wrong.';
+            this.errorMessage = 'Something went wrong.';
         }
-        return errorLog;
+        if(message.includes('user-not-found')){
+            this.errorMessage = 'User not found.';
+        }
+        return this.errorMessage;
     }
 
     async signIn(email, password){
@@ -46,22 +59,22 @@ export class Authenticate extends ToastHandler{
 
     async register(fName, lName, companyName, email, password, confirmPassword){
         if (!this.validate.isEmailValid(email)){
-            return this.error('Invalid email.');
+            throw new Error('Invalid email.');
         }
         if(!this.validate.passwordMismatch(password, confirmPassword)){
-            return this.error('Password mismatch.');
+            throw new Error('Password mismatch.');
         }
         if(!this.validate.isNameValid(fName)){
-            return this.error('First name is required.');
+            throw new Error('First name is required.');
         }
         if(!this.validate.isNameValid(lName)){
-            return this.error('Last name is required.');
+            throw new Error('Last name is required.');
         }
         if(!this.validate.isNameValid(companyName)){
-            return this.error('Company name is required.');
+            throw new Error('Company name is required.');
         }
         if(!this.validate.isPasswordValid(password)){
-            return this.error('Invalid password.');
+            throw new Error('Invalid password.');
         }
         
         try{
@@ -104,7 +117,6 @@ export class Authenticate extends ToastHandler{
             if (!this.validate.isEmailValid(email)){
                 throw new Error('Invalid email.');
             }
-            console.log(email);
             return await sendPasswordResetEmail(auth, email);
         }catch(error){
             this.error(this.sanitizeErrorLog(error.message));

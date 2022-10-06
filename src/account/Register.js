@@ -62,7 +62,7 @@ export const Register = () =>{
 
     return(
         <AccountsContainer loading={loading}>
-            <h4 className="my-4 text-center">Creat an account</h4>
+            <h4 className="my-4 text-center fw-bold">Creat an account</h4>
             <Input inputRef={firstNameRef} title="First Name" type="name" />
             <Input inputRef={lastNameRef} title="Last Name" type="name" />
             <Input inputRef={companyNameRef} title="Company Name" type="name" />

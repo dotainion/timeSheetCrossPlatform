@@ -21,6 +21,7 @@ import { PageNotFound } from './errors/PageNotFound';
 import { AutoUpdateWrapper } from './provider/AutoUpdateWrapper';
 import { AdminRouter } from './Routes/AdminRouter';
 import { Registrations } from './account/Registrations';
+import { Recovery } from './account/Recovery';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               {/** public **/}
               <Route path={routes.signIn} element={<RequireAuthRouter element={<SignIn/>} />} />
               <Route path={routes.register} element={<Register/>} />
+              <Route path={routes.recovery} element={<Recovery/>} />
               <Route path={routes.registration} element={<Registrations/>} />
               {/** administrator **/}
               <Route path={routes.admin()} element={<RequireAuthRouter element={<AdminRouter/>} isAdmin />} />
