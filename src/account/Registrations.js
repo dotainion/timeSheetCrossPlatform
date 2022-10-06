@@ -71,7 +71,7 @@ export const Registrations = () =>{
     return(
         <AccountsContainer loading={loading}>
             <div className="position-absolute start-50 top-50 translate-middle">
-                <div className="display-5 mb-4 text-center fw-bold">Registration</div>
+                <h2 className="mb-4 text-center fw-bold">Registration</h2>
                 <div>
                     <label className="d-flex align-items-center pointer mb-2">
                         <input ref={radioKeyRef} className="pointer" type={'radio'} name="registration-key" checked onChange={()=>null} />

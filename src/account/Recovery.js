@@ -55,7 +55,7 @@ export const Recovery = () =>{
         <AccountsContainer loading={loading}>
             <div className="position-relative w-100 h-100">
                 <div className="position-absolute start-50 top-50 translate-middle w-100">
-                    <h4 className="my-4 text-center fw-bold">Recover Account</h4>
+                    <h2 className="my-4 text-center fw-bold">Recover Account</h2>
                     <div ref={recoverInfoRef} className="text-primary mb-4" style={{display: 'none'}}>
                         <div>Message sent. Please visit your email account for information on how to reset your password.</div>
                         <div className="small text-danger">Didn't get my email? Check Your email spam folder.</div>

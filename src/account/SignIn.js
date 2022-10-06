@@ -12,6 +12,7 @@ import { Roles } from "../infrastructure/Roles";
 import { Loading } from "../components/Loading";
 import { AccountsContainer } from "./AccountsContainer";
 import { onAuthStateChanged } from "firebase/auth";
+import { useProvider } from "../provider/ProviderWrapper";
 
 
 const role = new Roles();
@@ -20,6 +21,7 @@ const validate = new Validation();
 
 export const SignIn = () =>{
     const { isAuthenticated } = useAuth();
+    const { registrationMatch } = useProvider();
 
     const [loading, setLoading] = useState(false);
 
@@ -47,6 +49,11 @@ export const SignIn = () =>{
         setLoading(false);
     }
 
+    const navigateToRegistration = () =>{
+        if(registrationMatch) return navigate(routes.register);
+        navigate(routes.registration);
+    }
+
     useEffect(()=>{
         if(!isAuthenticated) return;
         if((new Roles()).isSuperior(isAuthenticated?.role)) navigate(routes.admin());
@@ -62,13 +69,13 @@ export const SignIn = () =>{
         <AccountsContainer loading={loading}>
             <div className="position-relative w-100 h-100">
                 <div className="position-absolute start-50 top-50 translate-middle w-100">
-                    <h4 className="my-4 text-center fw-bold">Log in</h4>
+                    <h2 className="my-4 text-center fw-bold">Log in</h2>
                     <Input inputRef={emailRef} title="Email" type="email" />
                     <Input inputRef={passwordRef} title="Password" type="password" />
                     <div className="text-end mb-3 mt-3">
                         <span className="pointer text-danger" onClick={()=>navigate(routes.recovery)}>Forget password?</span>
                         <div className="mt-1">
-                            <span className="text-primary pointer" onClick={()=>navigate(routes.register)}>Create accoount</span>
+                            <span className="text-primary pointer" onClick={navigateToRegistration}>Create accoount</span>
                         </div>
                     </div>
                     <Button onClick={onSignIn} title="Login" useEnterKey blue />
