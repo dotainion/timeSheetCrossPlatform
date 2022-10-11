@@ -19,8 +19,11 @@ import { PageNotFound } from "../errors/PageNotFound"
 import { routes } from "./Routes";
 import { NestedPageNotFound } from "../errors/NestedPageNotFound";
 import { Messages } from "../messages/Messages";
-import { TeamRouter } from "../pages/TeamRouter";
-import { AdministratorRouter } from "../pages/AdministratorRouter";
+import { TeamRouter } from "./TeamRouter";
+import { AdministratorRouter } from "./AdministratorRouter";
+import { SupervisorClockIn } from "../pages/SupervisorClockIn";
+import { AdminProfile } from "../profiles/AdminProfile";
+import { AdminSettings } from "../settings/AdminSettings";
 
 
 export const AdminRouter = () =>{
@@ -33,6 +36,9 @@ export const AdminRouter = () =>{
                 {/*<Route path={routes.route().manageMembers()} element={<RequireAuthRouter element={<ManageMembers/>} isAdmin />} />*/}
                 <Route path={routes.route().dashboard()} element={<RequireAuthRouter element={<Dashboard/>} isAdmin />} />
                 <Route path={routes.route().report()} element={<RequireAuthRouter element={<Report/>} isAdmin />} />
+                <Route path={routes.route().adminProfile()} element={<RequireAuthRouter element={<AdminProfile/>} isAdmin />} />
+                <Route path={routes.route().adminSettings()} element={<RequireAuthRouter element={<AdminSettings/>} isAdmin />} />
+                <Route path={routes.route().supervisorClockin()} element={<RequireAuthRouter element={<SupervisorClockIn/>} isAdmin />} />
                 <Route path={routes.route().spreadsheetReport()} element={<RequireAuthRouter element={<SpreadsheetReport/>} isAdmin />} />
                 {/*<Route path={routes.route().teams()} element={<RequireAuthRouter element={<Teams/>} isAdmin />} />*/}
                 {<Route path={routes.route().teams()} element={<RequireAuthRouter element={<TeamRouter/>} isAdmin />} />}

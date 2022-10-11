@@ -91,9 +91,11 @@ export const ManageTeam = () =>{
                 <h1>Let's start with a name for your team</h1>
                 <Input title="Name" inputRef={nameRef} />
                 <Input title="Description" inputRef={descriptionRef} paragraph />
-                <div data-btn-container>
-                    <Button onClick={onRunTeam} title="Save" />
-                    <ImgButton onChange={(img)=>imageRef.current = img} />
+                <div className="mt-3">
+                    <Button onClick={onRunTeam} title="Save" cssClass="px-4" />
+                    <span className="float-end">
+                        <ImgButton onChange={(img)=>imageRef.current = img} />
+                    </span>
                 </div>
             </div>
             <Loading loading={loading} />

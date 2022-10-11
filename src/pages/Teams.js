@@ -38,6 +38,13 @@ export const Teams = () =>{
 
     const navigate = useNavigate();
 
+    const navigateToCreateTeam = () =>{
+        const admin = routes.route().admin().replace('*', '') ;
+        const team =  routes.route().teams().replace('*', '') ;
+        const manage =  routes.route().manageTeam();
+        navigate(`${admin}${team}${manage}`);
+    }
+
     const onDeleteTeam = (teamId, cardRef) =>{
         team.delete(teamId, deleteMembersAlso);
         $(cardRef).remove();
@@ -47,7 +54,7 @@ export const Teams = () =>{
         <div className="overflow-hidden h-100">
             <div className="team-list-container">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>navigate(routes.nested().manageTeam())} title={'Add Team'} add />
+                    <ButtonCard onClick={navigateToCreateTeam} title={'Add Team'} add />
                 </div>
                 <ButtonCardContainer>
                     {
@@ -80,7 +87,7 @@ export const Teams = () =>{
                                 'Lets get started with creating your first team',
                                 'Create your first team by clicking the card  with the plus +.'
                             ]}
-                            onClick={()=>navigate(routes.nested().manageTeam())}
+                            onClick={navigateToCreateTeam}
                         />
                     }
                 </ButtonCardContainer>

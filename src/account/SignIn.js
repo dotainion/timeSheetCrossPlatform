@@ -41,7 +41,7 @@ export const SignIn = () =>{
             $(passwordRef.current).parent().addClass('border-danger');
         }
         const response = await auth.signIn(emailRef.current.value, passwordRef.current.value);
-        if(auth.errorLog().includes('email')){
+        if(auth.errorLog().includes('not found')){
             $(emailRef.current).parent().addClass('border-danger');
         }else{
             $(passwordRef.current).parent().addClass('border-danger');
@@ -78,7 +78,7 @@ export const SignIn = () =>{
                             <span className="text-primary pointer" onClick={navigateToRegistration}>Create accoount</span>
                         </div>
                     </div>
-                    <Button onClick={onSignIn} title="Login" useEnterKey blue />
+                    <Button onClick={()=>onSignIn()} title="Login" useEnterKey blue />
                 </div>
             </div>
         </AccountsContainer>

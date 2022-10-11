@@ -51,4 +51,9 @@ export class Roles{
         };
         return false;
     }
+
+    isSupervisor(role){
+        if(role === this.supervisor) return true;
+        return false;
+    }
 }

@@ -81,15 +81,15 @@ export const MemberSettings = () =>{
         const TTeams = await _teams_.getByClientId(usr?.clientId);
         setTeams(TTeams);
         
-        firstNameRef.current.value = usr?.firstName;
-        lastNameRef.current.value = usr?.lastName;
-        numberRef.current.value = usr?.number;
-        emailRef.current.value = usr?.email;
-        roleRef.current.value = usr?.role;
-        genderRef.current.value = usr?.gender;
-        teamRef.current.value = usr?.teamId;
+        firstNameRef.current.value = usr?.firstName || '';
+        lastNameRef.current.value = usr?.lastName || '';
+        numberRef.current.value = usr?.number || '';
+        emailRef.current.value = usr?.email || '';
+        roleRef.current.value = usr?.role || '';
+        genderRef.current.value = usr?.gender || '';
+        teamRef.current.value = usr?.teamId || '';
 
-        spreadsheetRef.current.value = userSetting.url;
+        spreadsheetRef.current.value = userSetting?.url || '';
 
         firstNameRef.current.focus();
         lastNameRef.current.focus();
@@ -134,7 +134,7 @@ export const MemberSettings = () =>{
                         <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
                             <h5>Role</h5>
                             <p className="text-secondary">The behaviour expected of an individual who occupies a given position or status.</p>
-                            <Input inputRef={roleRef} title={'Pay Rate'} options={(new Roles()).roles()} />
+                            <Input inputRef={roleRef} title={'User Role'} options={(new Roles()).roles()} />
                         </div>
                         <div className="row bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">
                             <h5>Team</h5>

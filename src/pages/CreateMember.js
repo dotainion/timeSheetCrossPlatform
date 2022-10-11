@@ -96,9 +96,11 @@ export const CreateMember = () =>{
                 <Input title="Role" inputRef={roleRef} options={new Roles().roles()} cssClass="border-secondary" />
                 <Input title="Username" inputRef={usernameRef} disabled cssClass="border-secondary" />
                 <Input title="Password" inputRef={passwordRef} type="password" cssClass="border-secondary" />
-                <div data-btn-container>
-                    <Button onClick={addMember} title="Save" />
-                    <ImgButton onChange={(img)=>imageRef.current = img} />
+                <div className="mt-3">
+                    <Button onClick={addMember} title="Save" cssClass="px-4" />
+                    <span className="float-end">
+                        <ImgButton onChange={(img)=>imageRef.current = img} />
+                    </span>
                 </div>
             </div>
             <Loading loading={loading} />

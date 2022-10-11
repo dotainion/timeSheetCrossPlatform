@@ -18,9 +18,11 @@ export const ModalXl = ({isOpen, onClose, onConfirm, onImageSelect, title, messa
                 </h2>
                 <h1>{message}</h1>
                 {children}
-                <div data-btn-container>
-                    <Button onClick={onConfirm} title="Save" />
-                    <ImgButton onChange={onImageSelect} />
+                <div className="mt-3">
+                    <Button onClick={onConfirm} title="Save" cssClass="px-4" />
+                    <span className="float-end">
+                        <ImgButton onChange={onImageSelect} />
+                    </span>
                 </div>
             </div>
         </Modal>

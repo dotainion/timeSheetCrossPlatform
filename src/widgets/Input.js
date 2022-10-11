@@ -13,12 +13,6 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
         'password',
     ];
 
-    const rmBodorError = () =>{
-        $(inputContainerRef.current).css({
-            border: ''
-        });
-    }
-
     const onFocus = () =>{
         $(titleRef.current).addClass('input-title-focus');
         inputRef
@@ -33,9 +27,11 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     }
 
     useEffect(()=>{
-        inputRef 
-            ? $(inputRef.current).change(rmBodorError)
-            : $(inputCRef.current).change(rmBodorError);
+        $(inputRef?.current || inputCRef.current).on('change', (e)=>{
+            $(inputContainerRef.current).css({border: ''});
+            if (!$(e.target).val()) return;
+            $(titleRef.current).addClass('input-title-focus');
+        });
     }, [inputRef]);
 
     useEffect(()=>{

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { BsPersonPlus } from "react-icons/bs";
+import { IoIosImages } from 'react-icons/io';
 import $ from 'jquery';
 
 
@@ -35,10 +36,16 @@ export const ImgButton = ({onChange}) =>{
         });
     }, []);
     return(
-        <div className="image-btn">
-            <BsPersonPlus onClick={openDir} />
+        <div className="d-inline-block position-relative" title="Upload image" tooltip="tooltip">
+            <IoIosImages onClick={openDir} className="fs-1 pointer" />
             <input ref={imageRef} hidden type={'file'} />
-            {img && <img onClick={openDir} src={img} alt="" />}
+            {img && <img 
+                onClick={openDir} 
+                src={img} 
+                className="position-absolute top-100 start-50 translate-middle-x rounded-circle" 
+                alt="" 
+                style={{width: '80px', height: '80px'}} 
+            />}
         </div>
     )
 }

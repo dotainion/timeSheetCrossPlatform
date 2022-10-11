@@ -11,7 +11,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
 
     const onSubMenuClick = (e, opt) =>{
         if(opt?.options?.length){
-            const dropdown = $(`#${opt.title}-sub-menu`);
+            const dropdown = $(`#${opt?.title}-sub-menu`);
             if($(dropdown).hasClass('d-none')){ 
                 $(dropdown).removeClass('d-none').show('fast');
                 $(e.currentTarget).addClass('bg-dark');

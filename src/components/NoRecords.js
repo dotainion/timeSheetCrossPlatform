@@ -10,7 +10,7 @@ export const NoRecords = ({image, title, btnName, onClick, messages}) =>{
                 {messages?.map((msg, key)=>(
                     <p key={key}>{msg}</p>
                 ))}
-                <div className="no-record-btn">
+                <div>
                     <Button onClick={onClick} title={btnName} />
                 </div>
             </div>

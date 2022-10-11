@@ -5,6 +5,7 @@ class Routes{
     signIn = '/sign/in';
     register = '/register';
     recovery = '/recovery';
+    profile = '/profile';
     registration = '/registration';
     //
     _nested = '';
@@ -27,6 +28,10 @@ class Routes{
     manageMembers = () => this._nested + 'manage/members';
     messages = () => this._nested + 'messages:teamId/*';
     userMessage = () => this._nested + 'user:userId';
+    supervisorClockin = () => this._nested + 'supervisor/clock/in';
+    adminProfile = () => this._nested + 'admin/profile';
+    userProfile = () => this._nested + 'user/profile/user:userId';
+    adminSettings = () => this._nested + 'admin/settings/user:userId';
 
     nested(){
         this._nested = this.admin().replace('*', '');

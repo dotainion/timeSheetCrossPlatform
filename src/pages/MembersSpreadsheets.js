@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Layout } from "../layout/Layout";
+import { Layout, useLayout } from "../layout/Layout";
 import { Spreadsheet } from "../module/logic/Spreadsheet";
 import { UserSetting } from "../module/logic/UserSetting";
 import { useAuth } from "../provider/AuthenticationWrapper";
@@ -21,6 +21,8 @@ const users = new Users();
 
 export const MembersSpreadsheets = () =>{
     const { user } = useAuth();
+    const { setMenu } = useLayout();
+
     const [Spreadsheets, setSpreadSheets] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -63,9 +65,13 @@ export const MembersSpreadsheets = () =>{
         setSpreadSheets(spreadSheetData || []);
         setLoading(false);
     }, [user]);
+
+    useEffect(()=>{
+        setTimeout(()=>setMenu([{title: 'new', onClick: ()=>setShowModal(true)}]), 50);
+    }, []);
     
     return (
-        <div className="overflow-hidden h-100" menu={[{title: 'new', onClick: ()=>setShowModal(true)}]}>
+        <div className="overflow-hidden h-100">
             <ButtonCardContainer>
                 {Spreadsheets.map((file, key)=>(
                     <ButtonCard

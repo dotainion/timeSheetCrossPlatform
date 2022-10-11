@@ -88,9 +88,7 @@ export const AllMembers = () =>{
                     break;
                 }
             }
-            if(!psx){
-                mbr['teamName'] = 'unassign';
-            }
+            if(!psx) mbr['teamName'] = 'unassign';
             updateMembers.push(mbr);
         }
         return updateMembers;
@@ -128,16 +126,19 @@ export const AllMembers = () =>{
                     </div>
                 </div>
                 <ButtonCardContainer>
-                    {members.map((usr, key)=>(
-                        <ButtonCard
-                            title={`${usr?.firstName || ''} ${usr?.lastName || ''}`}
-                            subTitle={usr?.email}
-                            body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
-                            profile
-                            onClick={()=>navigate(routes.nested().memberSettings().replace('userId', `userId:${usr?.id}`), {state: usr})}
-                            key={key}
-                        />
-                    ))}
+                    {members.map((usr, key)=>{
+                        if(user?.id === usr?.id) return;
+                        return (
+                            <ButtonCard
+                                title={`${usr?.firstName || ''} ${usr?.lastName || ''}`}
+                                subTitle={usr?.email}
+                                body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
+                                profile
+                                onClick={()=>navigate(routes.nested().memberSettings().replace('userId', `userId:${usr?.id}`), {state: usr})}
+                                key={key}
+                            />
+                        )
+                    })}
                 </ButtonCardContainer>
             </div>
             <Loading loading={loading} />
