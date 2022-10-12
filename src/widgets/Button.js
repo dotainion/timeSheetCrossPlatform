@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
 
 
-export const Button = ({onClick, title, style, cssClass, blue, dark, loading, useEnterKey}) =>{
+export const Button = ({onClick, title, style, cssClass, blue, dark, loading, disabled, useEnterKey}) =>{
     const [color, setColor] = useState();
 
     useEffect(()=>{
@@ -21,6 +21,7 @@ export const Button = ({onClick, title, style, cssClass, blue, dark, loading, us
             className={`btn ${color} ${cssClass} mt-2 mb-2`} 
             onClick={onClick} 
             style={style}
+            disabled={disabled}
             >
             <span hidden={!loading} />
             {title}

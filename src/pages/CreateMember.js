@@ -84,26 +84,24 @@ export const CreateMember = () =>{
     }, []);
 
     return(
-        <LayoutPageHandler>
-            <div className="create-member-container">
-                <h2>Create a member</h2>
-                <h1>Let's start with information on your member</h1>
-                <Input title="First Name" inputRef={fNameRef} cssClass="border-secondary" />
-                <Input title="Last Name" inputRef={lNameRef} cssClass="border-secondary" />
-                <Input title="Email" inputRef={emailRef} type="email" cssClass="border-secondary" />
-                <Input title="Phone Number" inputRef={phoneRef} cssClass="border-secondary" />
-                <Input title="Gender" inputRef={genderRef} options={(new Gender()).genders()} cssClass="border-secondary" />
-                <Input title="Role" inputRef={roleRef} options={new Roles().roles()} cssClass="border-secondary" />
-                <Input title="Username" inputRef={usernameRef} disabled cssClass="border-secondary" />
-                <Input title="Password" inputRef={passwordRef} type="password" cssClass="border-secondary" />
-                <div className="mt-3">
-                    <Button onClick={addMember} title="Save" cssClass="px-4" />
-                    <span className="float-end">
-                        <ImgButton onChange={(img)=>imageRef.current = img} />
-                    </span>
-                </div>
+        <div className="create-member-container">
+            <h2>Create a member</h2>
+            <h1>Let's start with information on your member</h1>
+            <Input title="First Name" inputRef={fNameRef} cssClass="border-secondary" />
+            <Input title="Last Name" inputRef={lNameRef} cssClass="border-secondary" />
+            <Input title="Email" inputRef={emailRef} type="email" cssClass="border-secondary" />
+            <Input title="Phone Number" inputRef={phoneRef} cssClass="border-secondary" />
+            <Input title="Gender" inputRef={genderRef} options={(new Gender()).genders()} cssClass="border-secondary" />
+            <Input title="Role" inputRef={roleRef} options={new Roles().roles()} cssClass="border-secondary" />
+            <Input title="Username" inputRef={usernameRef} disabled cssClass="border-secondary" />
+            <Input title="Password" inputRef={passwordRef} type="password" cssClass="border-secondary" />
+            <div className="mt-3">
+                <Button onClick={addMember} title="Save" cssClass="px-4" />
+                <span className="float-end">
+                    <ImgButton onChange={(img)=>imageRef.current = img} />
+                </span>
             </div>
             <Loading loading={loading} />
-        </LayoutPageHandler>
+        </div>
     )
 }

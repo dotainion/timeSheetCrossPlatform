@@ -110,38 +110,36 @@ export const AllMembers = () =>{
     useEffect(initialize, []);
 
     return(
-        <LayoutPageHandler title={'Title'}>
-            <div className="container pt-3">
-                <div className="d-md-flex w-75 m-auto" style={{minWidth: '320px'}}>
-                    <div className="w-100">
-                        <Search onSearch={onSearch} />
-                    </div>
-                    <div className="ps-md-5 mt-2">
-                        <select className="border-0 border-bottom bg-transparent p-1 pointer" onChange={(e)=>onFilter(e.target.value)}>
-                            <option value={'ALL'} >View All</option>
-                            {teams.map((t, key)=>(
-                                <option value={t?.id} key={key}>{t?.name}</option>
-                            ))}
-                        </select>
-                    </div>
+        <div className="container pt-3">
+            <div className="d-md-flex w-75 m-auto" style={{minWidth: '320px'}}>
+                <div className="w-100">
+                    <Search onSearch={onSearch} />
                 </div>
-                <ButtonCardContainer>
-                    {members.map((usr, key)=>{
-                        if(user?.id === usr?.id) return;
-                        return (
-                            <ButtonCard
-                                title={`${usr?.firstName || ''} ${usr?.lastName || ''}`}
-                                subTitle={usr?.email}
-                                body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
-                                profile
-                                onClick={()=>navigate(routes.nested().memberSettings().replace('userId', `userId:${usr?.id}`), {state: usr})}
-                                key={key}
-                            />
-                        )
-                    })}
-                </ButtonCardContainer>
+                <div className="ps-md-5 mt-2">
+                    <select className="border-0 border-bottom bg-transparent p-1 pointer" onChange={(e)=>onFilter(e.target.value)}>
+                        <option value={'ALL'} >View All</option>
+                        {teams.map((t, key)=>(
+                            <option value={t?.id} key={key}>{t?.name}</option>
+                        ))}
+                    </select>
+                </div>
             </div>
+            <ButtonCardContainer>
+                {members.map((usr, key)=>{
+                    if(user?.id === usr?.id) return;
+                    return (
+                        <ButtonCard
+                            title={`${usr?.firstName || ''} ${usr?.lastName || ''}`}
+                            subTitle={usr?.email}
+                            body={<ButtonCardMemberBody role={usr?.role} team={usr?.teamName} />}
+                            profile
+                            onClick={()=>navigate(routes.nested().memberSettings().replace('userId', `userId:${usr?.id}`), {state: usr})}
+                            key={key}
+                        />
+                    )
+                })}
+            </ButtonCardContainer>
             <Loading loading={loading} />
-        </LayoutPageHandler>
+        </div>
     )
 }

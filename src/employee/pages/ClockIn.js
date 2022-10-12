@@ -38,7 +38,7 @@ dateObject.initNowDate();
 const contents = {
     start: 'Clock In',
     break: 'Pause',
-    unBreak: 'Un Break',
+    unBreak: 'Resume',
     end: 'Clock Out'
 }
 

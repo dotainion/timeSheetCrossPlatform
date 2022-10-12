@@ -9,10 +9,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
     const {setMenu, setTitle, setOptions, setSubMenu} = useLayout();
 
+    const location = useLocation();
+
     const onSubMenuClick = (e, opt) =>{
         if(opt?.options?.length){
             const dropdown = $(`#${opt?.title}-sub-menu`);
-            if($(dropdown).hasClass('d-none')){ 
+            if($(dropdown).is(':hidden')){ 
                 $(dropdown).removeClass('d-none').show('fast');
                 $(e.currentTarget).addClass('bg-dark');
             }else{ 
@@ -21,6 +23,14 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
             }
         }else{
             opt?.onClick?.(opt);
+            $('[data-sub-menu]').find('[data-sub-menu-btn]').each((i, element)=>{
+                $(element).removeClass('bg-dark');
+            });
+            if($(e.currentTarget).hasClass('bg-dark')){
+                $(e.currentTarget).removeClass('bg-dark');
+            }else{
+                $(e.currentTarget).addClass('bg-dark');
+            }
         }
     }
 
@@ -39,7 +49,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
                 <h6 className="ps-2 pe-2 text-nowrap">Time sheet</h6>
                 {subMenu?.map((opt, i)=>(
                     <div className="sidebar-active" key={i}>
-                         <div onClick={(e)=>onSubMenuClick(e, opt)} className={`pointer ps-2 pe-2 mt-3 mb-1 d-flex text-light align-items-center sidebar-btn`}>
+                         <div onClick={(e)=>onSubMenuClick(e, opt)} className={`pointer px-2 py-1 mt-2 mb-1 d-flex text-light align-items-center sidebar-btn`} data-sub-menu-btn>
                             {opt?.icon && <div><opt.icon className="fs-4" /></div>}
                             <small className="ms-1 me-3 text-nowrap">{opt.title}</small>
                         </div>

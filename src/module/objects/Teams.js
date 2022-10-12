@@ -5,6 +5,7 @@ export class Teams extends Validation{
     name = null;
     image = null;
     clientId = null;
+    clientName = null;
     description = null;
 
     setId(id){
@@ -17,6 +18,10 @@ export class Teams extends Validation{
 
     setName(name){
         this.name = name;
+    }
+
+    setClientName(clientName){
+        this.clientName = clientName;
     }
 
     setImage(image){

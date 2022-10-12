@@ -18,8 +18,8 @@ export const ManageMembers = () =>{
     return(
         <div className="overflow-hidden h-100">
             <div className="row text-center p-3 m-auto">
-                <ButtonCard onClick={()=>navigate(routes.nested().createMember()+':unassign')} title={'Add Members'} add />
-                <ButtonCard onClick={()=>navigate(routes.nested().members())} title={'Members'} asign />
+                <ButtonCard onClick={()=>navigate(routes.route().admin().replace('*', '')+routes.route().administrator().replace('*', '')+routes.route().createMember()+':unassign')} title={'Add Members'} add />
+                <ButtonCard onClick={()=>navigate(routes.route().admin().replace('*', '')+routes.route().administrator().replace('*', '')+routes.route().members())} title={'Members'} asign />
             </div>
         </div>
     )

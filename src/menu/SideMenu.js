@@ -11,14 +11,13 @@ import { ImUserPlus } from 'react-icons/im';
 import { CgTimelapse } from 'react-icons/cg';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { IoIosNotifications } from 'react-icons/io';
-import { AiFillSchedule } from 'react-icons/ai';
 import { BsFillClockFill } from 'react-icons/bs';
 
 import { BsGrid3X3Gap } from 'react-icons/bs';
 
 import { FaUsers, FaRegClock } from 'react-icons/fa';
 import { VscCalendar } from 'react-icons/vsc';
-import { AiFillMessage, AiFillClockCircle, AiTwotoneSetting } from 'react-icons/ai';
+import { AiFillMessage, AiFillClockCircle, AiTwotoneSetting, AiFillSchedule } from 'react-icons/ai';
 import { RiSettings5Fill } from 'react-icons/ri';
 import { ImNotification } from 'react-icons/im';
 import { HiUserAdd } from 'react-icons/hi';
@@ -69,6 +68,11 @@ export const SideMenu = () =>{
             route: `${routes.route().adminSettings()}:${user?.id}`,
             onClick: null,
         },{
+            title: 'Schedule',
+            icon: AiFillSchedule,
+            route: routes.route().adminSchedule(),
+            onClick: null,
+        },{
             title: 'Clock',
             icon: AiFillClockCircle,
             route: routes.route().supervisorClockin(),
@@ -112,7 +116,7 @@ export const SideMenu = () =>{
                     return (
                         <div 
                             onClick={()=>onNavTrigger(nav)} 
-                            className={`pointer mt-3 mb-3 text-light sidebar-btn ${location.pathname.includes(nav.route) && 'sidebar-active'}`} 
+                            className={`pointer mt-3 mb-3 text-light sidebar-btn ${location.pathname.includes(nav.route?.replace('*', '')) && 'sidebar-active'}`} 
                             key={key}>
                             <div><nav.icon className="fs-4" /></div>
                             <small className="ms-3 me-3 text-nowrap">{nav.title}</small>

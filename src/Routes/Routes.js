@@ -32,6 +32,7 @@ class Routes{
     adminProfile = () => this._nested + 'admin/profile';
     userProfile = () => this._nested + 'user/profile/user:userId';
     adminSettings = () => this._nested + 'admin/settings/user:userId';
+    adminSchedule = () => this._nested + 'schedule/*';
 
     nested(){
         this._nested = this.admin().replace('*', '');

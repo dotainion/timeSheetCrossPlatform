@@ -40,6 +40,9 @@ export class Authenticate extends ToastHandler{
         if(message.includes('user-not-found')){
             this.errorMessage = 'User not found.';
         }
+        if(message.includes('wrong-password')){
+            this.errorMessage = 'Invalid password.';
+        }
         return this.errorMessage;
     }
 

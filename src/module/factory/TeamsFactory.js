@@ -6,6 +6,7 @@ export class TeamsFactory extends Factory{
         const teams = new Teams();
         teams.setId(`${record?.['id']}`);
         teams.setName(`${record?.['info']?.['name']}`);
+        teams.setClientName(`${record?.['info']?.['clientName']}`);
         teams.setImage(`${record?.['info']?.['image']}`);
         teams.setClientId(`${record?.['info']?.['clientId']}`);
         teams.setDescription(`${record?.['info']?.['description']}`);

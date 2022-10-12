@@ -247,26 +247,15 @@ input, select{
     width: 100%;
 }
 .toast{
-    top: 10px;
-    left: 10px;
-    width: 50%;
-    padding: 10px;
-    z-index: 10000;
-    color: white;
-    font-size: 15px;
     min-width: 300px;
     max-width: 500px;
-    user-select: none;
-    position: absolute;
-    border-radius: 10px;
+    background-color: #343a40;
 }
-.toast div{
-    float: right;
-    color: black;
-    cursor: pointer;
-}
-.toast div:hover{
+.toast div[data-toast-close]{
     color: white;
+}
+.toast div[data-toast-close]:hover{
+    color: red;
 }
 .v-ellipsis-opt-container{
     position: relative;
@@ -1009,6 +998,7 @@ input, select{
     font-size: 10px;
 }
 .sidebar-btn:hover{
+    border-radius: 25px;
     background: rgba(0, 0, 0, 0.2) !important;
 }
 .sidebar-active{

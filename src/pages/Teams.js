@@ -70,7 +70,7 @@ export const Teams = () =>{
                                 menu={[
                                     {
                                         title: 'Edit',
-                                        action: ()=>navigate(`${routes.nested().manageTeam()}:${obj.id}`, {state: obj})
+                                        action: ()=>navigate(`${routes.nested().teams().replace('*', '')+routes.route().manageTeam()}:${obj.id}`, {state: obj})
                                     },{
                                         title: 'Delete',
                                         action: (e)=>setOpenAlert({state: true, data: obj, cardRef: e.ref})
