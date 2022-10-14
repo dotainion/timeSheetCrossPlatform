@@ -60,7 +60,7 @@ export const SideMenu = () =>{
         },{
             title: 'Profile',
             icon: RiProfileLine,
-            route: routes.route().adminProfile(),
+            route: `${routes.route().adminProfile()}:${user?.id}`,
             onClick: null,
         },{
             title: 'Settings',
@@ -108,7 +108,7 @@ export const SideMenu = () =>{
     return(
         <nav className="d-flex">
             <div className="text-center bg-dark">
-                <div onClick={toggleSubMenu} className="fs-4 mt-3 mb-5 pt-1 pb-3 text-light sidebar-btn pointer">
+                <div onClick={toggleSubMenu} className="fs-4 mt-3 mb-4 pt-1 pb-3 text-light sidebar-btn pointer">
                     <GiHamburgerMenu />
                 </div>
                 {ADMIN_MENU.map((nav, key)=>{

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { Layout } from "../layout/Layout";
 import { AllMembers } from "../pages/AllMembers";
-import { CreateMember } from "../pages/CreateMember";
 import { Dashboard } from "../pages/Dashboard";
 import { Invoice } from "../pages/Invoice";
 import { ManageMembers } from "../pages/ManageMembers";

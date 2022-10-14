@@ -32,24 +32,22 @@ export class Teams extends ToastHandler{
         
     }
 
-    async add(name, description, image, clientId){
+    async add(name, clientName, description, image, clientId){
         try{
             if(!name){
                 throw new Error('Name field is required.');
             };
-
             const collector = this.factory.mapResults({
                 id: null,
                 info: {
                     name: name,
+                    clientName: clientName,
                     image: image,
                     description: description,
                     clientId: clientId
                 }
             });
-
             const object = await this.repo.addTeams(collector);
-
             this.success(`Team "${name}" added successfuly.`);
             return object.first();
         }catch(error){

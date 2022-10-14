@@ -46,29 +46,31 @@ export const TeamMembers = () =>{
         }
     ];
 
+    const createNewMember = () =>{
+        const admin = routes.route().admin().replace('*', '');
+        const administrator = routes.route().administrator().replace('*', '');
+        const createMember = routes.route().createMember()+`:${team?.id}`;
+        navigate(`${admin}${administrator}${createMember}`);
+    }
+
     useEffect(async()=>{
         const id = location.pathname.split(':')?.[2];
-
         let teamObject;
         if(location.state) teamObject = location.state
         else teamObject = await uTeam.getById(id);
 
-        if(!teamObject?.id){
-            return;
-        }
-
+        if(!teamObject?.id) return;
         setTeam(teamObject);
 
         await initializeMembers(teamObject?.id);
         setLoading(false);
-
         return () =>{}
     }, [location]);
     return(
         <LayoutPageHandler options={navOption} title={`Members of team '${team?.name}'.`}>
             <div className="overflow-hidden h-100">
                 <div className="team-button-cards-container" style={{backgroundImage: `url(${bgImg})`}}>
-                    <ButtonCard onClick={()=>navigate(routes.nested().createMember().replace('teamId', `teamId:${team?.id}`))} title={'Add Member'} add />
+                    <ButtonCard onClick={()=>createNewMember()} title={'Add Member'} add />
                     <ButtonCard onClick={()=>navigate(routes.nested().members())} title={'Import Member'} imports />
                 </div>
                 <ButtonCardContainer>
@@ -122,7 +124,7 @@ export const TeamMembers = () =>{
                                 'Lets get started with creating your first member to the team',
                                 'Create your first member by clicking the card  with the plus +.'
                             ]}
-                            onClick={()=>{}}
+                            onClick={()=>createNewMember()}
                         />
                     }
                 </ButtonCardContainer>

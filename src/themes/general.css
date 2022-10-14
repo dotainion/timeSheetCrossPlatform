@@ -993,16 +993,17 @@ input, select{
 }
 .sidebar-btn{
     transition: 0.5s all;
+    border-bottom: 1px solid transparent;
 }
 .sidebar-btn small{
     font-size: 10px;
 }
 .sidebar-btn:hover{
     border-radius: 25px;
+    border-bottom: 1px solid #6c757d;
     background: rgba(0, 0, 0, 0.2) !important;
 }
 .sidebar-active{
-    border-radius: 25px;
     background: rgba(0, 0, 0, 0.2);
 }
 .clipboard-hover{
@@ -1014,14 +1015,18 @@ input, select{
 .clipboard-hover:hover [data-copy-icon]{
     display: block !important;
 }
-.scrollbar-mini::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
+.scroll {
+    overflow: auto;
 }
-.scrollbar-mini::-webkit-scrollbar-thumb {
+.scroll::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+.scroll::-webkit-scrollbar-thumb {
     border-radius: 25px;
     background-color: white;
 }
 .mbr-settings [data-input-container]{
     background-color: rgb(0, 0, 0, 0.05);
 }
+

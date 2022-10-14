@@ -17,7 +17,7 @@ export class Validation{
     }
 
     isPasswordValid(password){
-        if (password || password?.length >= 4) return true;
+        if (password && password?.length >= 4) return true;
         this.showError('div', 'password');
         return false;
     }

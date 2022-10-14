@@ -1,19 +1,23 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import $ from 'jquery';
 
 
-export const Switch = ({inputRef, onChange}) =>{
+export const Switch = ({inputRef, onChange, disabled, on, off}) =>{
+    const [checked, setChecked] = useState();
     const checkboxRef = useRef();
 
+    const triggerChecked = (e) =>{
+        setChecked(e.target.checked);
+        onChange?.(e.target.checked);
+    }
+
     useEffect(()=>{
-        $(inputRef?.current || checkboxRef.current).on('change', (e)=>{
-            onChange?.(e.target.checked);
-        });
-        onChange?.(inputRef?.current ? inputRef?.current?.checked : checkboxRef.current.checked);
-    }, [inputRef, onChange]);
+        
+    }, []);
     return(
-        <label className="form-check form-switch pointer">
-            <input ref={inputRef || checkboxRef} className="form-check-input pointer" type="checkbox" />
+        <label className={`w-100 form-check form-switch ${disabled ? 'bg-light' : 'pointer'}`}>
+            <input onChange={triggerChecked} ref={inputRef || checkboxRef} className="form-check-input pointer" disabled={disabled} type="checkbox" />
+            <span className={`${disabled && 'text-muted'}`}>{checked ? on || 'On' : off || 'Off'}</span>
         </label>
     )
 }

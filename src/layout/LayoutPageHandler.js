@@ -49,17 +49,17 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
                 <h6 className="ps-2 pe-2 text-nowrap">Time sheet</h6>
                 {subMenu?.map((opt, i)=>(
                     <div className="sidebar-active" key={i}>
-                         <div onClick={(e)=>onSubMenuClick(e, opt)} className={`pointer px-2 py-1 mt-2 mb-1 d-flex text-light align-items-center sidebar-btn`} data-sub-menu-btn>
+                         <div onClick={(e)=>opt?.toggle !== false && onSubMenuClick(e, opt)} className={`pointer px-2 py-1 border-bottom border-secondary d-flex text-light align-items-center sidebar-btn ${opt?.toggle === false && 'bg-dark rounded-0'}`} data-sub-menu-btn>
                             {opt?.icon && <div><opt.icon className="fs-4" /></div>}
                             <small className="ms-1 me-3 text-nowrap">{opt.title}</small>
                         </div>
-                        <div className="d-none overflow-auto" id={`${opt.title}-sub-menu`} style={{maxHeight: '50vh'}}>
-                            <div className="small border-bottom">{opt?.optionsTitle}</div>
+                        <div className={`${opt?.toggle !== false && 'd-none'} scroll`} id={`${opt?.title}-sub-menu`} style={{maxHeight: '50vh'}}>
+                            <div className="small border-bottom border-secondary pb-1 mt-3" style={{lineHeight: '14px'}}>{opt?.optionsTitle}</div>
                             {opt?.options?.map((nav, key)=>(
                                 <div key={key}>
-                                    <div onClick={nav.onClick} className={`pointer ps-2 pe-2 mt-1 mb-1 d-flex text-light align-items-center sidebar-btn`}>
-                                        <div><nav.icon className="fs-4" /></div>
-                                        <small className="ms-1 me-3 text-nowrap">{nav.title}</small>
+                                    <div onClick={(e)=>nav?.onClick?.(e)} className={`pointer ps-2 pe-2 mt-1 mb-1 d-flex text-light align-items-center sidebar-btn`}>
+                                        {nav?.icon && <div><nav.icon className="fs-4" /></div>}
+                                        <small className="ms-1 me-3 text-nowrap">{nav?.title}</small>
                                     </div>
                                 </div>
                             ))}

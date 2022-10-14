@@ -4,7 +4,7 @@ import { Roles } from "../../infrastructure/Roles";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { Validation } from "../../infrastructure/Validation";
 import { Users } from "./Users";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateEmail } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 
 
 export class Authenticate extends ToastHandler{
@@ -42,6 +42,9 @@ export class Authenticate extends ToastHandler{
         }
         if(message.includes('wrong-password')){
             this.errorMessage = 'Invalid password.';
+        }
+        if(message.includes('internal-error')){
+            this.errorMessage = 'Something went wrong.';
         }
         return this.errorMessage;
     }
@@ -106,9 +109,25 @@ export class Authenticate extends ToastHandler{
         }
     }
 
-    async changePassword(password){
+    async changePassword(email, password){
         try{
-            return await auth.currentUser.updatePassword(password);
+            if(!this.validate.isPasswordValid(password)){
+                throw new Error('Invalid password.');
+            }
+            return await updatePassword(auth.currentUser, password);
+        }catch(error){
+            this.error(this.sanitizeErrorLog(error.message));
+            return false;
+        }
+    }
+
+    async verifyPassword(email, password){
+        try{
+            if(!this.validate.isPasswordValid(password)){
+                throw new Error('Invalid password.');
+            }
+            const credential = EmailAuthProvider.credential(email, password);
+            await reauthenticateWithCredential(auth.currentUser, credential);
         }catch(error){
             this.error(this.sanitizeErrorLog(error.message));
             return false;

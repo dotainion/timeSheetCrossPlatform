@@ -53,7 +53,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     }, [fixedLabel]);
 
     return(
-        <div data-input-container className={`${cssClass}`}>
+        <div data-input-container className={`${cssClass} ${disabled && 'bg-light'}`}>
             <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${options && 'pointer'}`} data-input type={type}>
                 <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
                 {

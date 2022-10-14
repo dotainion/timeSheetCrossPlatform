@@ -29,9 +29,9 @@ class Routes{
     messages = () => this._nested + 'messages:teamId/*';
     userMessage = () => this._nested + 'user:userId';
     supervisorClockin = () => this._nested + 'supervisor/clock/in';
-    adminProfile = () => this._nested + 'admin/profile';
+    adminProfile = () => this._nested + 'profile:userId';
     userProfile = () => this._nested + 'user/profile/user:userId';
-    adminSettings = () => this._nested + 'admin/settings/user:userId';
+    adminSettings = () => this._nested + 'settings/user:userId';
     adminSchedule = () => this._nested + 'schedule/*';
 
     nested(){
