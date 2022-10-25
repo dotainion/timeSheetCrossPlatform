@@ -22,6 +22,7 @@ import { AutoUpdateWrapper } from './provider/AutoUpdateWrapper';
 import { AdminRouter } from './Routes/AdminRouter';
 import { Registrations } from './account/Registrations';
 import { Recovery } from './account/Recovery';
+import { Settings } from './employee/settings/Settings';
 
 
 function App() {
@@ -39,9 +40,10 @@ function App() {
               <Route path={routes.registration} element={<Registrations/>} />
               {/** administrator **/}
               <Route path={routes.admin()} element={<RequireAuthRouter element={<AdminRouter/>} isAdmin />} />
-              <Route path={'/test'} element={<RequireAuthRouter element={<Test/>} isAdmin />} />
+              <Route path={'/test'} element={<Test/>} />
               {/** employees **/}
               <Route path={routes.clockIn} element={<RequireAuthRouter element={<ClockIn/>} />} />
+              <Route path={routes.settings} element={<RequireAuthRouter element={<Settings/>} />} />
               {/** not found **/}
               <Route path="*" element={<PageNotFound/>} />
             </Routes>

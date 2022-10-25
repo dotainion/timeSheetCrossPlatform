@@ -2,6 +2,7 @@ class Routes{
     //users
     default = '/';
     clockIn = '/clock/in';
+    settings = '/settings';
     signIn = '/sign/in';
     register = '/register';
     recovery = '/recovery';

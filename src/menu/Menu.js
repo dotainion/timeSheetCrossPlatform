@@ -28,13 +28,12 @@ import { useAuth } from '../provider/AuthenticationWrapper';
 import { MdKeyboardBackspace } from 'react-icons/md'
 import { Roles } from "../infrastructure/Roles";
 import { RiProfileLine } from 'react-icons/ri';
-import { Menu } from "./Menu";
 
 
 const role = new Roles();
 const auth = new Authenticate();
 
-export const SideMenu = () =>{
+export const Menu = ({menu, menuIcon}) =>{
     const { user } = useAuth();
 
     const { setIsAuthenticated } = useAuth();
@@ -42,51 +41,42 @@ export const SideMenu = () =>{
     const navigate = useNavigate();
     const location = useLocation();
 
-    const ADMIN_MENU = [
-        {
-            title: 'Dashboard',
-            icon: MdSpaceDashboard,
-            route: routes.route().dashboard(),
-            onClick: null,
-        },{
-            title: 'Team',
-            icon: FaUsers,
-            route: routes.route().teams(),
-            onClick: null,
-        },{
-            title: 'Admin',
-            icon: MdAdminPanelSettings,
-            route: routes.route().administrator(),
-            onClick: null,
-        },{
-            title: 'Profile',
-            icon: RiProfileLine,
-            route: `${routes.route().adminProfile()}:${user?.id}`,
-            onClick: null,
-        },{
-            title: 'Settings',
-            icon: AiTwotoneSetting,
-            route: `${routes.route().adminSettings()}:${user?.id}`,
-            onClick: null,
-        },{
-            title: 'Schedule',
-            icon: AiFillSchedule,
-            route: routes.route().adminSchedule(),
-            onClick: null,
-        },{
-            title: 'Clock',
-            icon: AiFillClockCircle,
-            route: routes.route().supervisorClockin(),
-            onClick: null,
-        },{
-            title: 'Sign out',
-            icon: BiLogOutCircle,
-            route: null,
-            onClick: async()=> await auth.signOut(),
+    const onNavTrigger = async(nav) =>{
+        if(typeof nav.onClick === 'function' && nav.title === 'Sign out'){
+            setIsAuthenticated(null);
+            return await nav.onClick();
+        }else if (typeof nav.onClick === 'function'){
+            return await nav.onClick();
+        }else if (typeof nav.route === 'string'){
+            navigate(nav.route);
         }
-    ];
+    }
+
+    const toggleSubMenu = () =>{
+        if($('[data-sub-menu=true]').is(':hidden')) $('[data-sub-menu=true]').show('fast');
+        else $('[data-sub-menu=true]').hide('fast');
+    }
     
     return(
-        <Menu menu={ADMIN_MENU} />
+        <nav className="d-flex">
+            <div className="text-center bg-dark vh-100">
+                <div onClick={toggleSubMenu} className="fs-4 mt-3 mb-4 pt-1 pb-3 text-light sidebar-btn pointer">
+                    {menuIcon ? menuIcon : <GiHamburgerMenu />}
+                </div>
+                {menu?.map((nav, key)=>{
+                    if(nav?.hide === true) return null;
+                    if(nav.title === 'Clock' && !role.isSupervisor(user?.role)) return null;
+                    return (
+                        <div 
+                            onClick={()=>onNavTrigger(nav)} 
+                            className={`pointer mt-3 mb-3 text-light sidebar-btn ${location.pathname.includes(nav.route?.replace('*', '')) && 'sidebar-active'}`} 
+                            key={key}>
+                            <div><nav.icon className="fs-4" /></div>
+                            <small className="ms-3 me-3 text-nowrap">{nav.title}</small>
+                        </div>
+                    )
+                })}
+            </div>
+        </nav>
     )
 }

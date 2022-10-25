@@ -15,9 +15,9 @@ export const Modal = ({isOpen, onClose, title, children}) =>{
         <div ref={containerRef} onClick={e=>e.stopPropagation()} className="modal d-none">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
-                    <div className="modal-header bg-secondary">
+                    <div className="modal-header bg-dark">
                         <h5 className="modal-title">{title}</h5>
-                        <button onClick={onClose} className="close border-0 bg-secondary text-light pt-0">
+                        <button onClick={onClose} className="close border-0 bg-dark text-light pt-0">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -25,7 +25,7 @@ export const Modal = ({isOpen, onClose, title, children}) =>{
                         {children}
                     </div>
                     <div className="modal-footer">
-                        <button onClick={onClose} className="btn btn-secondary">Close</button>
+                        <button onClick={onClose} className="btn btn-dark">Close</button>
                     </div>
                 </div>
             </div>

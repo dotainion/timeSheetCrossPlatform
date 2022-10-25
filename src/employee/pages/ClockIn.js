@@ -108,10 +108,10 @@ export const ClockIn = () =>{
     const initTime = async() =>{
         const timeCollector = await log.getPendingLog(user?.id);
         if (timeCollector.hasItems()){
-            const newTime = new Date().toLocaleTimeString();
-            const startTime = time.sub(newTime, timeCollector.first().startTime);
+            const newTime = new Date().getTime();
+            const startTime = time.advance.sub(timeCollector.first().timestamp, newTime);
             setTimeLog(timeCollector.first());
-            setStart({state: true, at: startTime});
+            setStart({state: true, at: startTime.toString()});
             setCurrentState(contents.start);
             setLoading(false);
             return timeCollector.first();
@@ -133,7 +133,7 @@ export const ClockIn = () =>{
     }, [user]);
 
     useEffect(()=>{
-        console.log(searchBy);
+        //console.log(searchBy);
     }, [searchBy]);
     
     return(
@@ -145,7 +145,7 @@ export const ClockIn = () =>{
                         <img src={logo} style={{width: '40px', height: '40px'}} draggable={false} alt="" />
                     </div>
                 </div>
-                <div className="clock-in" style={{width: minimize && '360px', overflow: loading && 'hidden'}}>
+                <div className="clock-in bg-dark" style={{width: minimize && '360px', overflow: loading && 'hidden'}}>
                     <div className="max-width clock-in-user">
                         <div style={{borderBottom: '1px solid rgb(0,0,0,0.2)'}} >
                             <label>{user?.firstName}</label>

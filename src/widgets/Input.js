@@ -55,7 +55,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     return(
         <div data-input-container className={`${cssClass} ${disabled && 'bg-light'}`}>
             <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${options && 'pointer'}`} data-input type={type}>
-                <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
+                <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title bg-white">{title}</div>
                 {
                     !options
                         ? !paragraph 
@@ -69,7 +69,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                             min={min} 
                             max={max} 
                             step="1"
-                            className="w-100 p-2 border-0 bg-transparent"
+                            className="form-control form-input w-100 p-2 border-0 bg-transparent"
                             />
                             : <textarea 
                                 ref={inputRef || inputCRef} 
@@ -77,7 +77,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                                 onChange={onChange} 
                                 onFocus={onFocus} 
                                 onBlur={onBlur} 
-                                className="w-100 p-2 border-0 bg-transparent"
+                                className="form-control w-100 p-2 border-0 bg-transparent"
                                 style={{outline: 'none'}}
                             />
                         : <select 
@@ -87,7 +87,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
                             disabled={disabled}
                             onChange={onChange}
                             defaultValue={defaultOption} 
-                            className="w-100 p-2 border-0 pointer bg-transparent"
+                            className="form-control form-select w-100 p-2 border-0 pointer bg-transparent"
                             >
                             <option hidden={defaultOption}></option>
                             {options?.map?.((opt, key)=>(

@@ -1,9 +1,15 @@
+import { TimeHandler } from "./TimeHandler";
 
 class Time{
+    advance = null;
     largerSeconds = 0;
     smallerSeconds = 0;
     PERIODS = ["am", "AM", "pm", "PM"];
     H24 = [13,14,15,16,17,18,19,20,21,22,23,24];
+
+    constructor(){
+        this.advance = new TimeHandler();
+    }
 
     clear(){
         this.largerSeconds = 0;

@@ -92,7 +92,7 @@ export const AdminSettings = () =>{
 
     return(
         <LayoutPageHandler subMenu={subMenu}>
-            <div className="mb-5 mbr-settings">
+            <div className="m-3 mb-5">
                 <div className="text-center border-bottom display-6 fw-bold p-2">{member.firstName+' '+member.lastName} Settings</div>
                 <div className="col-md-6 m-auto">
                     <div className="bg-white p-3 m-md-3 mb-3 mt-3 rounded-3 shadow-sm">

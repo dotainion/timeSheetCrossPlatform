@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 
 class Clock{
+    days = 0;
     hr = 0;
     min = 0;
     sec = 0;
@@ -10,7 +11,8 @@ class Clock{
     timeIntervalRef = null;
     timerIntervalRef = null;
 
-    setTimeAt(hr, min, sec){
+    setTimeAt(days, hr, min, sec){
+        this.days = days || 0;
         this.hr = hr || 0;
         this.min = min || 0;
         this.sec = sec || 0;
@@ -25,6 +27,7 @@ class Clock{
     }
 
     reset(){
+        this.days = 0;
         this.hr = 0;
         this.min = 0;
         this.sec = 0;
@@ -37,6 +40,7 @@ class Clock{
 
     startTimer(callBack) {
         this.timerIntervalRef = setInterval(()=>{
+            this.days = parseInt(this.days);
             this.sec = parseInt(this.sec);
             this.min = parseInt(this.min);
             this.hr = parseInt(this.hr);
@@ -52,15 +56,24 @@ class Clock{
                 this.min = 0;
                 this.sec = 0;
             }
+            if (this.hr == 24){
+                this.days = this.days + 1;
+                this.hr = 0;
+                this.min = 0;
+                this.sec = 0;
+            }
 
             if (this.sec < 10 || this.sec == 0) this.sec = '0' + this.sec;
             if (this.min < 10 || this.min == 0) this.min = '0' + this.min;
             if (this.hr < 10 || this.hr == 0) this.hr = '0' + this.hr;
 
-            const object = {
+            let object = {
                 element: this.reference,
                 value: `${this.hr}:${this.min}:${this.sec}`,
             }
+
+            if(this.days == 1) object.value = `${this.days} day, ${object.value}`;
+            if(this.days > 1) object.value = `${this.days} days, ${object.value}`;
 
             this.updateUi(object.value);
 
@@ -128,8 +141,9 @@ export const StopClock = ({startTime, startTimer, startAt, displayOverride, styl
 
     useEffect(()=>{
         if (typeof startAt == 'string'){
-            const [har, min, sec] = startAt?.split(':');
-            timer.setTimeAt(har, min, sec);
+            const [extra, min, sec] = startAt?.split(':');
+            const [days, none, hr] = extra?.split(' ');
+            timer.setTimeAt(days, hr, min, sec);
         }
     }, [startAt]);
 

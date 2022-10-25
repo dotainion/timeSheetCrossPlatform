@@ -113,7 +113,7 @@ export const MemberSettings = () =>{
 
     return(
         <LayoutPageHandler>
-            <div className="mb-5 mbr-settings">
+            <div className="m-3 mb-5">
                 <div className="row bg-white p-2 m-md-3 mb-3 mt-3 rounded-3 shadow-sm"><h2>Profile</h2></div>
                 <div className="d-md-flex">
                     <div>
