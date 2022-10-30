@@ -2,15 +2,15 @@ import React, { useEffect, useRef } from "react";
 import { UserToolbar } from "../components/UserToolbar";
 
 
-export const UserLayout = ({minimize, onSearch, onMinimize, children}) =>{
+export const UserLayout = ({hidden, children}) =>{
 
     useEffect(()=>{
         
     }, []);
     return(
-        <div className="user-layout" style={{backgroundImage: minimize && 'none'}}>
-            <div hidden={minimize}>
-                <UserToolbar onSearch={onSearch} onMinimize={onMinimize} />
+        <div className="user-layout" style={{backgroundImage: hidden && 'none'}}>
+            <div hidden={hidden}>
+                <UserToolbar />
             </div>
             <div className="max-width">
                 {children}

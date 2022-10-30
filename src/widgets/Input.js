@@ -14,7 +14,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     ];
 
     const onFocus = () =>{
-        $(titleRef.current).addClass('input-title-focus');
+        $(titleRef.current).addClass('input-title-focus bg-light');
         inputRef
             ? $(inputRef?.current).focus()
             : $(inputCRef.current).focus();
@@ -23,7 +23,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     const onBlur = () =>{
         if(fixedLabel) return;
         if ($(inputCRef.current).val() || inputRef && $(inputRef.current).val()) return;
-        $(titleRef.current).removeClass('input-title-focus');
+        $(titleRef.current).removeClass('input-title-focus bg-light');
     }
 
     useEffect(()=>{
@@ -55,7 +55,7 @@ export const Input = ({title, cssClass, inputRef, options, onChange, defaultOpti
     return(
         <div data-input-container className={`${cssClass} ${disabled && 'bg-light'}`}>
             <div ref={inputContainerRef} className={`mt-2 border-0 border-bottom position-relative ${options && 'pointer'}`} data-input type={type}>
-                <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title bg-white">{title}</div>
+                <div ref={titleRef} onClick={()=>!disabled && onFocus?.()} className="input-title">{title}</div>
                 {
                     !options
                         ? !paragraph 

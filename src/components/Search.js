@@ -20,7 +20,7 @@ export const Search = ({inputRef, onSearch}) =>{
         });
     }, []);
     return(
-        <div className="pointer border p-1 d-flex bg-white">
+        <div className="pointer border d-flex text-align-center bg-white">
             <BiSearchAlt onClick={onTriggerSearch} style={{fontSize: '30px'}} />
             <input ref={inputRef || searchRef} className="bg-transparent border-0 w-100" type={'search'} />
         </div>

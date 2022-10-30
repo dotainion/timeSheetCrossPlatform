@@ -17,14 +17,7 @@ import { Menu } from "../../menu/Menu";
 const role = new Roles();
 const authenticate = new Authenticate();
 
-const command = {
-    HIDE_ON_MOBILE: 'HIDE-ON-MOBILE',
-    HIDE_ON_DESKTOP: 'HIDE-ON-DESKTOP',
-    HIDE_FOR_SUPERIOR: 'HIDE-FOR-SUPERIOR',
-    SHOW_ON_CLOCK_IN: 'SHOW-ON-CLOCK-IN',
-}
-
-export const UserToolbar = ({onSearch, onMinimize}) =>{
+export const UserToolbar = () =>{
     const { setIsAuthenticated, user } = useAuth();
 
     const navigate = useNavigate();
@@ -32,29 +25,15 @@ export const UserToolbar = ({onSearch, onMinimize}) =>{
 
     const navigation = [
         {
-            icon: BsSearch,
-            title: 'Search',
-            route: null,
-            onClick: ()=>onSearch?.(),
-            hide: location.pathname !== routes.clockIn ? true : false,
-        },{
-            icon: FiMinimize,
-            title: 'Minimize',
-            route: null,
-            onClick: ()=>onMinimize?.(),
-            hide: !tools.isMobile() ? true : false,
-        },{
             icon: AiFillClockCircle,
             title: 'Clock In',
             route: routes.clockIn,
             onClick: null,
-            hide: false,
         },{
             icon: AiFillSetting,
             title: 'Setting',
             route: routes.settings,
             onClick: null,
-            hide: role.isSuperior(user?.role) ? true : false,
         },{
             icon: BiLogOutCircle,
             title: 'Log Out',
@@ -63,24 +42,8 @@ export const UserToolbar = ({onSearch, onMinimize}) =>{
                 authenticate.signOut();
                 setIsAuthenticated(null);
             },
-            hide: role.isSuperior(user?.role) ? true : false,
         },
     ];
-
-    const condition = (cmd) =>{
-        if(cmd === command.HIDE_ON_MOBILE){
-            return tools.isMobile() ? 'd-none' : '';
-        }else if (cmd === command.HIDE_ON_DESKTOP){
-            return !tools.isMobile() ? 'd-none' : '';
-        }
-        else if (cmd === command.HIDE_FOR_SUPERIOR){
-            return role.isSuperior(user?.role) ? 'd-none' : '';
-        }
-        else if (cmd === command.SHOW_ON_CLOCK_IN){
-            return location.pathname !== routes.clockIn ? 'd-none' : '';
-        }
-        return '';
-    }
 
     useEffect(()=>{
 

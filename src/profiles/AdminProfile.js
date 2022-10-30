@@ -64,7 +64,7 @@ export const AdminProfile = () =>{
     }, [location]);
 
     return (
-        <LayoutPageHandler subMenu={subMenu}>
+        <LayoutPageHandler loading={loading} subMenu={subMenu}>
             <div className="text-center border-bottom display-6 fw-bold p-2">{member.firstName+' '+member.lastName} Profile</div>
             <div style={{overflow: 'auto', height: '90vh'}}>
                 <Profile member={member} />

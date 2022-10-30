@@ -27,6 +27,7 @@ import img from '../images/stone.jpg';
 import { BiMessageRoundedDetail } from 'react-icons/bi';
 import { ClockIn } from "../employee/pages/ClockIn";
 import { Roles } from "../infrastructure/Roles";
+import { PunchInTime } from "../clock/PunchInTime";
 
 
 const role = new Roles();
@@ -44,6 +45,6 @@ export const SupervisorClockIn = () =>{
     }, []);
 
     return(
-        <ClockIn/>
+        <PunchInTime/>
     )
 }

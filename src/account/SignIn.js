@@ -70,8 +70,8 @@ export const SignIn = () =>{
             <div className="position-relative w-100 h-100">
                 <div className="position-absolute start-50 top-50 translate-middle w-100">
                     <h2 className="my-4 text-center fw-bold">Log in</h2>
-                    <Input inputRef={emailRef} title="Email" type="email" />
-                    <Input inputRef={passwordRef} title="Password" type="password" />
+                    <Input inputRef={emailRef} title="Email" cssClass={''} type="email" />
+                    <Input inputRef={passwordRef} title="Password" cssClass={''} type="password" />
                     <div className="text-end mb-3 mt-3">
                         <span className="pointer text-danger" onClick={()=>navigate(routes.recovery)}>Forget password?</span>
                         <div className="mt-1">

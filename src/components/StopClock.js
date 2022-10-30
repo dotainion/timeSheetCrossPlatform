@@ -148,7 +148,7 @@ export const StopClock = ({startTime, startTimer, startAt, displayOverride, styl
     }, [startAt]);
 
     return(
-        <span>
+        <span className="text-nowrap">
             <span style={{...style, display: !displayOverride && 'none'}}>{displayOverride}</span>
             <span ref={clockRef} style={{...style, display: displayOverride && 'none'}}>{ '00:00:00'}</span>
         </span>

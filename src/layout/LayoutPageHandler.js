@@ -4,9 +4,10 @@ import logo from '../images/logo.png';
 import { useAuth } from "../provider/AuthenticationWrapper";
 import $ from 'jquery';
 import { useLocation, useNavigate } from "react-router-dom";
+import { Loading } from "../components/Loading";
 
 
-export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
+export const LayoutPageHandler = ({options, title, menu, subMenu, loading, children}) =>{
     const {setMenu, setTitle, setOptions, setSubMenu} = useLayout();
 
     const location = useLocation();
@@ -43,7 +44,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
 
     return(
         <div className="d-flex">
-            <div className="pt-3 text-center text-light vh-100" data-sub-menu="true" style={{backgroundColor: '#343a40', width: '152px'}}>
+            <div className="position-relative pt-3 text-center text-light vh-100" data-sub-menu="true" style={{backgroundColor: '#343a40', width: '152px'}}>
                 <img src={logo} style={{width: '50px'}} alt="" />
                 <h3 className="mt-3 ps-2 pe-2">Menu</h3>
                 <h6 className="ps-2 pe-2 text-nowrap">Time sheet</h6>
@@ -66,6 +67,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, children}) =>{
                         </div>
                     </div>
                 ))}
+                <Loading loading={loading}/>
             </div>
             <div className="bg">{children}</div>
         </div>
