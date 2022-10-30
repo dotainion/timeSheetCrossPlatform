@@ -9,7 +9,7 @@ import { useAuth } from "../../provider/AuthenticationWrapper";
 import { getRoles } from "@testing-library/react";
 import { Roles } from '../../infrastructure/Roles';
 import { tools } from "../../infrastructure/tools/Tools";
-import { AiFillSetting, AiFillClockCircle } from 'react-icons/ai';
+import { AiFillSetting, AiFillClockCircle, AiFillSchedule } from 'react-icons/ai';
 import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../../Routes/Routes";
 import { Menu } from "../../menu/Menu";
@@ -33,6 +33,11 @@ export const UserToolbar = () =>{
             icon: AiFillSetting,
             title: 'Setting',
             route: routes.settings,
+            onClick: null,
+        },{
+            icon: AiFillSchedule,
+            title: 'Schedule',
+            route: null,
             onClick: null,
         },{
             icon: BiLogOutCircle,

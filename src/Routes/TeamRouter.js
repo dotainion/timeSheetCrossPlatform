@@ -61,12 +61,11 @@ export const TeamRouter = () =>{
     useEffect(async()=>{
         if(!user.clientId) return;
         const teamList = await team.getByClientId(user.clientId);
-        const mapTeam = teamList.map((m_team)=>{
-            m_team['title'] = m_team.name;
-            m_team['icon'] = BiMessageRoundedDetail;
-            m_team['onClick'] = ()=>navigate(routes.route().messages().replace('teamId/*', `teamId:${m_team.id}`));
-            return m_team;
-        });
+        const mapTeam = teamList.map((t)=>({
+            title: t.name,
+            icon: BiMessageRoundedDetail,
+            onClick: ()=>navigate(routes.route().messages().replace('teamId/*', `teamId:${t.id}`)),
+        }));
         setProcessTeams(mapTeam);
         return () =>{}
     }, []);

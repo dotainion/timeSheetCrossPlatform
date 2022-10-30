@@ -7,8 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
 
 
-export const LayoutPageHandler = ({options, title, menu, subMenu, loading, children}) =>{
-    const {setMenu, setTitle, setOptions, setSubMenu} = useLayout();
+export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child, children}) =>{
+    const {setMenu, setTitle, setOptions} = useLayout();
 
     const location = useLocation();
 
@@ -39,7 +39,6 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child
         setMenu(menu);
         setTitle(title);
         setOptions(options);
-        setSubMenu(subMenu);
     }, [options, title, menu, subMenu]);
 
     return(
@@ -67,6 +66,17 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child
                         </div>
                     </div>
                 ))}
+                <div className="scroll" style={{maxHeight: '50vh'}}>
+                    <div className="small border-bottom border-dark pb-1 mt-3" style={{lineHeight: '14px'}}>{child?.title}</div>
+                    {child?.options?.map((c, key)=>(
+                        <div key={key}>
+                            <div onClick={(e)=>c?.onClick?.(e)} className={`pointer ps-2 pe-2 mt-1 mb-1 d-flex text-light align-items-center sidebar-btn`}>
+                                {c?.icon && <div><c.icon className="fs-4" /></div>}
+                                <small className="ms-1 me-3 text-nowrap">{c?.title}</small>
+                            </div>
+                        </div>
+                    ))}
+                </div>
                 <Loading loading={loading}/>
             </div>
             <div className="bg">{children}</div>

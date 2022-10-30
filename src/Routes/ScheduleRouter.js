@@ -30,38 +30,47 @@ import { Teams } from "../pages/Teams";
 import { Messages } from "../messages/Messages";
 import { MdManageAccounts, MdOutlineScheduleSend } from "react-icons/md";
 import { ManageTeam } from "../pages/MangeTeam";
-import { AdminSchedule } from "../schedules/AdminSchedule";
+import { AdminScheduleMembers } from "../schedules/AdminScheduleMembers";
 import { GrSchedulePlay } from 'react-icons/gr';
+import { Users } from "../module/logic/Users";
+import { MdRememberMe } from 'react-icons/md';
 
 const team = new _Teams_();
+const users = new Users();
 
 export const ScheduleRouter = () =>{
     const { user } = useAuth();
 
+    const [processUsers, setProcessUsers] = useState([]);
+
     const navigate = useNavigate();
 
-    const subMenu = [
-        {
-            title: 'Request Schedule',
-            icon: MdOutlineScheduleSend,
-            optionsTitle: null,
-            options: null,
-        },{
-            title: 'See Schedule',
-            icon: AiFillSchedule,
-            optionsTitle: null,
-            options: null,
-        }
-    ];
 
     useEffect(async()=>{
+        if(!user.clientId) return;
+        const userList = await users.getByClientId(user.clientId);
+        const mapUsers = userList.map((u)=>({
+            title: u.firstName + ' ' + u.lastName,
+            icon: MdRememberMe,
+            onClick: ()=>null,
+        }));
+        setProcessUsers({
+            title: 
+                <div className="d-inline-block">
+                    <div className="d-flex align-items-center">
+                        <div><AiFillSchedule/></div>
+                        <div>Users</div>
+                    </div>
+                </div>,
+            options: mapUsers
+        });
         return () =>{}
     }, []);
 
     return(
-        <LayoutPageHandler subMenu={subMenu}>
+        <LayoutPageHandler child={processUsers}>
             <Routes>
-                <Route path="*" element={<AdminSchedule />} />
+                <Route path="*" element={<AdminScheduleMembers />} />
             </Routes>
         </LayoutPageHandler>
     )

@@ -12,7 +12,6 @@ export const Layout = ({children}) =>{
     const [menu, setMenu] = useState();
     const [title, setTitle] = useState();
     const [options, setOptions] = useState();
-    const [subMenu, setSubMenu] = useState();
     const [topMenuSize, setTopMenuSize] = useState({width: 0, height: 0});
 
     const topMenuRef = useRef();
@@ -21,7 +20,6 @@ export const Layout = ({children}) =>{
         setMenu,
         setTitle,
         setOptions,
-        setSubMenu,
         topMenuSize
     }
 
@@ -34,7 +32,7 @@ export const Layout = ({children}) =>{
     return(
         <LayoutContext.Provider value={layoutValues}>
             <div className="d-flex">
-                <SideMenu subMenu={subMenu} />
+                <SideMenu />
                 <div className="w-100 vh-100">
                     <nav>
                         <div ref={topMenuRef} className="container-fluid d-flex align-items-center bg-dark">
