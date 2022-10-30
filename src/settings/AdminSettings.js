@@ -83,6 +83,9 @@ export const AdminSettings = () =>{
         teamRef.current.value = mbr?.teamId || '';
         roleRef.current.focus();
         teamRef.current.focus();
+        
+        $(roleRef.current).on('change', (e)=>onUpdateProfile({role: e.target.value}));
+        $(teamRef.current).on('change', (e)=>onUpdateProfile({teamId: e.target.value}));
 
         let mapMembers = [userHandler(JSON.parse(JSON.stringify(user)), 'Me')];
         _users_.forEach((m)=>{
@@ -94,8 +97,6 @@ export const AdminSettings = () =>{
     }, [location]);
 
     useEffect(()=>{
-        $(roleRef.current).on('change', (e)=>onUpdateProfile({role: e.target.value}));
-        $(teamRef.current).on('change', (e)=>onUpdateProfile({teamId: e.target.value}));
     }, []);
 
     return(

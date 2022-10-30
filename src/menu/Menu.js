@@ -34,9 +34,7 @@ const role = new Roles();
 const auth = new Authenticate();
 
 export const Menu = ({menu, menuIcon}) =>{
-    const { user } = useAuth();
-
-    const { setIsAuthenticated } = useAuth();
+    const { user, setIsAuthenticated } = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
