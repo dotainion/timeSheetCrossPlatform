@@ -12,6 +12,9 @@ class Routes{
     _nested = '';
 
     admin = () => '/admin/*';
+    accounts = () => 'accounts/*';
+    newAccount = () => 'create';
+    manageAccount = () => 'manage:accountId';
     administrator = () => this._nested + 'administrator/*'
     teams = () => this._nested + 'teams/*';
     teamsList = () => this._nested + 'list';

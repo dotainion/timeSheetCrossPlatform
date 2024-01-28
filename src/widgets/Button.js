@@ -18,7 +18,7 @@ export const Button = ({onClick, title, style, cssClass, blue, dark, loading, di
     }, []);
     return(
         <button 
-            className={`btn ${color} ${cssClass} mt-2 mb-2`} 
+            className={`btn ${color} ${cssClass} my-2`} 
             onClick={onClick} 
             style={style}
             disabled={disabled}

@@ -18,19 +18,19 @@ import { Register } from './account/Register';
 import { RequireAuthRouter } from './Routes/RequireAuthRouter';
 import { Test } from './Test/Test';
 import { PageNotFound } from './errors/PageNotFound';
-import { AutoUpdateWrapper } from './provider/AutoUpdateWrapper';
 import { AdminRouter } from './Routes/AdminRouter';
 import { Registrations } from './account/Registrations';
 import { Recovery } from './account/Recovery';
 import { Settings } from './employee/settings/Settings';
+import { AccountsWrapper } from './provider/AccountsWrapper';
 
 
 function App() {
   return (
     <HashRouter>
-      <AutoUpdateWrapper>
-        <AuthenticationWrapper>
-          <ProviderWrapper>
+      <AuthenticationWrapper>
+        <ProviderWrapper>
+          <AccountsWrapper>
             <Routes>
               <Route path={routes.default} element={<Navigate to={routes.signIn} />} />
               {/** public **/}
@@ -46,10 +46,10 @@ function App() {
               <Route path={routes.settings} element={<RequireAuthRouter element={<Settings/>} />} />
               {/** not found **/}
               <Route path="*" element={<PageNotFound/>} />
-            </Routes>
-          </ProviderWrapper>
-        </AuthenticationWrapper>
-      </AutoUpdateWrapper>
+            </Routes> 
+          </AccountsWrapper>
+        </ProviderWrapper>
+      </AuthenticationWrapper>
     </HashRouter>
   );
 }

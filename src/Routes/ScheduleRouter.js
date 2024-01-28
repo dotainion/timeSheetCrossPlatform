@@ -48,8 +48,8 @@ export const ScheduleRouter = () =>{
 
     useEffect(async()=>{
         if(!user.clientId) return;
-        const userList = await users.getByClientId(user.clientId);
-        const mapUsers = userList.map((u)=>({
+        const userCollector = await users.getByClientId(user.clientId);
+        const mapUsers = userCollector.list().map((u)=>({
             title: u.firstName + ' ' + u.lastName,
             icon: MdRememberMe,
             onClick: ()=>null,

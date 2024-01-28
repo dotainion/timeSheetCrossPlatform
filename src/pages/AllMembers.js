@@ -15,6 +15,7 @@ import { ButtonCard } from "../widgets/ButtonCard";
 import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 import { ButtonCardMemberBody } from "../components/ButtonCardMemberBody";
 import { LayoutPageHandler } from '../layout/LayoutPageHandler';
+import { useAccounts } from "../provider/AccountsWrapper";
 
 
 const roles = new Roles();
@@ -23,6 +24,7 @@ const _members_ = new Users();
 
 export const AllMembers = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
 
     const [teams, setTeams] = useState([]);
     const [members, setMembers] = useState([]);
@@ -97,12 +99,12 @@ export const AllMembers = () =>{
     const initialize = async() =>{
         setLoading(true);
         membersList.current = [];
-        let tTeams = await _teams_.getByClientId(user?.clientId);
-        let tMembers = await _members_.getByClientId(user?.clientId);
-        tMembers = getTeamName(tMembers, tTeams);
+        const teamsCollector = await _teams_.getByClientId(account?.clientId);
+        const membersCollector = await _members_.getByAccountId(account?.id);
+        let tMembers = getTeamName(membersCollector.list(), teamsCollector.list());
         tMembers = seletedMembers(tMembers);
         membersList.current = tMembers;
-        setTeams(tTeams);
+        setTeams(teamsCollector.list());
         setMembers(tMembers);
         setLoading(false);
     }

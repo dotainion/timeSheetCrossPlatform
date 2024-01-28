@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLayout } from "./Layout";
 import logo from '../images/logo.png';
 import { useAuth } from "../provider/AuthenticationWrapper";
@@ -10,9 +10,12 @@ import { Loading } from "../components/Loading";
 export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child, children}) =>{
     const {setMenu, setTitle, setOptions} = useLayout();
 
+    const [btnSelected, setBtnSelected] = useState();
+
     const location = useLocation();
 
     const onSubMenuClick = (e, opt) =>{
+        setBtnSelected(opt?.title);
         if(opt?.options?.length){
             const dropdown = $(`#${opt?.title}-sub-menu`);
             if($(dropdown).is(':hidden')){ 
@@ -49,7 +52,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child
                 <h6 className="ps-2 pe-2 text-nowrap">Time sheet</h6>
                 {subMenu?.map((opt, i)=>(
                     <div className="sidebar-active" key={i}>
-                         <div onClick={(e)=>opt?.toggle !== false && onSubMenuClick(e, opt)} className={`pointer px-2 py-1 border-bottom border-secondary d-flex text-light align-items-center sidebar-btn ${opt?.toggle === false && 'bg-dark rounded-0'}`} data-sub-menu-btn>
+                         <div onClick={(e)=>opt?.toggle !== false && onSubMenuClick(e, opt)} className={`pointer px-2 py-1 border-bottom border-secondary d-flex text-light align-items-center sidebar-btn ${opt?.toggle === false && 'bg-dark rounded-0'} ${opt.title === btnSelected && 'bg-dark'}`} data-sub-menu-btn>
                             {opt?.icon && <div><opt.icon className="fs-4" /></div>}
                             <small className="ms-1 me-3 text-nowrap">{opt.title}</small>
                         </div>
@@ -67,7 +70,7 @@ export const LayoutPageHandler = ({options, title, menu, subMenu, loading, child
                     </div>
                 ))}
                 <div className="scroll" style={{maxHeight: '50vh'}}>
-                    <div className="small border-bottom border-dark pb-1 mt-3" style={{lineHeight: '14px'}}>{child?.title}</div>
+                    {child?.title && <div className="small border-bottom border-dark pb-1 mt-3" style={{lineHeight: '14px'}}>{child?.title}</div>}
                     {child?.options?.map((c, key)=>(
                         <div key={key}>
                             <div onClick={(e)=>c?.onClick?.(e)} className={`pointer ps-2 pe-2 mt-1 mb-1 d-flex text-light align-items-center sidebar-btn`}>

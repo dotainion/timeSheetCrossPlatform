@@ -33,7 +33,6 @@ export const TeamMembers = () =>{
 
     const [team, setTeam] = useState();
     const [loading, setLoading] = useState(true);
-    const [openSetting, setOpenSetting] = useState({state: false, data: null});
 
     const location = useLocation();
     const navigate = useNavigate();
@@ -79,24 +78,9 @@ export const TeamMembers = () =>{
                         members.map((usr, key)=>(
                             <ButtonCard
                                 image={img}
-                                title={
-                                    <div className="d-flex w-100 align-items-center">
-                                        <div><BsFillPersonFill className="fs-3 mt-1 me-2" /></div>
-                                        <div>{`${usr.firstName} ${usr.lastName}`}</div>
-                                    </div>
-                                }
-                                subTitle={
-                                    <div>
-                                        <div>{usr.gender}</div>
-                                        <div>{usr.number}</div>
-                                    </div>
-                                }
-                                body={
-                                    <div>
-                                        <div>Role: {usr.role}</div>
-                                        <div>Supervisor: {'None'}</div>
-                                    </div>
-                                }
+                                title={<div className="d-flex w-100 align-items-center"><div><BsFillPersonFill className="fs-3 mt-1 me-2" /></div><div>{`${usr.firstName} ${usr.lastName}`}</div></div>}
+                                subTitle={<div><div>{usr.gender}</div><div>{usr.number}</div></div>}
+                                body={<div><div>Role: {usr.role}</div><div>Supervisor: {'None'}</div></div>}
                                 menu={[
                                     {
                                         title: 'Spreadsheet Settings',

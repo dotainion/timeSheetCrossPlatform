@@ -79,7 +79,7 @@ export const MemberSettings = () =>{
         const userSetting = await _settings_.getSetting(usr?.id);
         setSettings(userSetting || {});
         const TTeams = await _teams_.getByClientId(usr?.clientId);
-        setTeams(TTeams);
+        setTeams(TTeams.list());
         
         firstNameRef.current.value = usr?.firstName || '';
         lastNameRef.current.value = usr?.lastName || '';

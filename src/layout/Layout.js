@@ -3,16 +3,23 @@ import { SideMenu } from "../menu/SideMenu";
 import { BreadCrumbs } from "../widgets/BreadCrumbs";
 import { GiHamburgerMenu } from 'react-icons/gi';
 import $ from 'jquery';
+import { UserTeamsRepository } from "../module/repository/UserTeamsRepository";
+import { useAuth } from "../provider/AuthenticationWrapper";
+import { useAccounts } from "../provider/AccountsWrapper";
 
 
 const LayoutContext = createContext();
 export const useLayout = () => useContext(LayoutContext);
 
 export const Layout = ({children}) =>{
+    const { user } = useAuth();
+    const { account } = useAccounts();
+
     const [menu, setMenu] = useState();
     const [title, setTitle] = useState();
     const [options, setOptions] = useState();
     const [topMenuSize, setTopMenuSize] = useState({width: 0, height: 0});
+    const [accountName, setAccountName] = useState();
 
     const topMenuRef = useRef();
 
@@ -29,6 +36,11 @@ export const Layout = ({children}) =>{
             height: $(topMenuRef.current).height()
         });
     }, []);
+
+    useEffect(()=>{
+        if(!account) return;
+        setAccountName(account?.name);
+    }, [account]);
     return(
         <LayoutContext.Provider value={layoutValues}>
             <div className="d-flex">
@@ -36,6 +48,7 @@ export const Layout = ({children}) =>{
                 <div className="w-100 vh-100">
                     <nav>
                         <div ref={topMenuRef} className="container-fluid d-flex align-items-center bg-dark">
+                            <span className="ps-1 fw-bold text-light my-1">{accountName}</span>
                             <span className="ps-1 fw-bold text-light">{title}</span>
                             <div className="ms-2">
                                 <BreadCrumbs options={options} />

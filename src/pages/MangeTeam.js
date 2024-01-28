@@ -10,12 +10,15 @@ import { ImgButton } from "../widgets/ImgButton";
 import { Input } from "../widgets/Input";
 import { LayoutPageHandler } from '../layout/LayoutPageHandler';
 import { ToastHandler } from "../infrastructure/ToastHandler";
+import { useAccounts } from "../provider/AccountsWrapper";
+import { UserTeams } from "../module/logic/UserTeams";
 
 const _team_ = new Teams();
 const toast = new ToastHandler();
 
 export const ManageTeam = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
     const { addToTeam } = useProvider();
 
     const [isCreate, setIsCreate] = useState(true);
@@ -36,7 +39,7 @@ export const ManageTeam = () =>{
             clientRef.current.value,
             descriptionRef.current.value,
             imageRef.current,
-            user?.clientId
+            account?.clientId
         );
     }
 

@@ -5,26 +5,28 @@ import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 import { useAuth } from "../provider/AuthenticationWrapper";
 import { MdRememberMe } from "react-icons/md";
 import { Users } from "../module/logic/Users";
+import { useAccounts } from "../provider/AccountsWrapper";
 
 
 const users = new Users();
 
 export const AdminScheduleMembers = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
 
     const [processUsers, setProcessUsers] = useState([]);
 
     useEffect(async()=>{
-        if(!user.clientId) return;
-        const userList = await users.getByClientId(user.clientId);
-        const mapUsers = userList.map((u)=>({
+        if(!account.clientId) return;
+        const userCollector = await users.getByAccountId(account.id);
+        const mapUsers = userCollector.list().map((u)=>({
             title: u.firstName + ' ' + u.lastName,
             icon: MdRememberMe,
             onClick: ()=>null,
         }));
         setProcessUsers(mapUsers);
         return () =>{}
-    }, []);
+    }, [account]);
     return(
         <div>
             <ButtonCardContainer>

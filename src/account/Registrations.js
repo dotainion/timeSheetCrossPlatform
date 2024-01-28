@@ -64,6 +64,7 @@ export const Registrations = () =>{
     }, []);
 
     useEffect(()=>{
+        if(isAuthenticated) navigate(routes.default);
         if(!registrationMatch) return;
         navigate(routes.register);
     }, [registrationMatch]);

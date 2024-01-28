@@ -24,17 +24,10 @@ export const AdminScheduleOptions = () =>{
 
     }, []);
     return(
-        <div>
-            <ButtonCardContainer>
-                {options.map((u, key)=>(
-                    <ButtonCard 
-                        title={u.title} 
-                        image={img} 
-                        onClick={u.onClick}
-                        key={key}
-                    />
-                ))}
-            </ButtonCardContainer>
-        </div>
+        <ButtonCardContainer>
+            {options.map((u, key)=>(
+                <ButtonCard onClick={u.onClick} title={u.title} image={img} key={key} />
+            ))}
+        </ButtonCardContainer>
     )
 }

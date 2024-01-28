@@ -24,6 +24,7 @@ import { SupervisorClockIn } from "../pages/SupervisorClockIn";
 import { AdminProfile } from "../profiles/AdminProfile";
 import { AdminSettings } from "../settings/AdminSettings";
 import { ScheduleRouter } from "./ScheduleRouter";
+import { AccountsRouter } from "./AccountsRouter";
 
 
 export const AdminRouter = () =>{
@@ -46,6 +47,7 @@ export const AdminRouter = () =>{
                 <Route path={routes.route().invoice()} element={<RequireAuthRouter element={<Invoice/>} isAdmin />} />
                 <Route path={routes.route().administrator()} element={<RequireAuthRouter element={<AdministratorRouter/>} isAdmin />} />
                 <Route path={routes.route().adminSchedule()} element={<RequireAuthRouter element={<ScheduleRouter/>} isAdmin />} />
+                <Route path={routes.route().accounts()} element={<RequireAuthRouter element={<AccountsRouter/>} isAdmin />} />
                 <Route path="*" element={<NestedPageNotFound />} />
             </Routes>
         </Layout>

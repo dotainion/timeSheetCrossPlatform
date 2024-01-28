@@ -25,10 +25,11 @@ import { BiLogOutCircle } from 'react-icons/bi';
 import { MdHelp, MdAdminPanelSettings, MdSpaceDashboard } from 'react-icons/md';
 import { Authenticate } from '../module/logic/Authenticate';
 import { useAuth } from '../provider/AuthenticationWrapper';
-import { MdKeyboardBackspace } from 'react-icons/md'
+import { MdSwitchAccount } from 'react-icons/md'
 import { Roles } from "../infrastructure/Roles";
 import { RiProfileLine } from 'react-icons/ri';
 import { Menu } from "./Menu";
+import { tools } from "../infrastructure/tools/Tools";
 
 
 const role = new Roles();
@@ -47,6 +48,11 @@ export const SideMenu = () =>{
             title: 'Dashboard',
             icon: MdSpaceDashboard,
             route: routes.route().dashboard(),
+            onClick: null,
+        },{
+            title: 'Accounts',
+            icon: MdSwitchAccount,
+            route: routes.route().accounts(),
             onClick: null,
         },{
             title: 'Team',
@@ -82,7 +88,7 @@ export const SideMenu = () =>{
             title: 'Sign out',
             icon: BiLogOutCircle,
             route: null,
-            onClick: async()=> await auth.signOut(),
+            onClick: async()=>await auth.signOut().then(()=>tools.account.clearSelectedAccount()),
         }
     ];
     

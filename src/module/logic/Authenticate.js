@@ -5,20 +5,26 @@ import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { Validation } from "../../infrastructure/Validation";
 import { Users } from "./Users";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { Account } from "./Account";
+import { UserAccount } from "./UserAccount";
 
 
 export class Authenticate extends ToastHandler{
     role = null;
     user = null;
+    account = null;
     validate = null;
     saveCreds = null;
+    userAccount = null;
     errorMessage = null;
 
     constructor(){
         super();
         this.role = new Roles();
         this.user = new Users();
+        this.account = new Account();
         this.validate = new Validation();
+        this.userAccount = new UserAccount();
         this.saveCreds = new BrowserLoginCredentials();
     }
 
@@ -63,31 +69,28 @@ export class Authenticate extends ToastHandler{
         }
     }
 
-    async register(fName, lName, companyName, email, password, confirmPassword){
-        if (!this.validate.isEmailValid(email)){
-            throw new Error('Invalid email.');
-        }
-        if(!this.validate.passwordMismatch(password, confirmPassword)){
-            throw new Error('Password mismatch.');
-        }
-        if(!this.validate.isNameValid(fName)){
-            throw new Error('First name is required.');
-        }
-        if(!this.validate.isNameValid(lName)){
-            throw new Error('Last name is required.');
-        }
-        if(!this.validate.isNameValid(companyName)){
-            throw new Error('Company name is required.');
-        }
-        if(!this.validate.isPasswordValid(password)){
-            throw new Error('Invalid password.');
-        }
+    async register(fName, lName, email, companyName, password, confirmPassword){
         
         try{
+            if (!this.validate.isEmailValid(email)){
+                throw new Error('Invalid email.');
+            }
+            if(!this.validate.passwordMismatch(password, confirmPassword)){
+                throw new Error('Password mismatch.');
+            }
+            if(!this.validate.isNameValid(fName)){
+                throw new Error('First name is required.');
+            }
+            if(!this.validate.isNameValid(lName)){
+                throw new Error('Last name is required.');
+            }
+            if(!this.validate.isPasswordValid(password)){
+                throw new Error('Invalid password.');
+            }
+            
             const response = await createUserWithEmailAndPassword(auth, email, password);
             
-            await this.user.addWithId({
-                clientId: response?.user?.uid, 
+            const usr = await this.user.addWithId({
                 email: email, 
                 firstName: fName, 
                 lastName: lName, 
@@ -97,12 +100,47 @@ export class Authenticate extends ToastHandler{
                 teamId: null, 
                 number: null, 
                 gender: null, 
-                companyName: companyName,
             }, response?.user?.uid);
+
+            const acc = await this.createAccount({
+                clientId: response?.user?.uid, 
+                name: companyName,
+                description: ''
+            });
+            await this.addToAccount(usr.first().id, acc.first().id);
 
             this.saveCreds.saveLogin(email, password);
 
             this.success('Successful.');
+            return response;
+        }catch(error){
+            this.error(this.sanitizeErrorLog(error.message));
+            return false;
+        }
+    }
+
+    async createAccount(data){
+        try{
+            if(!this.validate.isNameValid(data?.name)){
+                throw new Error('Invalid account name.');
+            }
+            if(!data?.clientId){
+                throw new Error('Unable to create an account at this time.');
+            }
+            return await this.account.addAccount({
+                clientId: data?.clientId,
+                name: data?.name, 
+                description: data?.description
+            });
+        }catch(error){
+            this.error(this.sanitizeErrorLog(error.message));
+            return false;
+        }
+    }
+
+    async addToAccount(userId, accountId){
+        try{
+            await this.userAccount.addUserAccount(userId, accountId);
         }catch(error){
             this.error(this.sanitizeErrorLog(error.message));
             return false;
@@ -173,6 +211,7 @@ export class Authenticate extends ToastHandler{
 
     async creatUser(clientId, email, fName, lName, image, role, supervisorId, teamId, phone, gender, password){
         try{
+            //need to add accounts
             if(!this.validate.isNameValid(fName)){
                 throw new Error('Invalid first Name.');
             }
@@ -191,19 +230,21 @@ export class Authenticate extends ToastHandler{
             await this.emailVerification();
             await this.resetPasswordViaEmail(email);
 
-            const rtUsr = await this.user.add(
-                response?.user?.uid,
-                clientId,
-                email,
-                fName,
-                lName,
-                image || '',
-                role,
-                supervisorId,
-                teamId || '',
-                phone,
-                gender
-            );
+            const rtUsr = await this.user.add({
+                id: response?.user?.uid,
+                email: email, 
+                firstName: fName, 
+                lastName: lName, 
+                image: image || '', 
+                role: role, 
+                supervisorId: supervisorId, 
+                teamId: teamId || '', 
+                number: phone, 
+                gender: gender
+            });
+
+            await this.addToAccount(response?.user?.uid, clientId);
+
             this.saveCreds.saveCreateUserLogin(email, password);
             return rtUsr;
         }catch(error){

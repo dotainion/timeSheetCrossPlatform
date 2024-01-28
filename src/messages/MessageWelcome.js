@@ -8,12 +8,14 @@ import { useAuth } from '../provider/AuthenticationWrapper';
 import { Teams } from '../module/logic/Teams';
 import { MessageNavbar } from './MessageNavbar';
 import logo from '../images/logo.png';
+import { useAccounts } from '../provider/AccountsWrapper';
 
 
 const _team_ = new Teams();
 
 export const MessageWelcome = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
 
     const [teams, setTeams] = useState([]);
 
@@ -24,10 +26,10 @@ export const MessageWelcome = () =>{
     }
 
     useEffect(async()=>{
-        if(!user.clientId) return;
-        const teamList = await _team_.getByClientId(user.clientId);
+        if(!account.clientId) return;
+        const teamList = await _team_.getByClientId(account.clientId);
         setTeams(teamList);
-    }, [user]);
+    }, [account]);
     return(
         <div>
             <div className="position-absolute start-50 top-50 translate-middle text-center">

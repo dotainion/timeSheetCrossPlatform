@@ -13,10 +13,13 @@ import { Roles } from "../infrastructure/Roles";
 import { AccountsContainer } from "./AccountsContainer";
 import { Registration } from "../module/logic/Registration";
 import { useProvider } from "../provider/ProviderWrapper";
+import { Account } from "../module/logic/Account";
+import { ToastHandler } from "../infrastructure/ToastHandler";
 
 
 
 const auth = new Authenticate();
+const account = new Account();
 
 export const Register = () =>{
     const { isAuthenticated } = useAuth();
@@ -38,17 +41,16 @@ export const Register = () =>{
         await auth.register(
             firstNameRef.current.value, 
             lastNameRef.current.value, 
-            companyNameRef.current.value, 
             emailRef.current.value, 
+            companyNameRef.current.value, 
             passwordRef.current.value, 
             confirmPasswordRef.current.value,
-            ()=> null
         );
         setLoading(false);
     }
 
-    useEffect(()=>{
-        if(!isAuthenticated) return;
+    useEffect(async()=>{
+        if(!isAuthenticated) return;        
         if((new Roles()).isSuperior(isAuthenticated?.role)) navigate(routes.admin());
         else if((new Roles()).isMember(isAuthenticated?.role)) navigate(routes.clockIn);
     }, [isAuthenticated]);
@@ -56,6 +58,7 @@ export const Register = () =>{
     useEffect(async()=>$('.input-entery').css({backgroundColor: 'transparent'}), []);
 
     useEffect(()=>{
+        if(isAuthenticated) navigate(routes.default);
         if(registrationMatch) return;
         navigate(routes.registration);
     }, [registrationMatch]);
@@ -63,9 +66,9 @@ export const Register = () =>{
     return(
         <AccountsContainer loading={loading}>
             <h2 className="my-4 text-center fw-bold">Creat an account</h2>
-            <Input inputRef={firstNameRef} title="First Name" type="name" />
-            <Input inputRef={lastNameRef} title="Last Name" type="name" />
-            <Input inputRef={companyNameRef} title="Company Name" type="name" />
+            <Input inputRef={firstNameRef} title="First Name" type="text" />
+            <Input inputRef={lastNameRef} title="Last Name" type="text" />
+            <Input inputRef={companyNameRef} title="Company Name" type="text" />
             <Input inputRef={emailRef} title="Email" type="email" />
             <Input inputRef={passwordRef} title="Password" type="password" />
             <Input inputRef={confirmPasswordRef} title="Conform Password" type="password" />

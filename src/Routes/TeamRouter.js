@@ -60,8 +60,8 @@ export const TeamRouter = () =>{
 
     useEffect(async()=>{
         if(!user.clientId) return;
-        const teamList = await team.getByClientId(user.clientId);
-        const mapTeam = teamList.map((t)=>({
+        const teamCollector = await team.getByClientId(user.clientId);
+        const mapTeam = teamCollector.list().map((t)=>({
             title: t.name,
             icon: BiMessageRoundedDetail,
             onClick: ()=>navigate(routes.route().messages().replace('teamId/*', `teamId:${t.id}`)),

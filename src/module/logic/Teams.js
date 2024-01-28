@@ -1,6 +1,9 @@
+import { Collector } from "../../infrastructure/Collector";
 import { ToastHandler } from "../../infrastructure/ToastHandler";
 import { TeamsFactory } from "../factory/TeamsFactory";
 import { TeamsRepository } from "../repository/TeamsRepository";
+import { UserAccount } from "./UserAccount";
+import { UserTeams } from "./UserTeams";
 
 export class Teams extends ToastHandler{
     repo;
@@ -14,12 +17,10 @@ export class Teams extends ToastHandler{
     
     async getByClientId(clientId){
         try{
-            const team = await this.repo.getTeamsByClientId(clientId);
-            return team.list();
+            return await this.repo.getTeamByClientId(clientId);
         }catch(error){
             return this.error(error.message);
         }
-        
     }
     
     async getById(id){
@@ -29,7 +30,6 @@ export class Teams extends ToastHandler{
         }catch(error){
             return this.error(error.message);
         }
-        
     }
 
     async add(name, clientName, description, image, clientId){
@@ -47,9 +47,9 @@ export class Teams extends ToastHandler{
                     clientId: clientId
                 }
             });
-            const object = await this.repo.addTeams(collector);
+            const teamCollector = await this.repo.addTeams(collector);
             this.success(`Team "${name}" added successfuly.`);
-            return object.first();
+            return teamCollector;
         }catch(error){
             return this.error(error.message);
         }

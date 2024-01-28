@@ -12,18 +12,18 @@ export class TeamsRepository extends Repository{
         this.userRepo = new UsersRepository();
     }
 
-    async getTeamsByClientId(clientId){
-        return this.factory.map(
-            await this.getWhere(collection.teams, [
-                {clientId: clientId}
-            ])
-        );
-    }
-
     async getTeamById(id){
         return this.factory.map([
             await this.getDataById(collection.teams, id)
         ]);
+    }
+
+    async getTeamByClientId(clientId){
+        return this.factory.map(
+            await this.getWhere(collection.teams,  [
+                {clientId}
+            ])
+        );
     }
 
     async addTeams(collector){

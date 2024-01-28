@@ -5,7 +5,6 @@ export class UsersFactory extends Factory{
     mapResults(record){
         const users = new Users();
         users.setId(`${record?.['id']}`);
-        users.setClientId(`${record?.['info']?.['clientId']}`);
         users.setEmail(`${record?.['info']?.['email']}`);
         users.setFirstName(`${record?.['info']?.['firstName']}`);
         users.setImage(`${record?.['info']?.['image']}`);

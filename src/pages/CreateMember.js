@@ -17,12 +17,16 @@ import { Button } from "../widgets/Button";
 import { ImgButton } from "../widgets/ImgButton";
 import { useLocation } from "react-router-dom";
 import { LayoutPageHandler } from '../layout/LayoutPageHandler';
+import { useAccounts } from "../provider/AccountsWrapper";
+import { UserTeams } from "../module/logic/UserTeams";
 
 
 const auth = new Authenticate();
+const userTeam = new UserTeams();
 
 export const CreateMember = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
     const { addToMember } = useProvider();
 
     const [loading, setLoading] = useState(false);
@@ -45,7 +49,7 @@ export const CreateMember = () =>{
         const teamId = location.pathname.split(':')?.[2];
 
         const rtUsr = await auth.creatUser(
-            user?.clientId,
+            account?.clientId,
             emailRef.current.value,
             fNameRef.current.value,
             lNameRef.current.value,
@@ -57,7 +61,10 @@ export const CreateMember = () =>{
             genderRef.current.value,
             passwordRef.current.value
         );
-        if (!rtUsr) return setLoading(false);
+
+        if (!rtUsr.hasItems()) return setLoading(false);
+
+        teamId && userTeam.addUserTeam(teamId, rtUsr.first().id, account?.clientId);
 
         emailRef.current.value = '';
         fNameRef.current.value = '';

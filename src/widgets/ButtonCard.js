@@ -17,8 +17,8 @@ export const ButtonCard = ({title, image, subTitle, body, footer, menu, profile,
     }
     
     return(
-        <div ref={parentRef} onClick={onTriger} className={`card m-2 p-0 text-start overflow-hidden ${disabled ? 'text-secondary' : 'h-scale pointer'}`} style={{width: '18rem', position: 'relative'}}>
-            {image && <img className="card-img-top" src={image} alt="Card image cap"/>}
+        <div ref={parentRef} onClick={onTriger} className={`card m-2 p-0 text-start overflow-hidden ${disabled ? 'text-secondary' : 'h-scale pointer'}`} style={{width: '15rem', position: 'relative'}}>
+            {image && <img className="card-img-top" src={image} alt="Card image cap" style={{height: '130px'}} />}
             {add && <VscAdd className={'card-img-top'} />}
             {imports && <BiImport className={'card-img-top'} />}
             {manage && <MdManageAccounts className={'card-img-top'} />}
@@ -35,7 +35,7 @@ export const ButtonCard = ({title, image, subTitle, body, footer, menu, profile,
                 />
             </div>}
             <div className="card-body overflow-hidden">
-                <h5 className="card-title">{title}</h5>
+                <h5 className="card-title text-truncate">{title}</h5>
                 <h6 className="card-subtitle text-muted">{subTitle}</h6>
                 <div className="card-text">{body}</div>
             </div>

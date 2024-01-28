@@ -3,7 +3,7 @@ import { Layout, useLayout } from "../layout/Layout";
 import { Spreadsheet } from "../module/logic/Spreadsheet";
 import { UserSetting } from "../module/logic/UserSetting";
 import { useAuth } from "../provider/AuthenticationWrapper";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { routes } from "../Routes/Routes";
 import { Loading } from "../components/Loading";
 import { Modal } from "../container/Modal";
@@ -13,6 +13,7 @@ import { ButtonCardContainer } from "../widgets/ButtonCardContainer";
 import { ButtonCard } from "../widgets/ButtonCard";
 import img from '../images/google.webp';
 import { Users } from "../module/logic/Users";
+import { useAccounts } from "../provider/AccountsWrapper";
 
 
 const api = new Spreadsheet();
@@ -22,12 +23,14 @@ const users = new Users();
 export const MembersSpreadsheets = () =>{
     const { user } = useAuth();
     const { setMenu } = useLayout();
+    const { account } = useAccounts();
 
     const [Spreadsheets, setSpreadSheets] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const info = {
         email: 'time-sheet@calm-pagoda-322120.iam.gserviceaccount.com',
@@ -54,21 +57,21 @@ export const MembersSpreadsheets = () =>{
     }
 
     useEffect(async()=>{
-        if(!user?.clientId) return;
+        if(!account?.clientId) return;
         setLoading(true);
-        const userSettings = await settings.getSettings(user?.clientId);
+        const userSettings = await settings.getSettings(account?.clientId);
         const spreadsheetIds = userSettings.list().map((obj)=>obj.spreadsheetId);
         const sheet = await api.getSpreadsheet(spreadsheetIds);
         if(sheet?.error) return setLoading(false);
-        const userList = await users.getByClientId(user?.clientId);
+        const userList = await users.getByAccountId(account?.id);
         const spreadSheetData = bindInfoToSpreadsheet(userSettings, sheet.data, userList);
         setSpreadSheets(spreadSheetData || []);
         setLoading(false);
-    }, [user]);
+    }, [user, account]);
 
     useEffect(()=>{
-        setTimeout(()=>setMenu([{title: 'new', onClick: ()=>setShowModal(true)}]), 50);
-    }, []);
+        setTimeout(()=>setMenu([{title: 'new', onClick: ()=>setShowModal(true)}]), 0);
+    }, [location]);
     
     return (
         <div className="overflow-hidden h-100">

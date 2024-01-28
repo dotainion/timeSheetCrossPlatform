@@ -62,7 +62,7 @@ export const Report = () =>{
             {title: 'Invoice', onClick: ()=>navigateToInvoice()}, 
             {title: 'Search..', onClick: ()=>setOpenLogPicker(true), tooltip: `From: ${(new Date(searchBy.fromInt)).toDateString()} to: ${(new Date(searchBy.toInt)).toDateString()}`}
         ]}>
-            <div className="mt-3">
+            <div className="mt-3 px-2">
                 <div className="hide-on-mobile">Caribbean coding academy grenada</div>
                 <div className="report-billable-devider">
                     <div className="report-billable-centerize">

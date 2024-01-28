@@ -3,7 +3,7 @@ import { VscClose } from 'react-icons/vsc';
 import $ from 'jquery';
 
 
-export const Modal = ({isOpen, onClose, title, children}) =>{
+export const Modal = ({isOpen, onClose, onDone, onPrevious, title, onPreviousTitle, onDoneTitle, onCloseTitle, children}) =>{
     const containerRef = useRef();
 
     useEffect(()=>{
@@ -25,7 +25,9 @@ export const Modal = ({isOpen, onClose, title, children}) =>{
                         {children}
                     </div>
                     <div className="modal-footer">
-                        <button onClick={onClose} className="btn btn-dark">Close</button>
+                        {onPrevious && <button onClick={onPrevious} className="btn btn-dark">{onPreviousTitle || 'Previous'}</button>}
+                        {onDone && <button onClick={onDone} className="btn btn-dark">{onDoneTitle || 'Done'}</button>}
+                        <button onClick={onClose} className="btn btn-dark">{onCloseTitle || 'Close'}</button>
                     </div>
                 </div>
             </div>

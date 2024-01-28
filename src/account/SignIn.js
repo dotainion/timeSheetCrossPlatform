@@ -20,7 +20,7 @@ const auth = new Authenticate();
 const validate = new Validation();
 
 export const SignIn = () =>{
-    const { isAuthenticated } = useAuth();
+    const { user, isAuthenticated } = useAuth();
     const { registrationMatch } = useProvider();
 
     const [loading, setLoading] = useState(false);
@@ -41,7 +41,7 @@ export const SignIn = () =>{
             $(passwordRef.current).parent().addClass('border-danger');
         }
         const response = await auth.signIn(emailRef.current.value, passwordRef.current.value);
-        if(auth.errorLog().includes('not found')){
+        if(auth.errorLog()?.includes('not found')){
             $(emailRef.current).parent().addClass('border-danger');
         }else{
             $(passwordRef.current).parent().addClass('border-danger');
@@ -58,7 +58,7 @@ export const SignIn = () =>{
         if(!isAuthenticated) return;
         if((new Roles()).isSuperior(isAuthenticated?.role)) navigate(routes.admin());
         else if((new Roles()).isMember(isAuthenticated?.role)) navigate(routes.clockIn);
-    }, [isAuthenticated]);
+    }, [isAuthenticated, user]);
 
     useEffect(()=>{
         $(emailRef.current).focus((e)=>$(e.target).parent().removeClass('border-danger'));

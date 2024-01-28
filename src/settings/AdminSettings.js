@@ -20,6 +20,7 @@ import { GiSteampunkGoggles } from 'react-icons/gi';
 import { FaGrinSquintTears, FaUserCog } from 'react-icons/fa';
 import { RiSettings3Fill } from 'react-icons/ri';
 import { Loading } from "../components/Loading";
+import { useAccounts } from "../provider/AccountsWrapper";
 
 const _role_ = new Roles();
 const _teams_ = new Teams();
@@ -28,6 +29,7 @@ const _settings_ = new UserSetting();
 
 export const AdminSettings = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
 
     const [teams, setTeams] = useState([]);
     const [processTeams, setProcessTeams] = useState([]);
@@ -57,7 +59,7 @@ export const AdminSettings = () =>{
     }
 
     const userHandler = (_user_, defaultTitle = null) =>{
-        _user_['title'] = defaultTitle ? defaultTitle : `${_user_.firstName} ${_user_.lastName}`;
+        _user_['title'] = defaultTitle ? defaultTitle : `${_user_.firstName || ''} ${_user_.lastName || ''}`;
         _user_['icon'] = GiSteampunkGoggles;
         _user_['onClick'] = ()=>navigate(`${routes.nested().adminSettings()}:${_user_?.id}`);
         return _user_;
@@ -74,10 +76,10 @@ export const AdminSettings = () =>{
         }
         setLoading(true);
         const userSetting = await _settings_.getSetting(mbr?.id);
-        const _users_ = await _members_.getByClientId(mbr?.clientId);
+        const userCollector = await _members_.getByAccountId(account?.id);
         const TTeams = await _teams_.getByClientId(mbr?.clientId);
         memberRef.current = mbr;
-        setTeams(TTeams);
+        setTeams(TTeams.list());
 
         roleRef.current.value = mbr?.role || '';
         teamRef.current.value = mbr?.teamId || '';
@@ -88,7 +90,7 @@ export const AdminSettings = () =>{
         $(teamRef.current).on('change', (e)=>onUpdateProfile({teamId: e.target.value}));
 
         let mapMembers = [userHandler(JSON.parse(JSON.stringify(user)), 'Me')];
-        _users_.forEach((m)=>{
+        userCollector.list().forEach((m)=>{
             if(user?.id === m?.id) return;
             mapMembers.push(userHandler(m));
         });

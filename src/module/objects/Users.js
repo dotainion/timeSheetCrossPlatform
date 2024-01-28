@@ -3,7 +3,6 @@ import { Validation } from "../../infrastructure/Validation";
 
 export class Users extends Validation{
     id = null;
-    clientId = null;
     email = null;
     firstName = null;
     lastName = null;
@@ -24,10 +23,6 @@ export class Users extends Validation{
 
     setNumber(number){
         this.number = number;
-    }
-
-    setClientId(clientId){
-        this.clientId = clientId;
     }
 
     setEmail(email){

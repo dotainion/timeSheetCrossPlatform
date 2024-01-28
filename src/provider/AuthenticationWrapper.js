@@ -7,6 +7,9 @@ import { Roles } from "../infrastructure/Roles";
 import { authenticate } from '../infrastructure/config/AuthConfig';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import $ from 'jquery';
+import { Account } from "../module/logic/Account";
+import { useAccounts } from "./AccountsWrapper";
+import { tools } from "../infrastructure/tools/Tools";
 
 const lUser = new Users();
 const lTeam = new Teams();
@@ -40,6 +43,7 @@ export const AuthenticationWrapper = ({children}) =>{
     
     const value = {
         user,
+        team,
         isAuthenticated,
         setIsAuthenticated,
     }

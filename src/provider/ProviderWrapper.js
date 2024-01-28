@@ -3,6 +3,8 @@ import $ from 'jquery';
 import { Teams } from "../module/logic/Teams";
 import { Users } from "../module/logic/Users";
 import { useAuth } from "./AuthenticationWrapper";
+import { useAccounts } from "./AccountsWrapper";
+import { tools } from "../infrastructure/tools/Tools";
 
 const _teams_ = new Teams();
 const _members_ = new Users();
@@ -25,14 +27,15 @@ export const ProviderWrapper = ({children}) =>{
     }
 
     const addToMember = (newMbr) =>{
-        const mbrTmp = members;
+        const mbrTmp = members || [];
         setMebers([]);
         setTimeout(()=> setMebers([newMbr, ...mbrTmp]), 1);
     }
 
-    const initializeMembers = async(id=null) =>{
-        if(!id) return;
-        setMebers(await _members_.getByTeamId(id));
+    const initializeMembers = async(teamId) =>{
+        if(!teamId) return;
+        const memberCollector = await _members_.getByTeamId(teamId);
+        setMebers(memberCollector.list());
     }
 
     useEffect(async()=>{
@@ -42,7 +45,9 @@ export const ProviderWrapper = ({children}) =>{
 
     useEffect(async()=>{
         if (!user?.teamId) return;
-        setTeams(await _teams_.getByClientId(user?.clientId));
+        const account = tools.account.getSelectedAccount();
+        const teamCollector = await _teams_.getByClientId(account?.clientId);
+        setTeams(teamCollector.list());
         return () =>{}
     }, [user]);
 

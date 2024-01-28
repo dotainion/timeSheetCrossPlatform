@@ -12,6 +12,7 @@ import { GiSteampunkGoggles } from 'react-icons/gi';
 import { routes } from "../Routes/Routes";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Loading } from "../components/Loading";
+import { useAccounts } from "../provider/AccountsWrapper";
 
 const _teams_ = new Teams();
 const _members_ = new Users();
@@ -19,6 +20,7 @@ const _settings_ = new UserSetting();
 
 export const AdminProfile = () =>{
     const { user } = useAuth();
+    const { account } = useAccounts();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -52,10 +54,10 @@ export const AdminProfile = () =>{
         setLoading(true);
         setMember(mbr);
         const userSetting = await _settings_.getSetting(mbr?.id);
-        const TTeams = await _members_.getByClientId(mbr?.clientId);
+        const teamCollector = await _members_.getByAccountId(account?.id);
 
         let mapMembers = [userHandler(JSON.parse(JSON.stringify(user)), 'Me')];
-        TTeams.forEach((m)=>{
+        teamCollector.list().forEach((m)=>{
             if(user?.id === m?.id) return;
             mapMembers.push(userHandler(m));
         });
